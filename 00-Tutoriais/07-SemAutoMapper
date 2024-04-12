@@ -1,0 +1,102 @@
+## **Exemplo de Mapeamento de Objeto Sem AutoMapper**
+
+**Objetivo:** Criar um mapeamento de objeto sem usar o AutoMapper para a requisição de login em ASP.NET Core 8.0.
+
+**Modelo:**
+
+```csharp
+public class Usuario
+{
+    public int Id { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string Email { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string Senha { get; set; }
+}
+```
+
+**Controller:**
+
+```csharp
+[ApiController]
+[Route("api/[controller]")]
+public class AuthController : ControllerBase
+{
+    private readonly IUsuarioRepository _usuarioRepository;
+
+    public AuthController(IUsuarioRepository usuarioRepository)
+    {
+        _usuarioRepository = usuarioRepository;
+    }
+
+    [HttpPost]
+    [Route("login")]
+    public async Task<IActionResult> Login([FromBody] UsuarioLoginModel model)
+    {
+        // Validar o modelo
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        // Mapear o modelo para um objeto Usuario
+        var usuario = new Usuario
+        {
+            Email = model.Email,
+            Senha = model.Senha
+        };
+
+        // Buscar o usuário no repositório
+        var usuarioEncontrado = await _usuarioRepository.GetByEmailAsync(usuario.Email);
+
+        // ...
+
+    }
+}
+```
+
+**Model de Requisição:**
+
+```csharp
+public class UsuarioLoginModel
+{
+    [Required]
+    [StringLength(50)]
+    public string Email { get; set; }
+
+    [Required]
+    [StringLength(50)]
+    public string Senha { get; set; }
+}
+```
+
+**Mapeamento de Objeto:**
+
+1. **Na ação de login:**
+    * Receber o modelo de requisição como parâmetro `[FromBody] UsuarioLoginModel model`.
+    * Validar o modelo usando `ModelState.IsValid`.
+2. **Criar uma nova instância da classe `Usuario`:** `var usuario = new Usuario`.
+3. **Mapear as propriedades do modelo para o objeto `Usuario`:**
+    * `usuario.Email = model.Email;`
+    * `usuario.Senha = model.Senha;`
+4. **Continuar com o processo de login:** Buscar o usuário no repositório, validar a senha, gerar o token e retornar o token.
+
+**Observações:**
+
+* Este é um exemplo simplificado de mapeamento de objeto sem usar o AutoMapper.
+* Em aplicações reais, você pode ter outras validações e regras de negócio.
+* O mapeamento manual de objetos pode ser trabalhoso para objetos complexos.
+* O AutoMapper pode ser uma ferramenta útil para automatizar o mapeamento de objetos.
+
+**Recursos Adicionais:**
+
+* Documentação oficial do ASP.NET Core sobre Models: [https://es.wiktionary.org/wiki/removido](https://es.wiktionary.org/wiki/removido)
+* Tutoriais sobre mapeamento de objetos:
+    * [https://www.youtube.com/watch?v=3LgG4aZPxJI](https://www.youtube.com/watch?v=3LgG4aZPxJI)
+    * [https://www.youtube.com/watch?v=n1JrknztoY0](https://www.youtube.com/watch?v=n1JrknztoY0)
+
+**Espero que este exemplo detalhado seja útil para você!**
