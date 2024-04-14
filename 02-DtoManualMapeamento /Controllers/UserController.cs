@@ -37,14 +37,16 @@ namespace _02_DtoAutoMapper.Controllers
                 return NoContent();
             }
 
-            var userDtos = _users.Select(user => new UserDto
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email
-            });
+            // var userDtos = _users.Select(user => new UserDto
+            // {
+            //     Id = user.Id,
+            //     UserName = user.UserName,
+            //     Email = user.Email
+            // });
 
-            return Ok(userDtos);
+            // uma forma de repetir menos codigo simplemnte criar o construtor na classe  passando os dados
+            var userResponse= _users.Select(user=>new UserDto(user));
+            return Ok(userResponse);
         }
 
         [HttpPost]
@@ -57,13 +59,14 @@ namespace _02_DtoAutoMapper.Controllers
                 return BadRequest();
             }
 
-            User user = new User(){
-                Id = _users.Count +1,
-                UserName = userRegistro.UserName,
-                Email = userRegistro.Email,
-                Password = userRegistro.Password
-            };
-
+            // User user = new User(){
+            //     Id = _users.Count +1,
+            //     UserName = userRegistro.UserName,
+            //     Email = userRegistro.Email,
+            //     Password = userRegistro.Password
+            // };
+            User user = userRegistro.ToUser();
+            user.Id = _users.Count + 1;
             _users.Add(user);
             return Created();
         }
