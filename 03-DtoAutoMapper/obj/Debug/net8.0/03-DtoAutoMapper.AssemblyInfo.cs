@@ -10,12 +10,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("01-PrimeiraApi")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("03-DtoAutoMapper")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+533965da9b5c15525e98d692793b26acad77894c")]
-[assembly: System.Reflection.AssemblyProductAttribute("01-PrimeiraApi")]
-[assembly: System.Reflection.AssemblyTitleAttribute("01-PrimeiraApi")]
+[assembly: System.Reflection.AssemblyProductAttribute("03-DtoAutoMapper")]
+[assembly: System.Reflection.AssemblyTitleAttribute("03-DtoAutoMapper")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 
 // Gerado pela classe WriteCodeFragment do MSBuild.
