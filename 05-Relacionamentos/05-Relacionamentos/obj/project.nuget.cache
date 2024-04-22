@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "Slklq0qXv6EIhUJn0VePA0bUOk7RTC/+TtHm39+xUCap7DAOWAEdrE9+gANSeiNKYVKb6iEV6lFs2mpa4ZL6cQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\vboxuser\\Documents\\Net\\PraticandoNet\\05-Relacionamentos\\05-Relacionamentos\\05-Relacionamentos.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\vboxuser\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\vboxuser\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\vboxuser\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
+    "C:\\Users\\vboxuser\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "C:\\Users\\vboxuser\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
+    "C:\\Users\\vboxuser\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.4.0\\swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512"
+  ],
+  "logs": []
+}

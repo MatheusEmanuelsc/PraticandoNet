@@ -81,11 +81,20 @@ No arquivo `appsettings.json`, defina a connection string para o seu banco de da
 No `Program.cs`, configure o EF no seu aplicativo:
 
 ```c#
-builder.Services.AddDbContext<AppDBContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 ```
+mysql
+"ConnectionStrings": {
+  "DefaultConnection": "server=localhost;DataBase=CatalogoDB;Uid=root;Pwd="senha aqui"
+},
+var mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    options.UseMySql(mySqlConnection, ServerVersion.AutoDetect(mySqlConnection));
+});
 
 **Criando Migrações:**
 
