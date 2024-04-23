@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Catalogo.Context;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.OpenApi;
@@ -22,6 +23,7 @@ namespace Catalogo.Models
             //E uma boa pratica inicializar essa coleção
             Produtos = new List<Produto>();
         }
+        [JsonIgnore]
         public ICollection<Produto> Produtos { get; set; }
 
     }

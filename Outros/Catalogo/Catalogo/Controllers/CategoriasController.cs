@@ -23,39 +23,80 @@ namespace Catalogo.Controllers
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<Produto>> Get() 
+        public ActionResult<IEnumerable<Categoria>> ListaCategorias()
         {
-            var produtos = _context.Produtos.ToList();
-            if (produtos is null)
-            {
-                return NotFound("Produtos Não encontrados");
-            }
-            return produtos;
-        }
-
-        [HttpGet("{id:int}",Name ="ObterProduto")]
-        public ActionResult<Produto> Get(int id)
-        {
-            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
-            if (produto is null)
-            {
-                return NotFound("Produtos Não encontrados");
-            }
-            return produto;
-        }
-
-        [HttpPost]
-        public ActionResult Post(Produto produto)
-        {
-            if (produto is null)
+            var categorias = _context.Categorias.AsNoTracking().ToList();
+            if (categorias is null)
             {
                 return BadRequest();
             }
-            _context.Produtos.Add(produto);
-            _context.SaveChanges();
-
-            return new CreatedAtRouteResult("ObterProduto", new {id=produto.ProdutoId},produto);
+            return Ok(categorias);
         }
 
-    }
+        [HttpGet("{id:int}", Name = "ObterCategoria")]
+        public ActionResult<Categoria> GetCategoria(int id)
+        {
+            var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
+            if (categoria is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(categoria);
+        }
+
+        [HttpGet("produtos")]
+        public ActionResult<IEnumerable<Categoria>> GetCategoriaProdutos()
+        {
+            try 
+            {
+                return _context.Categorias.Include(p => p.Produtos).ToList();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,"Ocorreu um problema");
+            }
+        }
+
+
+        [HttpPut("{id:int}")]
+        public ActionResult<Categoria> AtualizaCategoria (int id, Categoria categoria)
+        {
+            if (id != categoria.CategoriaId) 
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(categoria).State = EntityState.Modified;
+            _context.SaveChanges();
+            return Ok(categoria);
+        }
+
+        [HttpPost]
+        public ActionResult<Categoria> CriaCate(Categoria categoria) 
+        {
+            if (categoria is null)
+            {
+                return BadRequest();
+            }
+
+            _context.Add(categoria);
+            _context.SaveChanges();
+            return  new CreatedAtRouteResult("ObterCategoria",new {id=categoria.CategoriaId},categoria);
+        }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult Delete(int id)
+        {
+            var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);
+            if (categoria is null)
+            {
+                return NotFound();
+            }
+
+            _context.Categorias.Remove(categoria);
+            _context.SaveChanges();
+            return Ok(categoria);
+        }
+     } 
 }

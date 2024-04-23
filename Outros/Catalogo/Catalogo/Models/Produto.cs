@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Catalogo.Models
 {
@@ -22,8 +23,9 @@ namespace Catalogo.Models
         public double Estoque { get; set;}
         public DateTime DataCadastro { get; set; }
 
-
+        [JsonIgnore]
         public int CategoriaId { get; set; }
+        [JsonIgnore]
         public Categoria? Categoria { get; set; }
     }
 }
