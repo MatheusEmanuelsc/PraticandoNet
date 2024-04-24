@@ -16,7 +16,7 @@ namespace Catalogo.Models
         public string? Nome { get; set; }
         [Required]
         [StringLength(300)]
-        public string? ImagemUrl { get; }
+        public string? ImagemUrl { get; set; }
 
         public Categoria()
         {

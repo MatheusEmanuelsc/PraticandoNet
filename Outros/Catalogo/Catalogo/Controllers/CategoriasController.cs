@@ -23,17 +23,13 @@ namespace Catalogo.Controllers
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<Categoria>> ListaCategorias()
+        public async Task<ActionResult<IEnumerable<Categoria>>> ListaCategorias()
         {
-            var categorias = _context.Categorias.AsNoTracking().ToList();
-            if (categorias is null)
-            {
-                return BadRequest();
-            }
-            return Ok(categorias);
+            return await _context.Categorias.AsNoTracking().ToListAsync();
+            
         }
 
-        [HttpGet("{id:int}", Name = "ObterCategoria")]
+        [HttpGet("{id:int:min(1)}", Name = "ObterCategoria")]
         public ActionResult<Categoria> GetCategoria(int id)
         {
             var categoria = _context.Categorias.FirstOrDefault(c => c.CategoriaId == id);

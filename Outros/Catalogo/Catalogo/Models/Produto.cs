@@ -23,7 +23,7 @@ namespace Catalogo.Models
         public double Estoque { get; set;}
         public DateTime DataCadastro { get; set; }
 
-        [JsonIgnore]
+        
         public int CategoriaId { get; set; }
         [JsonIgnore]
         public Categoria? Categoria { get; set; }
