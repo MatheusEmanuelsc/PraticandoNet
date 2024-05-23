@@ -1,6 +1,0 @@
-@_02_DtoAutoMapper_HostAddress = http://localhost:5011
-
-GET {{_02_DtoAutoMapper_HostAddress}}/users
-Accept: application/json
-
-###

@@ -1,6 +1,0 @@
-@_03_DtoAutoMapper_HostAddress = http://localhost:5273
-
-GET {{_03_DtoAutoMapper_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
