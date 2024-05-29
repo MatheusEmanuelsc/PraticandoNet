@@ -124,7 +124,7 @@ Para configurar, vá até o arquivo `appsettings.json` e adicione:
 No arquivo `Program.cs`, adicione:
 
 ```csharp
-var mysqlConnection = builder.Configuration.GetConnectionString("MySQLConnection");
+var mysqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection));
