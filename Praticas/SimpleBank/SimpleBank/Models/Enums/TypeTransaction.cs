@@ -1,6 +1,9 @@
 ﻿namespace SimpleBank.Models.Enums
 {
-    public class TypeTransaction
+    public enum TypeTransaction
     {
+        DEPOSIT,
+        WITHDRAWAL,
+        TRANSFER
     }
 }
