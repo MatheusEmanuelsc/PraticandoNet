@@ -1,5 +1,4 @@
-﻿Claro, vou trazer as informações de volta e corrigir o conteúdo para que esteja ajustado em Markdown com índice.
-
+﻿
 ```markdown
 # Tutorial de Projeto com Abordagem Code-First
 
