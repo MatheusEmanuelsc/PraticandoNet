@@ -1,234 +1,153 @@
-Com a introdução do .NET 6, a classe `Startup` foi removida em favor de um novo modelo de inicialização mínima. Vamos adaptar o conteúdo para refletir essa mudança.
-
-# Middlewares no ASP.NET Core
+```markdown
+# Tutorial: Middleware
 
 ## Índice
 
-1. [Introdução aos Middlewares](#introducao-aos-middlewares)
-2. [Exemplos de Middlewares Comuns](#exemplos-de-middlewares-comuns)
-3. [Criando um Middleware Personalizado](#criando-um-middleware-personalizado)
-4. [Exemplo de Tratamento de Erros com Middleware](#exemplo-de-tratamento-de-erros-com-middleware)
+1. [O que é Middleware?](#o-que-é-middleware)
+2. [Tratamento de Erros com Middleware](#tratamento-de-erros-com-middleware)
+3. [Ordem dos Middlewares](#ordem-dos-middlewares)
+   - [Exemplo de Middleware Predefinido](#exemplo-de-middleware-predefinido)
+   - [Exemplo de Middleware Personalizado](#exemplo-de-middleware-personalizado)
+4. [Tratamento Global de Exceções com Middleware](#tratamento-global-de-exceções-com-middleware)
+   - [Criar a Entidade `ErrorDetails`](#criar-a-entidade-errordetails)
+   - [Método de Extensão `ConfigureExceptionHandler`](#método-de-extensão-configureexceptionhandler)
+   - [Habilitar o Uso do Método de Extensão na Classe `Program`](#habilitar-o-uso-do-método-de-extensão-na-classe-program)
+   - [Testar a Implementação](#testar-a-implementação)
 
-## Introdução aos Middlewares
+## O que é Middleware?
 
-Middlewares são componentes que formam o pipeline de requisição/resposta no ASP.NET Core. Cada middleware no pipeline é responsável por processar a requisição e decidir se passa a requisição para o próximo middleware ou se encerra o processamento.
+Middleware é um componente de software que trata requisições e respostas no pipeline de processamento de um aplicativo web. Ele pode realizar várias tarefas, como autenticação, logging, manipulação de erros, entre outras, antes que a requisição seja passada para a próxima etapa do pipeline.
 
-No .NET 6, o pipeline de middlewares é configurado diretamente no método `Main` da classe `Program`.
+## Tratamento de Erros com Middleware
+
+Utilizar middleware para tratamento de erros permite centralizar a lógica de captura e manipulação de exceções, facilitando a manutenção e a padronização das respostas de erro do aplicativo.
+
+## Ordem dos Middlewares
+
+A ordem dos middlewares no pipeline de processamento é crucial. Middlewares são executados na ordem em que são registrados, e a sequência pode afetar o comportamento e o fluxo das requisições.
+
+### Exemplo de Middleware Predefinido
+
+1. **UseAuthentication**
+
+   ```csharp
+   app.UseAuthentication();
+   ```
+
+2. **UseAuthorization**
+
+   ```csharp
+   app.UseAuthorization();
+   ```
+
+### Exemplo de Middleware Personalizado
+
+1. **Logging Middleware**
+
+   ```csharp
+   public class LoggingMiddleware
+   {
+       private readonly RequestDelegate _next;
+
+       public LoggingMiddleware(RequestDelegate next)
+       {
+           _next = next;
+       }
+
+       public async Task InvokeAsync(HttpContext context)
+       {
+           Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
+           await _next(context);
+           Console.WriteLine($"Response: {context.Response.StatusCode}");
+       }
+   }
+   ```
+
+2. **Custom Header Middleware**
+
+   ```csharp
+   public class CustomHeaderMiddleware
+   {
+       private readonly RequestDelegate _next;
+
+       public CustomHeaderMiddleware(RequestDelegate next)
+       {
+           _next = next;
+       }
+
+       public async Task InvokeAsync(HttpContext context)
+       {
+           context.Response.OnStarting(() =>
+           {
+               context.Response.Headers.Add("X-Custom-Header", "Middleware Demo");
+               return Task.CompletedTask;
+           });
+
+           await _next(context);
+       }
+   }
+   ```
+
+## Tratamento Global de Exceções com Middleware
+
+### Criar a Entidade `ErrorDetails`
 
 ```csharp
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
-app.UseMiddleware<FirstMiddleware>();
-app.UseMiddleware<SecondMiddleware>();
-
-app.Run(async (context) =>
+public class ErrorDetails
 {
-    await context.Response.WriteAsync("Hello, world!");
-});
+    public int StatusCode { get; set; }
+    public string? Message { get; set; }
+    public string? Trace { get; set; }
 
-app.Run();
-```
-
-## Exemplos de Middlewares Comuns
-
-### Logging Middleware
-
-```csharp
-public class LoggingMiddleware
-{
-    private readonly RequestDelegate _next;
-
-    public LoggingMiddleware(RequestDelegate next)
+    public override string ToString()
     {
-        _next = next;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        Console.WriteLine($"Request: {context.Request.Method} {context.Request.Path}");
-        await _next(context);
+        return JsonSerializer.Serialize(this);
     }
 }
 ```
 
-### Authentication Middleware
+### Método de Extensão `ConfigureExceptionHandler`
 
 ```csharp
-public class AuthenticationMiddleware
+public static class ApiExceptionMiddlewareExtensions
 {
-    private readonly RequestDelegate _next;
-
-    public AuthenticationMiddleware(RequestDelegate next)
+    public static void ConfigureExceptionHandler(this IApplicationBuilder app)
     {
-        _next = next;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        if (!context.User.Identity.IsAuthenticated)
+        app.UseExceptionHandler(appError =>
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            await context.Response.WriteAsync("Unauthorized");
-            return;
-        }
-        await _next(context);
+            appError.Run(async context =>
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.Response.ContentType = "application/json";
+
+                var contextFeature = context.Features.Get<IExceptionHandlerFeature>();
+                if (contextFeature != null)
+                {
+                    await context.Response.WriteAsync(new ErrorDetails()
+                    {
+                        StatusCode = context.Response.StatusCode,
+                        Message = contextFeature.Error.Message,
+                        Trace = contextFeature.Error.StackTrace
+                    }.ToString());
+                }
+            });
+        });
     }
 }
 ```
 
-## Criando um Middleware Personalizado
-
-Para criar um middleware personalizado no ASP.NET Core, você precisa seguir três passos principais:
-
-1. **Criar a Classe do Middleware**
-2. **Adicionar a Extensão de Middleware**
-3. **Configurar o Middleware no Pipeline**
-
-### Passo 1: Criar a Classe do Middleware
-
-Crie uma nova classe que implementa a lógica do middleware. O middleware deve incluir um construtor que aceite um `RequestDelegate` e um método `Invoke` ou `InvokeAsync` que faça o processamento da requisição.
+### Habilitar o Uso do Método de Extensão na Classe `Program`
 
 ```csharp
-public class CustomMiddleware
+if (app.Environment.IsDevelopment())
 {
-    private readonly RequestDelegate _next;
-
-    public CustomMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        // Lógica do middleware
-        Console.WriteLine("Custom Middleware Executing");
-
-        await _next(context); // Chama o próximo middleware no pipeline
-
-        // Lógica após o próximo middleware
-        Console.WriteLine("Custom Middleware Executed");
-    }
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.ConfigureExceptionHandler();
 }
 ```
 
-### Passo 2: Adicionar a Extensão de Middleware
+### Testar a Implementação
 
-Para facilitar a adição do middleware ao pipeline, crie um método de extensão.
-
-```csharp
-public static class CustomMiddlewareExtensions
-{
-    public static IApplicationBuilder UseCustomMiddleware(this IApplicationBuilder builder)
-    {
-        return builder.UseMiddleware<CustomMiddleware>();
-    }
-}
+Para testar a implementação, execute a aplicação e force um erro para verificar se o middleware de tratamento de exceções está funcionando corretamente e retornando as respostas padronizadas.
 ```
-
-### Passo 3: Configurar o Middleware no Pipeline
-
-No método `Main` da classe `Program`, adicione o middleware personalizado ao pipeline.
-
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
-app.UseCustomMiddleware();
-// Outros middlewares
-
-app.Run();
-```
-
-## Exemplo de Tratamento de Erros com Middleware
-
-Um dos casos de uso comuns para middlewares é o tratamento centralizado de erros. Vamos criar um middleware que captura exceções e retorna uma resposta de erro amigável.
-
-### Passo 1: Criar a Classe do Middleware de Tratamento de Erros
-
-```csharp
-public class ErrorHandlingMiddleware
-{
-    private readonly RequestDelegate _next;
-
-    public ErrorHandlingMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
-    public async Task InvokeAsync(HttpContext context)
-    {
-        try
-        {
-            await _next(context);
-        }
-        catch (Exception ex)
-        {
-            await HandleExceptionAsync(context, ex);
-        }
-    }
-
-    private Task HandleExceptionAsync(HttpContext context, Exception exception)
-    {
-        context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-        var response = new { message = "An unexpected error occurred", details = exception.Message };
-        return context.Response.WriteAsync(JsonConvert.SerializeObject(response));
-    }
-}
-```
-
-### Passo 2: Adicionar a Extensão de Middleware
-
-```csharp
-public static class ErrorHandlingMiddlewareExtensions
-{
-    public static IApplicationBuilder UseErrorHandlingMiddleware(this IApplicationBuilder builder)
-    {
-        return builder.UseMiddleware<ErrorHandlingMiddleware>();
-    }
-}
-```
-
-### Passo 3: Configurar o Middleware no Pipeline
-
-Adicione o middleware de tratamento de erros no início do pipeline para garantir que todas as exceções sejam capturadas.
-
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-var app = builder.Build();
-
-app.UseErrorHandlingMiddleware();
-// Outros middlewares
-
-app.Run();
-```
-
-### Passo 4: Testando o Middleware de Tratamento de Erros
-
-Crie um controlador que gera uma exceção para testar o middleware.
-
-```csharp
-[ApiController]
-[Route("api/[controller]")]
-public class TestController : ControllerBase
-{
-    [HttpGet("error")]
-    public IActionResult GetError()
-    {
-        throw new Exception("This is a test exception");
-    }
-}
-```
-
-Quando você acessar a rota `api/test/error`, o middleware de tratamento de erros deve capturar a exceção e retornar uma resposta JSON com a mensagem de erro.
-
-```json
-{
-    "message": "An unexpected error occurred",
-    "details": "This is a test exception"
-}
-```
-
-Com isso, você tem um middleware de tratamento de erros centralizado que melhora a robustez e a experiência de depuração da sua aplicação ASP.NET Core.
