@@ -215,6 +215,65 @@ configuração Repository
     builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 part 3 Unit of work
+
+    Primeiro faça interface
+
+        public interface IUnitOfWork : IDisposable
+        {
+            IDisciplinaRepository DisciplinaRepository { get; }
+            IAlunoRepository AlunoRepository { get; }
+            //Obs: a linha de codigo acima Opcional vc  deve utilizar ela se vc seguio o passo anterior do repository opcional tbm
+
+
+            Task CommitAsync();
+        }
+    
+    Depois implemente  a interface
+
+    public class UnitOfWork : IUnitOfWork
+    {
+        public IDisciplinaRepository? _disciplinaRepo;
+
+        public IAlunoRepository? _alunoRepository;
+        // As duas linhas acimas seguem o mesmo esquema do opcional
+
+        private readonly AppDbContext _context;
+
+        public UnitOfWork(AppDbContext context)
+        {
+            _context = context;
+        }
+
+
+        public IDisciplinaRepository DisciplinaRepository
+        {
+            get
+            {
+                return _disciplinaRepo ??= new DisciplinaRepository(_context);
+            }
+        }
+
+        public IAlunoRepository AlunoRepository
+        {
+            get
+            {
+                return _alunoRepository ??= new AlunoRepository(_context);
+            }
+        }
+        // mesmo coisa do opcional essa parte de cima
+
+        public async Task CommitAsync()
+        {
+            await  _context.SaveChangesAsync();
+        }
+
+        public void Dispose()
+        {
+            _context.Dispose();
+        }
+    }
+    Por ultimo adc no program
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 part 4
     Controllers
 
