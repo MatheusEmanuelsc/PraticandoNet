@@ -103,9 +103,75 @@ Parte 1  conexao Banco de dados
 parte 2
 
 
-configuração Repository e uniofworks
+configuração Repository 
 
-part 3
+
+    Etapa 1 faça a interface do repositorio generico
+
+        namespace Curso.Api.Repositorys
+        {
+            public interface IRepository<T> 
+            {
+                Task<IEnumerable<T>>GetAllAsync();
+                Task<T?> GetAsync(Expression<Func<T, bool>> predicate);
+                T Create(T entity);
+                T Update(T entity);
+                T Delete(T entity);
+
+            }
+        }
+
+    Etapa 2 Faça implementação da interface
+
+        
+    namespace Curso.Api.Repositorys
+    {
+        public class Repository<T> : IRepository<T> where T : class
+        {
+            protected readonly AppDbContext _context;
+
+            public Repository(AppDbContext context){
+                _context = context;
+            }
+
+            public T Create(T entity)
+            {
+                _context.Set<T>().Add(entity);
+            
+                return entity;
+            }
+
+            public T Delete(T entity)
+            {
+                _context.Set<T>().Remove(entity);
+                return entity;
+            }
+
+            public async Task<T?> GetAsync(Expression<Func<T, bool>> predicate)
+            {
+               return await _context.Set<T>().FirstOrDefaultAsync(predicate);
+            }
+
+            public async Task<IEnumerable<T>> GetAllAsync()
+            {
+                return await _context.Set<T>().AsNoTracking().ToListAsync();
+           
+            }
+
+            public T Update(T entity)
+            {
+                _context.Set<T>().Update(entity);
+                return entity;
+            }
+        }
+    }
+
+    Etapa 3 Implemente os repositorios especificos  
+    aonde permite que vc adicione metodos especificos    para alguma cadegoria caso não seja necessario ter um emtodo diferente
+    vc pode ingnorar essa etapa e pular para proxima
+
+part 3 Unit of work
+part 4
     Controllers
 
 para evitar problemas ciclo
