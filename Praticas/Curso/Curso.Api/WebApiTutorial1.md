@@ -103,10 +103,10 @@ Parte 1  conexao Banco de dados
 parte 2
 
 
-configuração bd e uniofworks
+configuração Repository e uniofworks
 
 part 3
-
+    Controllers
 
 para evitar problemas ciclo
 
