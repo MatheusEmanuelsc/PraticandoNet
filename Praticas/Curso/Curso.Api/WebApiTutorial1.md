@@ -166,9 +166,53 @@ configuração Repository
         }
     }
 
-    Etapa 3 Implemente os repositorios especificos  
+    Etapa 3(Opcional) Implemente os repositorios especificos  
     aonde permite que vc adicione metodos especificos    para alguma cadegoria caso não seja necessario ter um emtodo diferente
     vc pode ingnorar essa etapa e pular para proxima
+
+    Primeiro criei a interfaces
+
+        nela vc pode criar os metodos extras que vc quer por especificamente nessa etapa
+
+
+        public interface IAlunoRepository : IRepository<Aluno>
+        {
+
+        }
+
+        namespace Curso.Api.Repositorys
+    {
+        public interface IDisciplinaRepository : IRepository<Disciplina>
+        {
+
+        }
+    }
+
+    Depois crie a implementação dos metodos e interface
+
+    namespace Curso.Api.Repositorys
+{
+    public class AlunoRepository : Repository<Aluno>, IAlunoRepository
+    {
+        public AlunoRepository(AppDbContext context) : base(context)
+        {
+        }
+
+        
+    }
+}
+    public class DisciplinaRepository : Repository<Disciplina>, IDisciplinaRepository
+    {
+        public DisciplinaRepository(AppDbContext context) : base(context)
+        {
+        }
+    }
+
+    E Por ultimo  adc no program para  
+
+    builder.Services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
+    builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
+    builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 part 3 Unit of work
 part 4
