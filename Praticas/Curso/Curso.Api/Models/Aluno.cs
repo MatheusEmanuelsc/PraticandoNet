@@ -10,7 +10,7 @@ namespace Curso.Api.Models
         public string Nome { get; set; } = string.Empty;
         public double Nota { get; set; }
 
-        [JsonIgnore]
+        
         public int DisciplinaId { get; set; }
 
         [JsonIgnore]

@@ -282,30 +282,47 @@ part 3 Unit of work
 part 4
     Controllers
 
-    Considerando que vc ja adc o pacote auto mapper no inicio
+    etapa  0 Considerando que vc ja adc o pacote auto mapper no inicio
 
-    parte 1  Dto    
+    etapa 1  Dto    
 
         Com base nos models crie os dto
 
                 public class AlunoDto
-            {
-                [Required]
-                public string Nome { get; set; } = string.Empty;
-                public double Nota { get; set; }
-                public DisciplinaDto? Disciplina { get; set; }
-            }
+                {
+                    [Key]
+                    public int AlunoId { get; set; }
+                    [Required]
+                    public string Nome { get; set; } = string.Empty;
+                    public double Nota { get; set; }
+                    public int? DisciplinaId { get; set; }
+                }
 
     
             public class DisciplinaDto
             {
-
+                
+                public int DisciplinaId { get; set; }
                 public int Aulas { get; set; }
                 [Required]
                 public string Nome { get; set; } = string.Empty;
                 public string? Descricao { get; set; }
             }
-    para evitar problemas ciclo
+    etapa 2  criei o profile
+
+        public class MappingProfile:Profile
+        {
+            public MappingProfile()
+            {
+                CreateMap<Aluno, AlunoDto>().ReverseMap();
+                CreateMap<Disciplina, DisciplinaDto>().ReverseMap();
+            }
+        }
+    etapa 3 configure o autormapper no controller
+
+        builder.Services.AddAutoMapper(typeof(MappingProfile));
+        
+    Etapa 4 para evitar problemas ciclo
 
         builder.Services.AddControllers()
         .AddJsonOptions(options =>
