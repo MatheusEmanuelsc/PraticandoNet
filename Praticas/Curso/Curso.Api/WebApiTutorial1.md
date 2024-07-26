@@ -1,8 +1,8 @@
 Nesse tutorial tenho como objetivo fazer um tutorial passo a passo de fazer uma  Web Api
 
+parte  0
 
-Parte 1  conexao Banco de dados
-    Etapa  1
+    Criação  de projeto e adc de pacotes
 
     adc pacotes 
 
@@ -15,6 +15,11 @@ Parte 1  conexao Banco de dados
 
     Pacote para o mapeamento
         dotnet add package AutoMapper
+
+Parte 1  conexao Banco de dados
+    Etapa  1
+
+     
 
     Etapa 2
 
@@ -277,8 +282,31 @@ part 3 Unit of work
 part 4
     Controllers
 
-para evitar problemas ciclo
+    Considerando que vc ja adc o pacote auto mapper no inicio
 
-builder.Services.AddControllers()
-  .AddJsonOptions(options =>
-     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    parte 1  Dto    
+
+        Com base nos models crie os dto
+
+                public class AlunoDto
+            {
+                [Required]
+                public string Nome { get; set; } = string.Empty;
+                public double Nota { get; set; }
+                public DisciplinaDto? Disciplina { get; set; }
+            }
+
+    
+            public class DisciplinaDto
+            {
+
+                public int Aulas { get; set; }
+                [Required]
+                public string Nome { get; set; } = string.Empty;
+                public string? Descricao { get; set; }
+            }
+    para evitar problemas ciclo
+
+        builder.Services.AddControllers()
+        .AddJsonOptions(options =>
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);

@@ -8,7 +8,7 @@ namespace Curso.Api.Models
         [Key]
         public int AlunoId { get; set; }
         public string Nome { get; set; } = string.Empty;
-        public decimal Nota { get; set; }
+        public double Nota { get; set; }
 
         [JsonIgnore]
         public int DisciplinaId { get; set; }
