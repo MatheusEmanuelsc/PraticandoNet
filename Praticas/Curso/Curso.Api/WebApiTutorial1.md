@@ -280,7 +280,7 @@ part 3 Unit of work
     Por ultimo adc no program
     builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 part 4
-    Controllers
+    Autor mapper
 
     etapa  0 Considerando que vc ja adc o pacote auto mapper no inicio
 
@@ -321,8 +321,34 @@ part 4
     etapa 3 configure o autormapper no controller
 
         builder.Services.AddAutoMapper(typeof(MappingProfile));
-        
-    Etapa 4 para evitar problemas ciclo
+
+
+passo 5 controllers
+
+    Primeiro faça injeção de dependencia
+
+    exemplo de injeção  autor mapper e uniwork
+    namespace Curso.Api.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class DisciplinasController : ControllerBase
+    {
+
+        private  readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+
+        public DisciplinasController( IUnitOfWork unitOfWork, IMapper mapper)
+        {
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+        }
+
+    }
+}
+ depois defina os metodos
+
+passo 6 para evitar problemas ciclo
 
         builder.Services.AddControllers()
         .AddJsonOptions(options =>
