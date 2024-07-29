@@ -3,6 +3,7 @@ using Curso.Api.Dtos;
 using Curso.Api.Models;
 using Curso.Api.Repositorys;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Curso.Api.Controllers
@@ -65,6 +66,35 @@ namespace Curso.Api.Controllers
             await _unitOfWork.CommitAsync();
             return Ok(alunoAtualizado);
 
+        }
+
+        [HttpPatch("{id:int}/UpdateParcial")]
+        public async Task<ActionResult<AlunoDto>>AtualizaAlunoParcial(int id, JsonPatchDocument<AlunoDtoUpdate> alunoDtoUpdate)
+        {
+            if (id <= 0 || alunoDtoUpdate is null)
+            {
+                return BadRequest();
+            }
+
+            var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
+
+            if (aluno is null)
+            {
+                return NotFound();
+            }
+
+            var AlunoUpdateRequest = _mapper.Map<AlunoDtoUpdate>(aluno);
+            alunoDtoUpdate.ApplyTo(AlunoUpdateRequest,ModelState);
+
+            if (!ModelState.IsValid || !TryValidateModel(AlunoUpdateRequest))
+            {
+                return BadRequest();
+            }
+
+            _mapper.Map(AlunoUpdateRequest, aluno);
+            await _unitOfWork.CommitAsync();
+
+            return Ok(_mapper.Map<AlunoDto>(aluno));
         }
 
         [HttpDelete("{id:int}")]
