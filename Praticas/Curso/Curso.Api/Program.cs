@@ -1,5 +1,6 @@
 using System.Text.Json.Serialization;
 using Curso.Api.Context;
+using Curso.Api.Exceptions;
 using Curso.Api.Profiles;
 using Curso.Api.Repositorys;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +13,15 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection));
 });
-builder.Services.AddControllers()
-  .AddJsonOptions(options =>
-     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(typeof(ApiExceptionFilter));
+})
+.AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+})
+;
 
 builder.Services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
 builder.Services.AddScoped<IAlunoRepository, AlunoRepository>();
@@ -33,6 +40,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    
 }
 
 app.UseHttpsRedirection();
