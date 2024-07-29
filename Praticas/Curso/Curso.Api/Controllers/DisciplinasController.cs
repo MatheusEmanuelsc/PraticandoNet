@@ -3,6 +3,7 @@ using Curso.Api.Dtos;
 using Curso.Api.Models;
 using Curso.Api.Repositorys;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Curso.Api.Controllers
@@ -92,6 +93,42 @@ namespace Curso.Api.Controllers
             return Ok(disciplinaAtualizadaDto);
 
         }
+        [HttpPatch("{id}/UpdatePartial")]
+        public async Task<ActionResult<DisciplinaDto>> AtualicaoParcialDisciplina(int id, JsonPatchDocument<DisciplinaDtoUpdate> patchDisciplinaDto)
+        {
+            if (patchDisciplinaDto is null || id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var disciplina = await _unitOfWork.DisciplinaRepository.GetAsync(d => d.DisciplinaId == id);
+
+            if (disciplina is null)
+            {
+                return NotFound();
+            }
+
+            var disciplinaUpdateRequest = _mapper.Map<DisciplinaDtoUpdate>(disciplina);
+
+            patchDisciplinaDto.ApplyTo(disciplinaUpdateRequest, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!TryValidateModel(disciplinaUpdateRequest))
+            {
+                return BadRequest(ModelState);
+            }
+
+            _mapper.Map(disciplinaUpdateRequest, disciplina);
+
+            await _unitOfWork.CommitAsync();
+
+            return Ok(_mapper.Map<DisciplinaDto>(disciplina));
+        }
+
 
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<DisciplinaDto>>DeletarDisciplina(int id)

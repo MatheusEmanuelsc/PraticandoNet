@@ -9,7 +9,9 @@ namespace Curso.Api.Profiles
         public MappingProfile()
         {
             CreateMap<Aluno, AlunoDto>().ReverseMap();
+
             CreateMap<Disciplina, DisciplinaDto>().ReverseMap();
+            CreateMap<Disciplina, DisciplinaDtoUpdate>().ReverseMap();
         }
     }
 }
