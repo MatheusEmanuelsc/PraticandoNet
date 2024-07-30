@@ -12,6 +12,6 @@ namespace Curso.Api.Models
         public string? Descricao { get; set; }
 
         [JsonIgnore]
-        public ICollection<Aluno>? Alunos { get; set; }
+        public ICollection<Aluno>? Alunos { get; set; }= new List<Aluno>(); 
     }
 }

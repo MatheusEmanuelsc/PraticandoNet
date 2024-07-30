@@ -22,7 +22,7 @@ namespace Curso.Api.Controllers
         }
 
 
-        [HttpGet("aluno/lista")]
+        [HttpGet("lista")]
         public async Task<ActionResult<IEnumerable<AlunoDto>>> GetListaAlunos()
         {
             var listaAlunos = await _unitOfWork.AlunoRepository.GetAllAsync();
@@ -40,6 +40,16 @@ namespace Curso.Api.Controllers
             var alunoDto=_mapper.Map<AlunoDto>(aluno);
             return Ok(alunoDto);
 
+        }
+
+        [HttpGet("disciplina/{id:int}")]
+        public async Task<ActionResult<IEnumerable<AlunoDto>>>GetAlunoDisciplina(int id)
+        {
+            var aluno = await _unitOfWork.AlunoRepository.GetAlunoPorDisciplinaAsync(id);
+            if (aluno == null) {return NotFound(); }
+
+            var alunoDto = _mapper.Map<IEnumerable<AlunoDto>>(aluno);
+            return Ok(alunoDto);
         }
 
         [HttpPost]
