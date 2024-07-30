@@ -58,7 +58,8 @@ namespace Curso.Api.Models
         public int Aulas { get; set; }
         public string Nome { get; set; } = string.Empty;
         public string? Descricao { get; set; }
-        public ICollection<Aluno> Alunos { get; set; }
+        public ICollection<Aluno> Alunos { get; set; }= new List<Aluno>(); 
+       // E uma boa pratica que a prpria classe inicie a coleção seja assim ou no construtor mesmo
     }
 }
 ```
