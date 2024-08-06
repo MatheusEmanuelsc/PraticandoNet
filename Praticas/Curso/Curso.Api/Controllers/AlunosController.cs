@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Curso.Api.Dtos;
 using Curso.Api.Models;
+using Curso.Api.Pagination;
 using Curso.Api.Repositorys;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
@@ -31,32 +32,31 @@ namespace Curso.Api.Controllers
             return Ok(listaAlunosDto);
 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetItems([FromQuery] AlunoParameters paginationParameters)
+        {
+            var pagedItems = await _unitOfWork.AlunoRepository.GetPagedAsync(paginationParameters);
+            var listaAlunosDto = _mapper.Map<IEnumerable<AlunoDto>>(pagedItems);
+            return Ok(listaAlunosDto);
+        }
 
-        [HttpGet("{id:int}",Name ="ObterAluno")]
+        [HttpGet("{id:int}", Name = "ObterAluno")]
         public async Task<ActionResult<AlunoDto>> GetAluno(int id)
         {
             var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
             if (aluno == null) { NotFound(); }
-            var alunoDto=_mapper.Map<AlunoDto>(aluno);
+            var alunoDto = _mapper.Map<AlunoDto>(aluno);
             return Ok(alunoDto);
 
         }
 
-        [HttpGet("disciplina/{id:int}")]
-        public async Task<ActionResult<IEnumerable<AlunoDto>>>GetAlunoDisciplina(int id)
-        {
-            var aluno = await _unitOfWork.AlunoRepository.GetAlunoPorDisciplinaAsync(id);
-            if (aluno == null) {return NotFound(); }
 
-            var alunoDto = _mapper.Map<IEnumerable<AlunoDto>>(aluno);
-            return Ok(alunoDto);
-        }
 
         [HttpPost]
         public async Task<ActionResult<AlunoDto>> CriarAluno(AlunoDto alunoDto)
         {
             if (alunoDto == null) { return BadRequest(); }
-            var aluno= _mapper.Map<Aluno>(alunoDto);
+            var aluno = _mapper.Map<Aluno>(alunoDto);
             _unitOfWork.AlunoRepository.Create(aluno);
             await _unitOfWork.CommitAsync();
 
@@ -68,10 +68,10 @@ namespace Curso.Api.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<AlunoDto>>AtualizaAluno(int id, AlunoDto alunoDto)
+        public async Task<ActionResult<AlunoDto>> AtualizaAluno(int id, AlunoDto alunoDto)
         {
             if (id != alunoDto.AlunoId) { return BadRequest(); }
-            var alunoAtualizado =_mapper.Map<Aluno>(alunoDto);
+            var alunoAtualizado = _mapper.Map<Aluno>(alunoDto);
             _unitOfWork.AlunoRepository.Update(alunoAtualizado);
             await _unitOfWork.CommitAsync();
             return Ok(alunoAtualizado);
@@ -79,7 +79,7 @@ namespace Curso.Api.Controllers
         }
 
         [HttpPatch("{id:int}/UpdateParcial")]
-        public async Task<ActionResult<AlunoDto>>AtualizaAlunoParcial(int id, JsonPatchDocument<AlunoDtoUpdate> alunoDtoUpdate)
+        public async Task<ActionResult<AlunoDto>> AtualizaAlunoParcial(int id, JsonPatchDocument<AlunoDtoUpdate> alunoDtoUpdate)
         {
             if (id <= 0 || alunoDtoUpdate is null)
             {
@@ -94,7 +94,7 @@ namespace Curso.Api.Controllers
             }
 
             var AlunoUpdateRequest = _mapper.Map<AlunoDtoUpdate>(aluno);
-            alunoDtoUpdate.ApplyTo(AlunoUpdateRequest,ModelState);
+            alunoDtoUpdate.ApplyTo(AlunoUpdateRequest, ModelState);
 
             if (!ModelState.IsValid || !TryValidateModel(AlunoUpdateRequest))
             {
@@ -108,15 +108,15 @@ namespace Curso.Api.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<ActionResult<AlunoDto>>DeletarAluno(int id)
+        public async Task<ActionResult<AlunoDto>> DeletarAluno(int id)
         {
-           var aluno = await _unitOfWork.AlunoRepository.GetAsync(a=> a.AlunoId == id);
-           if (aluno is null) { return BadRequest(); }
-           _unitOfWork.AlunoRepository.Delete(aluno);
-           await _unitOfWork.CommitAsync();
-           var alunoDeletado = _mapper.Map<AlunoDto>(aluno);
+            var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
+            if (aluno is null) { return BadRequest(); }
+            _unitOfWork.AlunoRepository.Delete(aluno);
+            await _unitOfWork.CommitAsync();
+            var alunoDeletado = _mapper.Map<AlunoDto>(aluno);
 
-           return Ok(alunoDeletado);
+            return Ok(alunoDeletado);
 
 
         }

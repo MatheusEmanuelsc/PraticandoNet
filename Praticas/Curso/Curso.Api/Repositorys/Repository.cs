@@ -1,4 +1,5 @@
 ﻿using Curso.Api.Context;
+using Curso.Api.Pagination;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
@@ -40,6 +41,17 @@ namespace Curso.Api.Repositorys
         {
             _context.Set<T>().Update(entity);
             return entity;
+        }
+
+        public async Task<PagedList<T>> GetPagedAsync(PaginationParameters paginationParameters)
+        {
+        var source = _context.Set<T>().AsQueryable();
+        var count = await source.CountAsync();
+        var items = await source.Skip((paginationParameters.PageNumber - 1) * paginationParameters.PageSize)
+                                .Take(paginationParameters.PageSize)
+                                .ToListAsync();
+
+        return new PagedList<T>(items, count, paginationParameters.PageNumber, paginationParameters.PageSize);
         }
     }
 }
