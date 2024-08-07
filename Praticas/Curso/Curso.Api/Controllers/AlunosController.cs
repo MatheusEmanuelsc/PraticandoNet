@@ -3,6 +3,7 @@ using Curso.Api.Dtos;
 using Curso.Api.Models;
 using Curso.Api.Pagination;
 using Curso.Api.Repositorys;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ namespace Curso.Api.Controllers
         }
 
         [HttpGet("{id:int}", Name = "ObterAluno")]
+        [Authorize]
         public async Task<ActionResult<AlunoDto>> GetAluno(int id)
         {
             var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
