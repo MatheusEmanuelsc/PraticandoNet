@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Curso.Api.Context
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -13,5 +13,11 @@ namespace Curso.Api.Context
 
         public DbSet<Disciplina>? Disciplinas { get; set; }
         public DbSet<Aluno>? Alunos { get; set; }
+
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }

@@ -101,3 +101,130 @@ Parte 2 Identity
 
 		Aplicar o migrations
 
+parte 3  jwt Beary 
+
+	Etapa 1 adicione pacotes
+
+		dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+
+	Etapa 2  ajuste appsetigs
+
+		"Jwt": {
+					"ValidAudience": "http://localhost:7066",
+					"ValidIssuer": "http//localhost:5066",
+					"SecretKey": "Minha@Super#Secreta&Chave*Priavada!2024%",
+					"TokenValidityInMinutes": 30,
+					"RefreshTokenValidityInMinutes": 60
+				}
+		Atenção em produção vc não pode deixar desse jeito
+
+	Etapa 3 ajustando program
+
+		var secretKey = builder.Configuration["JWT:SecretKey"]
+                   ?? throw new ArgumentException("Invalid secret key!!");
+
+			builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			}).AddJwtBearer(options =>
+			{
+				options.SaveToken = true;
+				options.RequireHttpsMetadata = false;
+				options.TokenValidationParameters = new TokenValidationParameters()
+				{
+					ValidateIssuer = true,
+					ValidateAudience = true,
+					ValidateLifetime = true,
+					ValidateIssuerSigningKey = true,
+					ClockSkew = TimeSpan.Zero,
+					ValidAudience = builder.Configuration["JWT:ValidAudience"],
+					ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+					IssuerSigningKey = new SymmetricSecurityKey(
+									   Encoding.UTF8.GetBytes(secretKey))
+				};
+			});
+
+parte 4 criando e ajustando refresh token
+
+	etapa 1  crie a classe
+		
+		using Microsoft.AspNetCore.Identity;
+
+		namespace Curso.Api.Models
+		{
+			public class ApplicationUser: IdentityUser
+			{
+				public string? RefreshToken { get; set; }
+				public DateTime RefreshTokenExpiryTime { get; set; }                                        
+			}
+		}
+
+
+	Etapa 2 Ajuste o context
+
+			 public class AppDbContext : IdentityDbContext<ApplicationUser>
+		{
+        
+			public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+			{
+			}
+
+			public DbSet<Disciplina>? Disciplinas { get; set; }
+			public DbSet<Aluno>? Alunos { get; set; }
+
+
+			protected override void OnModelCreating(ModelBuilder builder)
+			{
+				base.OnModelCreating(builder);
+			}
+		
+	Etapa 3 Ajuste o program
+
+		builder.Services.AddIdentity<ApplicationUser, IdentityRole>().
+		AddEntityFrameworkStores<AppDbContext>().
+		AddDefaultTokenProviders();
+
+	
+		 Aplique a migrations
+
+Parte 5 Criar Dtos para gerenciar o login o registro e o token
+
+	Etapa 1 criar o dto do login
+
+		 public class LoginModel
+		{
+			[Required(ErrorMessage ="User Name is required")]
+			public string? UserName { get; set; }
+			[Required(ErrorMessage = "User Name is required")]
+			public string? Password { get; set; }
+		}
+
+	Etapa 2 criar o registro
+		
+		 public class RegisterModel
+		{
+			[Required(ErrorMessage = "User Name is required")]
+			public string?  Username { get; set; }
+			[Required(ErrorMessage = "User Name is required")]
+			public string? Email { get; set; }
+			[Required(ErrorMessage = "User Name is required")]
+			public string? Password { get; set; }
+		}
+
+	Etapa 3 Criar model token
+
+		    public class TokenModel
+			{
+				public string?  AcessToken { get; set; }
+				public string? RefreshToken { get; set; }
+			}
+
+	Etapa 4 criar o response
+
+			public class Response
+			{
+				  public string? Status { get; set; }
+				  public string? Message { get; set; }
+       
+			}
