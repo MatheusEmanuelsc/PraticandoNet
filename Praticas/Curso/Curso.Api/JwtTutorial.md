@@ -1,321 +1,406 @@
-parte 1
 
-	Etapa 1
+---
 
-	 instalar pacote
+### **Implementação de JWT, Identity e Refresh Tokens no ASP.NET Core**
 
-	 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+Este guia fornece um passo a passo para configurar autenticação JWT, Identity e Refresh Tokens em uma aplicação ASP.NET Core. O tutorial está dividido em várias partes, cada uma abordando uma etapa específica da implementação.
 
+## **Índice**
 
-	Etapa 2
+1. [Parte 1 - Configuração Inicial de JWT](#parte-1---configuração-inicial-de-jwt)
+   1. [Etapa 1 - Instalar Pacote JWT Bearer](#etapa-1---instalar-pacote-jwt-bearer)
+   2. [Etapa 2 - Configuração do Program.cs](#etapa-2---configuração-do-programcs)
+   3. [Etapa 3 - Proteção de Endpoints](#etapa-3---proteção-de-endpoints)
+   4. [Etapa 4 - Gerar Token de Autorização (Opcional)](#etapa-4---gerar-token-de-autorização-opcional)
+2. [Parte 2 - Implementação de Identity](#parte-2---implementação-de-identity)
+   1. [Etapa 1 - Instalar Pacote Identity](#etapa-1---instalar-pacote-identity)
+   2. [Etapa 2 - Modificar DbContext](#etapa-2---modificar-dbcontext)
+   3. [Etapa 3 - Ajuste no Program.cs](#etapa-3---ajuste-no-programcs)
+   4. [Etapa 4 - Aplicar Migrations](#etapa-4---aplicar-migrations)
+3. [Parte 3 - Configuração de JWT Bearer](#parte-3---configuração-de-jwt-bearer)
+   1. [Etapa 1 - Instalar Pacotes JWT Bearer](#etapa-1---instalar-pacotes-jwt-bearer)
+   2. [Etapa 2 - Ajustar appsettings.json](#etapa-2---ajustar-appsettingsjson)
+   3. [Etapa 3 - Configurar Program.cs](#etapa-3---configurar-programcs)
+4. [Parte 4 - Implementação de Refresh Token](#parte-4---implementação-de-refresh-token)
+   1. [Etapa 1 - Criar Classe ApplicationUser](#etapa-1---criar-classe-applicationuser)
+   2. [Etapa 2 - Ajustar DbContext](#etapa-2---ajustar-dbcontext)
+   3. [Etapa 3 - Ajuste no Program.cs](#etapa-3---ajuste-no-programcs)
+5. [Parte 5 - Criação de DTOs](#parte-5---criação-de-dtos)
+   1. [Etapa 1 - DTO de Login](#etapa-1---dto-de-login)
+   2. [Etapa 2 - DTO de Registro](#etapa-2---dto-de-registro)
+   3. [Etapa 3 - Model de Token](#etapa-3---model-de-token)
+   4. [Etapa 4 - Response Model](#etapa-4---response-model)
+6. [Parte 6 - Geração de Tokens](#parte-6---geração-de-tokens)
+   1. [Etapa 1 - Criar Interface ITokenService](#etapa-1---criar-interface-itokenservice)
+   2. [Etapa 2 - Implementação da Interface ITokenService](#etapa-2---implementação-da-interface-itokenservice)
+   3. [Etapa 3 - Ajuste no Program.cs](#etapa-3---ajuste-no-programcs)
+7. [Resumo Final](#resumo-final)
 
-		 juaste o program adc     
-			 builder.Services.AddAuthorization();
-			 builder.Services.AddAuthentication("bearer").AddJwtBearer();
+---
 
-			pode remover isso se quiser
+## **Parte 1 - Configuração Inicial de JWT**
 
-			app.UseAuthorization();
+### **Etapa 1 - Instalar Pacote JWT Bearer**
 
-	 etapa 3 proteger os endpoints usando o atributo: [Authorize]
+Para iniciar, precisamos instalar o pacote necessário para autenticação JWT Bearer. Execute o seguinte comando no terminal:
 
-		ex:
-			 [HttpGet("{id:int}", Name = "ObterAluno")]
-			[Authorize]
-			public async Task<ActionResult<AlunoDto>> GetAluno(int id)
-			{
-				var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
-				if (aluno == null) { NotFound(); }
-				var alunoDto = _mapper.Map<AlunoDto>(aluno);
-				return Ok(alunoDto);
+```bash
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+```
 
-			}
+### **Etapa 2 - Configuração do Program.cs**
 
-	 etapa 4(Opicional)  gerar token de autorização
+Agora, vamos configurar o `Program.cs` para adicionar a autenticação e autorização baseadas em JWT. Isso inclui adicionar os serviços ao container e configurar o middleware para autenticação JWT.
 
-	 com isso podemos gerar e gerenciar rokens jwt usando a ferramenta dotnet user-jwt
-	 user-jwt create para criar um token
+```csharp
+// Adiciona os serviços de autenticação e autorização ao container
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication("bearer").AddJwtBearer();
 
-		Aqui está a lista de comandos disponíveis no `dotnet user-jwt` junto com um pequeno resumo do que cada um faz:
+// Pode remover a linha abaixo se a autorização não for necessária em toda a aplicação
+app.UseAuthorization();
+```
 
-	### Lista de Comandos `dotnet user-jwt`
+### **Etapa 3 - Proteção de Endpoints**
 
-	1. **add**
-	   - **Resumo**: Adiciona um token JWT a um projeto .NET. Este comando é útil para adicionar rapidamente um token JWT para fins de desenvolvimento e teste.
-	   - **Uso**: `dotnet user-jwt add`
+Com a autenticação configurada, podemos proteger nossos endpoints utilizando o atributo `[Authorize]`. Aqui está um exemplo de como aplicar essa proteção a um método específico:
 
-	2. **remove**
-	   - **Resumo**: Remove um token JWT de um projeto .NET. Este comando é útil para limpar tokens de desenvolvimento quando eles não são mais necessários.
-	   - **Uso**: `dotnet user-jwt remove`
+```csharp
+[HttpGet("{id:int}", Name = "ObterAluno")]
+[Authorize] // Este atributo garante que apenas usuários autenticados possam acessar este endpoint
+public async Task<ActionResult<AlunoDto>> GetAluno(int id)
+{
+    var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
+    if (aluno == null) { NotFound(); }
+    var alunoDto = _mapper.Map<AlunoDto>(aluno);
+    return Ok(alunoDto);
+}
+```
 
-	3. **list**
-	   - **Resumo**: Lista todos os tokens JWT associados ao projeto. Este comando ajuda a visualizar todos os tokens gerados e suas informações.
-	   - **Uso**: `dotnet user-jwt list`
+### **Etapa 4 - Gerar Token de Autorização (Opcional)**
 
-	4. **clear**
-	   - **Resumo**: Remove todos os tokens JWT associados ao projeto. Útil para fazer uma limpeza geral de tokens de desenvolvimento.
-	   - **Uso**: `dotnet user-jwt clear`
+Se desejar, você pode gerar e gerenciar tokens JWT usando a ferramenta `dotnet user-jwt`. Para criar um token, utilize o seguinte comando:
 
-	5. **print**
-	   - **Resumo**: Imprime as informações detalhadas de um token JWT específico. Este comando é útil para depuração e verificação das informações contidas no token.
-	   - **Uso**: `dotnet user-jwt print --id <token-id>`
+```bash
+dotnet user-jwt create
+```
 
-	Esses comandos são projetados para facilitar o gerenciamento de tokens JWT durante o desenvolvimento de aplicações ASP.NET Core, proporcionando uma forma rápida e eficiente de adicionar, listar, remover e inspecionar tokens JWT.
+#### **Comandos Disponíveis:**
 
+- **add**: Adiciona um token JWT ao projeto.
+- **remove**: Remove um token JWT do projeto.
+- **list**: Lista todos os tokens JWT associados ao projeto.
+- **clear**: Remove todos os tokens JWT do projeto.
+- **print**: Imprime as informações detalhadas de um token JWT específico.
 
+Após gerar o token, você pode utilizá-lo para acessar os endpoints protegidos.
 
+---
 
- 
+## **Parte 2 - Implementação de Identity**
 
-	 ai so usar o token gerado para acessar os endpoints protegidos
+### **Etapa 1 - Instalar Pacote Identity**
 
+Para começar a trabalhar com Identity, você precisa instalar o pacote `Microsoft.AspNetCore.Identity.EntityFrameworkCore`:
 
-Parte 2 Identity
+```bash
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+```
 
-	Uitlizamos ele vai nos permites gerar as tabelas automaticamente para  gerenciar o tokens
+### **Etapa 2 - Modificar DbContext**
 
+Altere a classe `AppDbContext` para herdar de `IdentityDbContext`. Isso permitirá que as tabelas necessárias para gerenciar usuários e tokens sejam criadas automaticamente:
 
-	etapa 1
-		
-		adicione o pacote
-
-			dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
-
-	Etapa 2 
-
-		Modifique o context
-
-			 public class AppDbContext : IdentityDbContext
-		
-		agora ele Herda Identity não context
-
-	Etapa 3 
-
-		Ajuste o Program
-
-			builder.Services.AddIdentity<IdentityUser, IdentityRole>().
-    AddEntityFrameworkStores<AppDbContext>().
-    AddDefaultTokenProviders();
-
-	Etapa 4 
-
-		Aplicar o migrations
-
-parte 3  jwt Beary 
-
-	Etapa 1 adicione pacotes
-
-		dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-
-	Etapa 2  ajuste appsetigs
-
-		"Jwt": {
-					"ValidAudience": "http://localhost:7066",
-					"ValidIssuer": "http//localhost:5066",
-					"SecretKey": "Minha@Super#Secreta&Chave*Priavada!2024%",
-					"TokenValidityInMinutes": 30,
-					"RefreshTokenValidityInMinutes": 60
-				}
-		Atenção em produção vc não pode deixar desse jeito
-
-	Etapa 3 ajustando program
-
-		var secretKey = builder.Configuration["JWT:SecretKey"]
-                   ?? throw new ArgumentException("Invalid secret key!!");
-
-			builder.Services.AddAuthentication(options =>
-			{
-				options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			}).AddJwtBearer(options =>
-			{
-				options.SaveToken = true;
-				options.RequireHttpsMetadata = false;
-				options.TokenValidationParameters = new TokenValidationParameters()
-				{
-					ValidateIssuer = true,
-					ValidateAudience = true,
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					ClockSkew = TimeSpan.Zero,
-					ValidAudience = builder.Configuration["JWT:ValidAudience"],
-					ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
-					IssuerSigningKey = new SymmetricSecurityKey(
-									   Encoding.UTF8.GetBytes(secretKey))
-				};
-			});
-
-parte 4 criando e ajustando refresh token
-
-	etapa 1  crie a classe
-		
-		using Microsoft.AspNetCore.Identity;
-
-		namespace Curso.Api.Models
-		{
-			public class ApplicationUser: IdentityUser
-			{
-				public string? RefreshToken { get; set; }
-				public DateTime RefreshTokenExpiryTime { get; set; }                                        
-			}
-		}
-
-
-	Etapa 2 Ajuste o context
-
-			 public class AppDbContext : IdentityDbContext<ApplicationUser>
-		{
-        
-			public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-			{
-			}
-
-			public DbSet<Disciplina>? Disciplinas { get; set; }
-			public DbSet<Aluno>? Alunos { get; set; }
-
-
-			protected override void OnModelCreating(ModelBuilder builder)
-			{
-				base.OnModelCreating(builder);
-			}
-		
-	Etapa 3 Ajuste o program
-
-		builder.Services.AddIdentity<ApplicationUser, IdentityRole>().
-		AddEntityFrameworkStores<AppDbContext>().
-		AddDefaultTokenProviders();
-
-	
-		 Aplique a migrations
-
-Parte 5 Criar Dtos para gerenciar o login o registro e o token
-
-	Etapa 1 criar o dto do login
-
-		 public class LoginModel
-		{
-			[Required(ErrorMessage ="User Name is required")]
-			public string? UserName { get; set; }
-			[Required(ErrorMessage = "User Name is required")]
-			public string? Password { get; set; }
-		}
-
-	Etapa 2 criar o registro
-		
-		 public class RegisterModel
-		{
-			[Required(ErrorMessage = "User Name is required")]
-			public string?  Username { get; set; }
-			[Required(ErrorMessage = "User Name is required")]
-			public string? Email { get; set; }
-			[Required(ErrorMessage = "User Name is required")]
-			public string? Password { get; set; }
-		}
-
-	Etapa 3 Criar model token
-
-		    public class TokenModel
-			{
-				public string?  AcessToken { get; set; }
-				public string? RefreshToken { get; set; }
-			}
-
-	Etapa 4 criar o response
-
-			public class Response
-			{
-				  public string? Status { get; set; }
-				  public string? Message { get; set; }
-       
-			}
-
-Parte 5 Geração token
-
-	Etapa 1 criei  a interface  do token
-
-		 public interface ITokenService
-		{
-			JwtSecurityToken GenerateAccessToken(IEnumerable<Claim> claims,
-												 IConfiguration _config);
-			string GenerateRefreshToken();
-
-			ClaimsPrincipal GetPrincipalFromExpiredToken(string token,
-														 IConfiguration _config);
-		}
-
-	Etapa 2  impmentação da interface
-
-		 public class TokenService : ITokenService
+```csharp
+public class AppDbContext : IdentityDbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-        public JwtSecurityToken GenerateAccessToken(IEnumerable<Claim> claims, IConfiguration _config)
-        {
-            var key = _config.GetSection("JWT").GetValue<string>("SecretKey") ??
-               throw new InvalidOperationException("Invalid secret Key");
-
-            var privateKey = Encoding.UTF8.GetBytes(key);
-
-            var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(privateKey),
-                                     SecurityAlgorithms.HmacSha256Signature);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(_config.GetSection("JWT")
-                                                    .GetValue<double>("TokenValidityInMinutes")),
-                Audience = _config.GetSection("JWT")
-                                  .GetValue<string>("ValidAudience"),
-                Issuer = _config.GetSection("JWT").GetValue<string>("ValidIssuer"),
-                SigningCredentials = signingCredentials
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateJwtSecurityToken(tokenDescriptor);
-            return token;
-        }
-
-        public string GenerateRefreshToken()
-        {
-            var secureRandomBytes = new byte[128];
-
-            using var randomNumberGenerator = RandomNumberGenerator.Create();
-
-            randomNumberGenerator.GetBytes(secureRandomBytes);
-
-            var refreshToken = Convert.ToBase64String(secureRandomBytes);
-
-            return refreshToken;
-        }
-
-        public ClaimsPrincipal GetPrincipalFromExpiredToken(string token, IConfiguration _config)
-        {
-            var secretKey = _config["JWT:SecretKey"] ?? throw new InvalidOperationException("Invalid key");
-
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(
-                                      Encoding.UTF8.GetBytes(secretKey)),
-                ValidateLifetime = false
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters,
-                                                       out SecurityToken securityToken);
-
-            if (securityToken is not JwtSecurityToken jwtSecurityToken ||
-                             !jwtSecurityToken.Header.Alg.Equals(
-                             SecurityAlgorithms.HmacSha256,
-                             StringComparison.InvariantCultureIgnoreCase))
-            {
-                throw new SecurityTokenException("Invalid token");
-            }
-
-            return principal;
-        }
     }
 
-Etapa 3 ajuste o program
-	
-		builder.Services.AddScoped<ITokenService, TokenService>();
+    // Adicione suas DbSets aqui
+    public DbSet<Disciplina>? Disciplinas { get; set; }
+    public DbSet<Aluno>? Alunos { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        // Configurações adicionais
+    }
+}
+```
+
+### **Etapa 3 - Ajuste no Program.cs**
+
+No arquivo `Program.cs`, configure o serviço de Identity:
+
+```csharp
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+```
+
+### **Etapa 4 - Aplicar Migrations**
+
+Depois de configurar o `DbContext`, aplique as migrations para criar as tabelas necessárias no banco de dados:
+
+```bash
+dotnet ef migrations add InitialIdentitySchema
+dotnet ef database update
+```
+
+---
+
+## **Parte 3 - Configuração de JWT Bearer**
+
+### **Etapa 1 - Instalar Pacotes JWT Bearer**
+
+Instale o pacote de autenticação JWT Bearer se ainda não o fez:
+
+```bash
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+```
+
+### **Etapa 2 - Ajustar appsettings.json**
+
+No arquivo `appsettings.json`, adicione a seguinte configuração para JWT:
+
+```json
+"Jwt": {
+    "ValidAudience": "http://localhost:7066",
+    "ValidIssuer": "http//localhost:5066",
+    "SecretKey": "Minha@Super#Secreta&Chave*Priavada!2024%",
+    "TokenValidityInMinutes": 30,
+    "RefreshTokenValidityInMinutes": 60
+}
+```
+
+> **Nota:** Não use a chave secreta diretamente no código em produção. Utilize um gerenciador de segredos.
+
+### **Etapa 3 - Configurar Program.cs**
+
+Configure o `Program.cs` para utilizar as configurações de JWT:
+
+```csharp
+var secretKey = builder.Configuration["JWT:SecretKey"]
+               ?? throw new ArgumentException("Invalid secret key!!");
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.SaveToken = true;
+    options.RequireHttpsMetadata = false;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero,
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey
+
+(
+                           Encoding.UTF8.GetBytes(secretKey))
+    };
+});
+```
+
+---
+
+## **Parte 4 - Implementação de Refresh Token**
+
+### **Etapa 1 - Criar Classe ApplicationUser**
+
+Crie a classe `ApplicationUser`, que será utilizada para gerenciar os Refresh Tokens.
+
+```csharp
+using Microsoft.AspNetCore.Identity;
+
+namespace Curso.Api.Models
+{
+    public class ApplicationUser : IdentityUser
+    {
+        // Propriedade para armazenar o Refresh Token
+        public string? RefreshToken { get; set; }
+
+        // Data de expiração do Refresh Token
+        public DateTime RefreshTokenExpiryTime { get; set; }                                        
+    }
+}
+```
+
+### **Etapa 2 - Ajustar DbContext**
+
+Altere o `AppDbContext` para herdar de `IdentityDbContext<ApplicationUser>`. Isso permite que a classe `ApplicationUser` seja utilizada para gerenciamento de tokens:
+
+```csharp
+public class AppDbContext : IdentityDbContext<ApplicationUser>
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
+    // Adicione suas DbSets aqui
+    public DbSet<Disciplina>? Disciplinas { get; set; }
+    public DbSet<Aluno>? Alunos { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        // Configurações adicionais
+    }
+}
+```
+
+### **Etapa 3 - Ajuste no Program.cs**
+
+No `Program.cs`, adicione a configuração para Identity com a classe `ApplicationUser`:
+
+```csharp
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
+```
+
+---
+
+## **Parte 5 - Criação de DTOs**
+
+### **Etapa 1 - DTO de Login**
+
+Crie um DTO para login, que será utilizado para transferir os dados de login do usuário:
+
+```csharp
+public class LoginDto
+{
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+}
+```
+
+### **Etapa 2 - DTO de Registro**
+
+Crie um DTO para registro, utilizado ao registrar novos usuários:
+
+```csharp
+public class RegisterDto
+{
+    public string? Email { get; set; }
+    public string? Password { get; set; }
+    public string? ConfirmPassword { get; set; }
+}
+```
+
+### **Etapa 3 - Model de Token**
+
+Crie um modelo para o Token, que será utilizado para transferir informações do token:
+
+```csharp
+public class TokenModel
+{
+    public string? AccessToken { get; set; }
+    public string? RefreshToken { get; set; }
+}
+```
+
+### **Etapa 4 - Response Model**
+
+Crie um modelo de resposta que encapsula a resposta da API com tokens:
+
+```csharp
+public class AuthResponseModel
+{
+    public string? Token { get; set; }
+    public string? RefreshToken { get; set; }
+    public DateTime Expiration { get; set; }
+}
+```
+
+---
+
+## **Parte 6 - Geração de Tokens**
+
+### **Etapa 1 - Criar Interface ITokenService**
+
+Crie a interface `ITokenService` para definir os métodos que serão implementados no serviço de geração de tokens:
+
+```csharp
+public interface ITokenService
+{
+    Task<string> CreateTokenAsync(ApplicationUser user);
+    Task<string> CreateRefreshTokenAsync();
+}
+```
+
+### **Etapa 2 - Implementação da Interface ITokenService**
+
+Implemente a interface `ITokenService`:
+
+```csharp
+public class TokenService : ITokenService
+{
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IConfiguration _configuration;
+
+    public TokenService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+    {
+        _userManager = userManager;
+        _configuration = configuration;
+    }
+
+    public async Task<string> CreateTokenAsync(ApplicationUser user)
+    {
+        var authClaims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
+            new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:SecretKey"]));
+
+        var token = new JwtSecurityToken(
+            issuer: _configuration["JWT:ValidIssuer"],
+            audience: _configuration["JWT:ValidAudience"],
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_configuration["JWT:TokenValidityInMinutes"])),
+            claims: authClaims,
+            signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    public Task<string> CreateRefreshTokenAsync()
+    {
+        var randomNumber = new byte[32];
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(randomNumber);
+            return Task.FromResult(Convert.ToBase64String(randomNumber));
+        }
+    }
+}
+```
+
+### **Etapa 3 - Ajuste no Program.cs**
+
+No `Program.cs`, registre o serviço de tokens no container de injeção de dependências:
+
+```csharp
+builder.Services.AddScoped<ITokenService, TokenService>();
+```
+
+---
+
+## **Resumo Final**
+
+Neste guia, implementamos autenticação JWT, Identity e Refresh Tokens em uma aplicação ASP.NET Core. A configuração abrange desde a instalação de pacotes até a criação de DTOs e serviços para gerenciar a autenticação de usuários. Este setup proporciona uma base sólida para aplicações que requerem autenticação segura e escalável, além de fornecer uma maneira eficiente de gerenciar tokens de acesso e Refresh Tokens.
+
+--- 
+
+Este tutorial oferece uma visão completa e detalhada do processo, garantindo que todos os aspectos da implementação de JWT e Identity sejam cobertos e compreendidos.
