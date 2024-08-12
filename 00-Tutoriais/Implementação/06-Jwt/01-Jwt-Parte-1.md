@@ -1,73 +1,73 @@
 
 ---
 
-### **Implementação de JWT, Identity e Refresh Tokens no ASP.NET Core**
+### **Implementaï¿½ï¿½o de JWT, Identity e Refresh Tokens no ASP.NET Core**
 
-Este guia fornece um passo a passo para configurar autenticação JWT, Identity e Refresh Tokens em uma aplicação ASP.NET Core. O tutorial está dividido em várias partes, cada uma abordando uma etapa específica da implementação.
+Este guia fornece um passo a passo para configurar autenticaï¿½ï¿½o JWT, Identity e Refresh Tokens em uma aplicaï¿½ï¿½o ASP.NET Core. O tutorial estï¿½ dividido em vï¿½rias partes, cada uma abordando uma etapa especï¿½fica da implementaï¿½ï¿½o.
 
-## **Índice**
+## **ï¿½ndice**
 
-1. [Parte 1 - Configuração Inicial de JWT](#parte-1---configuração-inicial-de-jwt)
+1. [Parte 1 - Configuraï¿½ï¿½o Inicial de JWT](#parte-1---configuraï¿½ï¿½o-inicial-de-jwt)
    1. [Etapa 1 - Instalar Pacote JWT Bearer](#etapa-1---instalar-pacote-jwt-bearer)
-   2. [Etapa 2 - Configuração do Program.cs](#etapa-2---configuração-do-programcs)
-   3. [Etapa 3 - Proteção de Endpoints](#etapa-3---proteção-de-endpoints)
-   4. [Etapa 4 - Gerar Token de Autorização (Opcional)](#etapa-4---gerar-token-de-autorização-opcional)
-2. [Parte 2 - Implementação de Identity](#parte-2---implementação-de-identity)
+   2. [Etapa 2 - Configuraï¿½ï¿½o do Program.cs](#etapa-2---configuraï¿½ï¿½o-do-programcs)
+   3. [Etapa 3 - Proteï¿½ï¿½o de Endpoints](#etapa-3---proteï¿½ï¿½o-de-endpoints)
+   4. [Etapa 4 - Gerar Token de Autorizaï¿½ï¿½o (Opcional)](#etapa-4---gerar-token-de-autorizaï¿½ï¿½o-opcional)
+2. [Parte 2 - Implementaï¿½ï¿½o de Identity](#parte-2---implementaï¿½ï¿½o-de-identity)
    1. [Etapa 1 - Instalar Pacote Identity](#etapa-1---instalar-pacote-identity)
    2. [Etapa 2 - Modificar DbContext](#etapa-2---modificar-dbcontext)
    3. [Etapa 3 - Ajuste no Program.cs](#etapa-3---ajuste-no-programcs)
    4. [Etapa 4 - Aplicar Migrations](#etapa-4---aplicar-migrations)
-3. [Parte 3 - Configuração de JWT Bearer](#parte-3---configuração-de-jwt-bearer)
+3. [Parte 3 - Configuraï¿½ï¿½o de JWT Bearer](#parte-3---configuraï¿½ï¿½o-de-jwt-bearer)
    1. [Etapa 1 - Instalar Pacotes JWT Bearer](#etapa-1---instalar-pacotes-jwt-bearer)
    2. [Etapa 2 - Ajustar appsettings.json](#etapa-2---ajustar-appsettingsjson)
    3. [Etapa 3 - Configurar Program.cs](#etapa-3---configurar-programcs)
-4. [Parte 4 - Implementação de Refresh Token](#parte-4---implementação-de-refresh-token)
+4. [Parte 4 - Implementaï¿½ï¿½o de Refresh Token](#parte-4---implementaï¿½ï¿½o-de-refresh-token)
    1. [Etapa 1 - Criar Classe ApplicationUser](#etapa-1---criar-classe-applicationuser)
    2. [Etapa 2 - Ajustar DbContext](#etapa-2---ajustar-dbcontext)
    3. [Etapa 3 - Ajuste no Program.cs](#etapa-3---ajuste-no-programcs)
-5. [Parte 5 - Criação de DTOs](#parte-5---criação-de-dtos)
+5. [Parte 5 - Criaï¿½ï¿½o de DTOs](#parte-5---criaï¿½ï¿½o-de-dtos)
    1. [Etapa 1 - DTO de Login](#etapa-1---dto-de-login)
    2. [Etapa 2 - DTO de Registro](#etapa-2---dto-de-registro)
    3. [Etapa 3 - Model de Token](#etapa-3---model-de-token)
    4. [Etapa 4 - Response Model](#etapa-4---response-model)
-6. [Parte 6 - Geração de Tokens](#parte-6---geração-de-tokens)
+6. [Parte 6 - Geraï¿½ï¿½o de Tokens](#parte-6---geraï¿½ï¿½o-de-tokens)
    1. [Etapa 1 - Criar Interface ITokenService](#etapa-1---criar-interface-itokenservice)
-   2. [Etapa 2 - Implementação da Interface ITokenService](#etapa-2---implementação-da-interface-itokenservice)
+   2. [Etapa 2 - Implementaï¿½ï¿½o da Interface ITokenService](#etapa-2---implementaï¿½ï¿½o-da-interface-itokenservice)
    3. [Etapa 3 - Ajuste no Program.cs](#etapa-3---ajuste-no-programcs)
 7. [Resumo Final](#resumo-final)
 
 ---
 
-## **Parte 1 - Configuração Inicial de JWT**
+## **Parte 1 - Configuraï¿½ï¿½o Inicial de JWT**
 
 ### **Etapa 1 - Instalar Pacote JWT Bearer**
 
-Para iniciar, precisamos instalar o pacote necessário para autenticação JWT Bearer. Execute o seguinte comando no terminal:
+Para iniciar, precisamos instalar o pacote necessï¿½rio para autenticaï¿½ï¿½o JWT Bearer. Execute o seguinte comando no terminal:
 
 ```bash
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 ```
 
-### **Etapa 2 - Configuração do Program.cs**
+### **Etapa 2 - Configuraï¿½ï¿½o do Program.cs**
 
-Agora, vamos configurar o `Program.cs` para adicionar a autenticação e autorização baseadas em JWT. Isso inclui adicionar os serviços ao container e configurar o middleware para autenticação JWT.
+Agora, vamos configurar o `Program.cs` para adicionar a autenticaï¿½ï¿½o e autorizaï¿½ï¿½o baseadas em JWT. Isso inclui adicionar os serviï¿½os ao container e configurar o middleware para autenticaï¿½ï¿½o JWT.
 
 ```csharp
-// Adiciona os serviços de autenticação e autorização ao container
+// Adiciona os serviï¿½os de autenticaï¿½ï¿½o e autorizaï¿½ï¿½o ao container
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication("bearer").AddJwtBearer();
 
-// Pode remover a linha abaixo se a autorização não for necessária em toda a aplicação
+// Pode remover a linha abaixo se a autorizaï¿½ï¿½o nï¿½o for necessï¿½ria em toda a aplicaï¿½ï¿½o
 app.UseAuthorization();
 ```
 
-### **Etapa 3 - Proteção de Endpoints**
+### **Etapa 3 - Proteï¿½ï¿½o de Endpoints**
 
-Com a autenticação configurada, podemos proteger nossos endpoints utilizando o atributo `[Authorize]`. Aqui está um exemplo de como aplicar essa proteção a um método específico:
+Com a autenticaï¿½ï¿½o configurada, podemos proteger nossos endpoints utilizando o atributo `[Authorize]`. Aqui estï¿½ um exemplo de como aplicar essa proteï¿½ï¿½o a um mï¿½todo especï¿½fico:
 
 ```csharp
 [HttpGet("{id:int}", Name = "ObterAluno")]
-[Authorize] // Este atributo garante que apenas usuários autenticados possam acessar este endpoint
+[Authorize] // Este atributo garante que apenas usuï¿½rios autenticados possam acessar este endpoint
 public async Task<ActionResult<AlunoDto>> GetAluno(int id)
 {
     var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
@@ -77,31 +77,31 @@ public async Task<ActionResult<AlunoDto>> GetAluno(int id)
 }
 ```
 
-### **Etapa 4 - Gerar Token de Autorização (Opcional)**
+### **Etapa 4 - Gerar Token de Autorizaï¿½ï¿½o (Opcional)**
 
-Se desejar, você pode gerar e gerenciar tokens JWT usando a ferramenta `dotnet user-jwt`. Para criar um token, utilize o seguinte comando:
+Se desejar, vocï¿½ pode gerar e gerenciar tokens JWT usando a ferramenta `dotnet user-jwt`. Para criar um token, utilize o seguinte comando:
 
 ```bash
 dotnet user-jwt create
 ```
 
-#### **Comandos Disponíveis:**
+#### **Comandos Disponï¿½veis:**
 
 - **add**: Adiciona um token JWT ao projeto.
 - **remove**: Remove um token JWT do projeto.
 - **list**: Lista todos os tokens JWT associados ao projeto.
 - **clear**: Remove todos os tokens JWT do projeto.
-- **print**: Imprime as informações detalhadas de um token JWT específico.
+- **print**: Imprime as informaï¿½ï¿½es detalhadas de um token JWT especï¿½fico.
 
-Após gerar o token, você pode utilizá-lo para acessar os endpoints protegidos.
+Apï¿½s gerar o token, vocï¿½ pode utilizï¿½-lo para acessar os endpoints protegidos.
 
 ---
 
-## **Parte 2 - Implementação de Identity**
+## **Parte 2 - Implementaï¿½ï¿½o de Identity**
 
 ### **Etapa 1 - Instalar Pacote Identity**
 
-Para começar a trabalhar com Identity, você precisa instalar o pacote `Microsoft.AspNetCore.Identity.EntityFrameworkCore`:
+Para comeï¿½ar a trabalhar com Identity, vocï¿½ precisa instalar o pacote `Microsoft.AspNetCore.Identity.EntityFrameworkCore`:
 
 ```bash
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
@@ -109,7 +109,7 @@ dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 
 ### **Etapa 2 - Modificar DbContext**
 
-Altere a classe `AppDbContext` para herdar de `IdentityDbContext`. Isso permitirá que as tabelas necessárias para gerenciar usuários e tokens sejam criadas automaticamente:
+Altere a classe `AppDbContext` para herdar de `IdentityDbContext`. Isso permitirï¿½ que as tabelas necessï¿½rias para gerenciar usuï¿½rios e tokens sejam criadas automaticamente:
 
 ```csharp
 public class AppDbContext : IdentityDbContext
@@ -125,14 +125,14 @@ public class AppDbContext : IdentityDbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Configurações adicionais
+        // Configuraï¿½ï¿½es adicionais
     }
 }
 ```
 
 ### **Etapa 3 - Ajuste no Program.cs**
 
-No arquivo `Program.cs`, configure o serviço de Identity:
+No arquivo `Program.cs`, configure o serviï¿½o de Identity:
 
 ```csharp
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
@@ -142,7 +142,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>()
 
 ### **Etapa 4 - Aplicar Migrations**
 
-Depois de configurar o `DbContext`, aplique as migrations para criar as tabelas necessárias no banco de dados:
+Depois de configurar o `DbContext`, aplique as migrations para criar as tabelas necessï¿½rias no banco de dados:
 
 ```bash
 dotnet ef migrations add InitialIdentitySchema
@@ -151,11 +151,11 @@ dotnet ef database update
 
 ---
 
-## **Parte 3 - Configuração de JWT Bearer**
+## **Parte 3 - Configuraï¿½ï¿½o de JWT Bearer**
 
 ### **Etapa 1 - Instalar Pacotes JWT Bearer**
 
-Instale o pacote de autenticação JWT Bearer se ainda não o fez:
+Instale o pacote de autenticaï¿½ï¿½o JWT Bearer se ainda nï¿½o o fez:
 
 ```bash
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
@@ -163,7 +163,7 @@ dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 
 ### **Etapa 2 - Ajustar appsettings.json**
 
-No arquivo `appsettings.json`, adicione a seguinte configuração para JWT:
+No arquivo `appsettings.json`, adicione a seguinte configuraï¿½ï¿½o para JWT:
 
 ```json
 "Jwt": {
@@ -175,11 +175,11 @@ No arquivo `appsettings.json`, adicione a seguinte configuração para JWT:
 }
 ```
 
-> **Nota:** Não use a chave secreta diretamente no código em produção. Utilize um gerenciador de segredos.
+> **Nota:** Nï¿½o use a chave secreta diretamente no cï¿½digo em produï¿½ï¿½o. Utilize um gerenciador de segredos.
 
 ### **Etapa 3 - Configurar Program.cs**
 
-Configure o `Program.cs` para utilizar as configurações de JWT:
+Configure o `Program.cs` para utilizar as configuraï¿½ï¿½es de JWT:
 
 ```csharp
 var secretKey = builder.Configuration["JWT:SecretKey"]
@@ -192,7 +192,7 @@ builder.Services.AddAuthentication(options =>
 }).AddJwtBearer(options =>
 {
     options.SaveToken = true;
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = false; // Em produÃ§Ã£o vc ponhe true 
     options.TokenValidationParameters = new TokenValidationParameters()
     {
         ValidateIssuer = true,
@@ -212,11 +212,11 @@ builder.Services.AddAuthentication(options =>
 
 ---
 
-## **Parte 4 - Implementação de Refresh Token**
+## **Parte 4 - Implementaï¿½ï¿½o de Refresh Token**
 
 ### **Etapa 1 - Criar Classe ApplicationUser**
 
-Crie a classe `ApplicationUser`, que será utilizada para gerenciar os Refresh Tokens.
+Crie a classe `ApplicationUser`, que serï¿½ utilizada para gerenciar os Refresh Tokens.
 
 ```csharp
 using Microsoft.AspNetCore.Identity;
@@ -228,7 +228,7 @@ namespace Curso.Api.Models
         // Propriedade para armazenar o Refresh Token
         public string? RefreshToken { get; set; }
 
-        // Data de expiração do Refresh Token
+        // Data de expiraï¿½ï¿½o do Refresh Token
         public DateTime RefreshTokenExpiryTime { get; set; }                                        
     }
 }
@@ -252,14 +252,14 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        // Configurações adicionais
+        // Configuraï¿½ï¿½es adicionais
     }
 }
 ```
 
 ### **Etapa 3 - Ajuste no Program.cs**
 
-No `Program.cs`, adicione a configuração para Identity com a classe `ApplicationUser`:
+No `Program.cs`, adicione a configuraï¿½ï¿½o para Identity com a classe `ApplicationUser`:
 
 ```csharp
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -269,11 +269,11 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
 
 ---
 
-## **Parte 5 - Criação de DTOs**
+## **Parte 5 - Criaï¿½ï¿½o de DTOs**
 
 ### **Etapa 1 - DTO de Login**
 
-Crie um DTO para login, que será utilizado para transferir os dados de login do usuário:
+Crie um DTO para login, que serï¿½ utilizado para transferir os dados de login do usuï¿½rio:
 
 ```csharp
 public class LoginDto
@@ -285,7 +285,7 @@ public class LoginDto
 
 ### **Etapa 2 - DTO de Registro**
 
-Crie um DTO para registro, utilizado ao registrar novos usuários:
+Crie um DTO para registro, utilizado ao registrar novos usuï¿½rios:
 
 ```csharp
 public class RegisterDto
@@ -298,7 +298,7 @@ public class RegisterDto
 
 ### **Etapa 3 - Model de Token**
 
-Crie um modelo para o Token, que será utilizado para transferir informações do token:
+Crie um modelo para o Token, que serï¿½ utilizado para transferir informaï¿½ï¿½es do token:
 
 ```csharp
 public class TokenModel
@@ -323,11 +323,11 @@ public class AuthResponseModel
 
 ---
 
-## **Parte 6 - Geração de Tokens**
+## **Parte 6 - Geraï¿½ï¿½o de Tokens**
 
 ### **Etapa 1 - Criar Interface ITokenService**
 
-Crie a interface `ITokenService` para definir os métodos que serão implementados no serviço de geração de tokens:
+Crie a interface `ITokenService` para definir os mï¿½todos que serï¿½o implementados no serviï¿½o de geraï¿½ï¿½o de tokens:
 
 ```csharp
 public interface ITokenService
@@ -337,7 +337,7 @@ public interface ITokenService
 }
 ```
 
-### **Etapa 2 - Implementação da Interface ITokenService**
+### **Etapa 2 - Implementaï¿½ï¿½o da Interface ITokenService**
 
 Implemente a interface `ITokenService`:
 
@@ -389,7 +389,7 @@ public class TokenService : ITokenService
 
 ### **Etapa 3 - Ajuste no Program.cs**
 
-No `Program.cs`, registre o serviço de tokens no container de injeção de dependências:
+No `Program.cs`, registre o serviï¿½o de tokens no container de injeï¿½ï¿½o de dependï¿½ncias:
 
 ```csharp
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -399,8 +399,8 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 
 ## **Resumo Final**
 
-Neste guia, implementamos autenticação JWT, Identity e Refresh Tokens em uma aplicação ASP.NET Core. A configuração abrange desde a instalação de pacotes até a criação de DTOs e serviços para gerenciar a autenticação de usuários. Este setup proporciona uma base sólida para aplicações que requerem autenticação segura e escalável, além de fornecer uma maneira eficiente de gerenciar tokens de acesso e Refresh Tokens.
+Neste guia, implementamos autenticaï¿½ï¿½o JWT, Identity e Refresh Tokens em uma aplicaï¿½ï¿½o ASP.NET Core. A configuraï¿½ï¿½o abrange desde a instalaï¿½ï¿½o de pacotes atï¿½ a criaï¿½ï¿½o de DTOs e serviï¿½os para gerenciar a autenticaï¿½ï¿½o de usuï¿½rios. Este setup proporciona uma base sï¿½lida para aplicaï¿½ï¿½es que requerem autenticaï¿½ï¿½o segura e escalï¿½vel, alï¿½m de fornecer uma maneira eficiente de gerenciar tokens de acesso e Refresh Tokens.
 
 --- 
 
-Este tutorial oferece uma visão completa e detalhada do processo, garantindo que todos os aspectos da implementação de JWT e Identity sejam cobertos e compreendidos.
+Este tutorial oferece uma visï¿½o completa e detalhada do processo, garantindo que todos os aspectos da implementaï¿½ï¿½o de JWT e Identity sejam cobertos e compreendidos.
