@@ -85,7 +85,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var OrigensComAcessoPermitido = "_origensComAcessoPermitido";
+builder.Services.AddCors(options =>
+{
+options.AddPolicy(name: OrigensComAcessoPermitido, policy=>{
+    policy.WithOrigins("http://www.apirequest.io");//Exemplo de  de liberação via cors
+});
 
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -97,7 +104,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
+app.UseRouting();
+app.UseCors(OrigensComAcessoPermitido);
 app.UseAuthorization();
 
 app.MapControllers();
