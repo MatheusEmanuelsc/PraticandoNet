@@ -13,8 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAuthorization();
-builder.Services.AddAuthentication("bearer").AddJwtBearer();
+
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>().
     AddEntityFrameworkStores<AppDbContext>().
@@ -57,6 +56,22 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(
                            Encoding.UTF8.GetBytes(secretKey))
     };
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+
+    options.AddPolicy("SuperAdminOnly", policy =>
+                       policy.RequireRole("Admin").RequireClaim("id", "macoratti"));
+
+    options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
+
+    options.AddPolicy("ExclusiveOnly", policy =>
+                      policy.RequireAssertion(context =>
+                      context.User.HasClaim(claim =>
+                                           claim.Type == "id" && claim.Value == "macoratti")
+                                           || context.User.IsInRole("SuperAdmin")));
 });
 
 builder.Services.AddScoped<IDisciplinaRepository, DisciplinaRepository>();
