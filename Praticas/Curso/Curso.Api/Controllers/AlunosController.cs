@@ -45,8 +45,9 @@ namespace Curso.Api.Controllers
         [Authorize]
         public async Task<ActionResult<AlunoDto>> GetAluno(int id)
         {
+            if ( id <= 0) {return BadRequest(); }
             var aluno = await _unitOfWork.AlunoRepository.GetAsync(a => a.AlunoId == id);
-            if (aluno == null) { NotFound(); }
+            if (aluno == null) {return NotFound(); }
             var alunoDto = _mapper.Map<AlunoDto>(aluno);
             return Ok(alunoDto);
 
