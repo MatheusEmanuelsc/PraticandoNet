@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "o59p9OkVW0z3/bM63CLcmYCE2EDO2uVNS4sKdouTfbUYQ7eCYS8TBZoQ0/JGebnQ9FYNpppv2Ov9DbbN5aHVng==",
+  "success": true,
+  "projectFilePath": "D:\\___Cursos_Macoratti\\Curso_Web_API_NET8_Essencial\\16_Arquitetura_Limpa\\Catalogo_CleanArch_NET6\\Catalogo\\Catalogo.Application\\Catalogo.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Jose C. Macoratti\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
+    "C:\\Users\\Jose C. Macoratti\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -1,0 +1,17 @@
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\bin\Debug\net6.0\Catalogo.Infrastructure.deps.json
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\bin\Debug\net6.0\Catalogo.Infrastructure.runtimeconfig.json
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\bin\Debug\net6.0\Catalogo.Infrastructure.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\bin\Debug\net6.0\Catalogo.Infrastructure.pdb
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\bin\Debug\net6.0\Catalogo.Domain.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\bin\Debug\net6.0\Catalogo.Domain.pdb
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.csproj.AssemblyReference.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.AssemblyInfoInputs.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.AssemblyInfo.cs
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.csproj.CoreCompileInputs.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.csproj.CopyComplete
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\refint\Catalogo.Infrastructure.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.pdb
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\Catalogo.Infrastructure.genruntimeconfig.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Infrastructure\obj\Debug\net6.0\ref\Catalogo.Infrastructure.dll

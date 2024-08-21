@@ -1,0 +1,12 @@
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\bin\Debug\net6.0\Catalogo.Domain.deps.json
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\bin\Debug\net6.0\Catalogo.Domain.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\bin\Debug\net6.0\Catalogo.Domain.pdb
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.csproj.AssemblyReference.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.AssemblyInfoInputs.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.AssemblyInfo.cs
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.csproj.CoreCompileInputs.cache
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\refint\Catalogo.Domain.dll
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\Catalogo.Domain.pdb
+D:\_Cursos_Macoratti\Curso_Web_API_Essencial\14_Arquitetura_Limpa\Catalogo_CleanArch\Catalogo\Catalogo.Domain\obj\Debug\net6.0\ref\Catalogo.Domain.dll

@@ -1,0 +1,11 @@
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\bin\Debug\net8.0\Catalogo.Domain.deps.json
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\bin\Debug\net8.0\Catalogo.Domain.dll
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\bin\Debug\net8.0\Catalogo.Domain.pdb
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\Catalogo.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\Catalogo.Domain.AssemblyInfoInputs.cache
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\Catalogo.Domain.AssemblyInfo.cs
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\Catalogo.Domain.csproj.CoreCompileInputs.cache
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\Catalogo.Domain.dll
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\refint\Catalogo.Domain.dll
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\Catalogo.Domain.pdb
+D:\___Cursos_Macoratti\Curso_Web_API_NET8_Essencial\16_Arquitetura_Limpa\Catalogo_CleanArch_NET6\Catalogo\Catalogo.Domain\obj\Debug\net8.0\ref\Catalogo.Domain.dll
