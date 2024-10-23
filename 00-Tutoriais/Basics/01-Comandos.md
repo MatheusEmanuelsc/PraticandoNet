@@ -1,93 +1,139 @@
-## .NET 8 CLI - Comandos para Readme.md
+### .NET 8 CLI - Comandos Essenciais
 
-### Criar Web API
+#### 1. Criar uma Web API
 
-* `dotnet new webapi` - Cria um projeto de Web API vazio.
-* `dotnet new webapi -controllers` - Cria um projeto de Web API com controladores pré-definidos.
+- **Comando básico:**
+  ```bash
+  dotnet new webapi
+  ```
+  Cria um novo projeto de Web API com a estrutura padrão.
+  
+- **Com controladores pré-definidos:**
+  ```bash
+  dotnet new webapi -controllers
+  ```
+  Cria uma Web API com controladores já configurados.
 
-### Gerenciar Pacotes
+#### 2. Gerenciar Pacotes NuGet
 
-* `dotnet add package NOME_PACOTE` - Instala um pacote NuGet.
-* `dotnet add package AutoMap` - Instala o AutoMapper para mapeamento de objetos.
+- **Adicionar pacotes:**
+  ```bash
+  dotnet add package <NOME_DO_PACOTE>
+  ```
+  Instala um pacote NuGet no projeto.
 
-### Trabalhar com Entity Framework Core (EF Core)
+- **Exemplo (AutoMapper):**
+  ```bash
+  dotnet add package AutoMapper
+  ```
+  Adiciona o AutoMapper para mapeamento de objetos.
 
-* **Pacotes:**
-    * `Microsoft.EntityFrameworkCore` - Pacote principal do EF Core.
-    * `Microsoft.EntityFrameworkCore.tools` - Ferramentas de linha de comando do EF Core.
-* **MySQL:**
-    * `dotnet add package Pomelo.EntityFrameworkCore.MySql` - Provedor MySQL para EF Core.
-* **SQLite:**
-    * `dotnet add package Microsoft.EntityFrameworkCore.Sqlite` - Provedor SQLite para EF Core.
+#### 3. Trabalhar com Entity Framework Core (EF Core)
 
-### Ferramentas EF Core
+- **Pacotes necessários:**
+  - `Microsoft.EntityFrameworkCore`: Pacote principal do EF Core.
+  - `Microsoft.EntityFrameworkCore.Tools`: Ferramentas de linha de comando para EF Core.
 
-* `dotnet tool install --global dotnet-ef` - Instala as ferramentas EF Core globalmente.
-* `dotnet tool update --global dotnet-ef` - Atualiza as ferramentas EF Core.
-* `dotnet ef` - Exibe comandos do EF Core.
+- **Provedores de banco de dados:**
+  - **MySQL:**
+    ```bash
+    dotnet add package Pomelo.EntityFrameworkCore.MySql
+    ```
+    Adiciona o provedor MySQL.
+  
+  - **SQLite:**
+    ```bash
+    dotnet add package Microsoft.EntityFrameworkCore.Sqlite
+    ```
+    Adiciona o provedor SQLite.
 
-### Executar Migrações
+#### 4. Ferramentas EF Core
 
-* `dotnet ef migrations add NOME_MIGRACAO` - Cria uma nova migração.
-* `dotnet ef database update` - Aplica as migrações pendentes ao banco de dados.
+- **Instalar ferramentas do EF Core globalmente:**
+  ```bash
+  dotnet tool install --global dotnet-ef
+  ```
+  
+- **Atualizar ferramentas do EF Core:**
+  ```bash
+  dotnet tool update --global dotnet-ef
+  ```
 
-### Drivers de Banco de Dados
+- **Verificar comandos disponíveis:**
+  ```bash
+  dotnet ef
+  ```
+  Exibe todos os comandos disponíveis do EF Core.
 
-* **MySQL:**
-    * `Pomelo.EntityFrameworkCore.MySql` - Provedor MySQL para EF Core.
-* **SQLite:**
-    * `Microsoft.EntityFrameworkCore.Sqlite` - Provedor SQLite para EF Core.
+#### 5. Executar Migrações
 
-**Observações:**
+- **Criar uma nova migração:**
+  ```bash
+  dotnet ef migrations add <NOME_DA_MIGRACAO>
+  ```
+  Cria uma migração com as alterações no modelo de dados.
 
-* Este guia é um resumo dos comandos mais comuns. Consulte a documentação oficial do .NET CLI e do EF Core para obter mais informações.
-* O comando `dotnet ef` possui diversos subcomandos para trabalhar com migrações, modelos e bancos de dados.
+- **Atualizar o banco de dados com as migrações:**
+  ```bash
+  dotnet ef database update
+  ```
 
-**Exemplo de Readme.md:**
+#### 6. Drivers de Banco de Dados
+
+- **Provedor MySQL:**
+  ```bash
+  Pomelo.EntityFrameworkCore.MySql
+  ```
+  Pacote para usar MySQL com EF Core.
+
+- **Provedor SQLite:**
+  ```bash
+  Microsoft.EntityFrameworkCore.Sqlite
+  ```
+
+---
+
+### Exemplo de Readme.md
 
 ```markdown
 ## Criando uma Web API com .NET 8
 
 1. Crie um novo projeto de Web API:
-
-```
-dotnet new webapi
-```
+    ```bash
+    dotnet new webapi
+    ```
 
 2. Instale o pacote AutoMapper:
+    ```bash
+    dotnet add package AutoMapper
+    ```
 
-```
-dotnet add package AutoMap
-```
-
-3. Adicione referências ao EF Core e ao provedor Pomelo para MySQL:
-
-```
-Microsoft.EntityFrameworkCore
-Microsoft.EntityFrameworkCore.tools
-Pomelo.EntityFrameworkCore.MySql
-```
+3. Adicione pacotes do Entity Framework Core e o provedor MySQL:
+    ```bash
+    dotnet add package Microsoft.EntityFrameworkCore
+    dotnet add package Microsoft.EntityFrameworkCore.Tools
+    dotnet add package Pomelo.EntityFrameworkCore.MySql
+    ```
 
 4. Crie uma nova migração:
+    ```bash
+    dotnet ef migrations add MinhaPrimeiraMigracao
+    ```
 
-```
-dotnet ef migrations add MinhaPrimeiraMigracao
-```
-
-5. Aplique a migração ao banco de dados MySQL:
-
-```
-dotnet ef database update
-```
+5. Aplique a migração ao banco de dados:
+    ```bash
+    dotnet ef database update
+    ```
 
 6. Inicie a API:
+    ```bash
+    dotnet run
+    ```
 
-```
-dotnet run
-```
 
-## Recursos Adicionais
 
-* [Documentação do .NET CLI](https://dotnet.microsoft.com/platform/dotnet-cli)
-* [Documentação do EF Core](https://docs.microsoft.com/ef/)
-```
+---
+
+### Observações Finais
+
+Este guia apresenta os principais comandos para começar a desenvolver uma Web API com .NET 8 e gerenciar o EF Core com diferentes provedores de banco de dados. Para mais detalhes, consulte a documentação oficial do .NET CLI e EF Core.
