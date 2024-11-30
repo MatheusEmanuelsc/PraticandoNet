@@ -1,0 +1,392 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/CashFlow.Api.csproj": {}
+  },
+  "projects": {
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/CashFlow.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/CashFlow.Api.csproj",
+        "projectName": "CashFlow.Api",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/CashFlow.Api.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Application/CashFlow.Application.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Application/CashFlow.Application.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Infrastructure/CashFlow.Infrastructure.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Infrastructure/CashFlow.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Application/CashFlow.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Application/CashFlow.Application.csproj",
+        "projectName": "CashFlow.Application",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Application/CashFlow.Application.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj",
+        "projectName": "CashFlow.Communication",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/CashFlow.Communication.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Communication/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj",
+        "projectName": "CashFlow.Domain",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj",
+        "projectName": "CashFlow.Exception",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/CashFlow.Exception.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Exception/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Infrastructure/CashFlow.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Infrastructure/CashFlow.Infrastructure.csproj",
+        "projectName": "CashFlow.Infrastructure",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Infrastructure/CashFlow.Infrastructure.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Domain/CashFlow.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
