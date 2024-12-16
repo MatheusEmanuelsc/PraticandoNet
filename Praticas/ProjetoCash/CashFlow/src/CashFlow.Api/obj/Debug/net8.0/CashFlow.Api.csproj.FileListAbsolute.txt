@@ -237,3 +237,4 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/obj/Debug/net8.0/CashFlow.Api.pdb
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/obj/Debug/net8.0/CashFlow.Api.genruntimeconfig.cache
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/obj/Debug/net8.0/ref/CashFlow.Api.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/bin/Debug/net8.0/FluentValidation.dll

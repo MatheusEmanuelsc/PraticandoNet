@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CashFlow.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8f9f9462f7cd5492fdd00dac4d2430b38840bf64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b35b3df36a3f21b6e35282888c31f0ca3a31770c")]
 [assembly: System.Reflection.AssemblyProductAttribute("CashFlow.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CashFlow.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
