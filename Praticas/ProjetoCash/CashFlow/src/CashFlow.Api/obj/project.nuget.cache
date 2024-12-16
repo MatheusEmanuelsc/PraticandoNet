@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "HSrYMEV80Ao=",
+  "dgSpecHash": "Gs7Ta2n+k8Q=",
   "success": true,
   "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/src/CashFlow.Api/CashFlow.Api.csproj",
   "expectedPackageFiles": [
+    "/home/matheusemanuel/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer.core.af/2.14.1/humanizer.core.af.2.14.1.nupkg.sha512",
