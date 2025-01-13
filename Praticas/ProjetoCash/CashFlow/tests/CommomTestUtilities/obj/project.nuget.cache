@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "xw09QS3KNkA=",
+  "success": true,
+  "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ProjetoCash/CashFlow/tests/CommomTestUtilities/CommomTestUtilities.csproj",
+  "expectedPackageFiles": [
+    "/home/matheusemanuel/.nuget/packages/bogus/35.6.1/bogus.35.6.1.nupkg.sha512"
+  ],
+  "logs": []
+}
