@@ -1,6 +1,9 @@
 using CashFlow.Api.Filters;
 using CashFlow.Api.Middleware;
 
+using CashFlow.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Filters;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -10,6 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMvc(options=> options.Filters.Add(typeof(ExceptionFilter)));
+builder.Services.AddScoped<IExceptionFilter, ExceptionFilter>();
+
+builder.Services.AddInfrastructure();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
