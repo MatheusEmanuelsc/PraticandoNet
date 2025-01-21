@@ -1,12 +1,18 @@
 
 using CashFlow.Communication.Requests;
 using CashFlow.Communication.Responses;
+using CashFlow.Domain.Repositories;
 using CashFlow.Exception.ExceptionsBase;
 
 namespace CashFlow.Application.UseCases.Expenses.Register;
 
-public class RegisterExpenseUseCase
+public class RegisterExpenseUseCase : IRegisterExpenseUseCase
 {
+    private readonly IUnitOfWork _unitOfWork;
+    public RegisterExpenseUseCase(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
     public ResponseRegisteredExpenseJson Execute(RequestRegisterExpensesJson request)
     {
         Validate(request);

@@ -5,10 +5,10 @@ namespace CashFlow.Infrastructure.DataAcess;
 
 public class CashFlowDbContext : DbContext
 {
-    internal DbSet<Expense> Expenses { get; set; }
+    
+    public CashFlowDbContext(DbContextOptions options) : base(options) { }
+    public DbSet<Expense> Expenses { get; set; }
 
 
-    public CashFlowDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    
 }
