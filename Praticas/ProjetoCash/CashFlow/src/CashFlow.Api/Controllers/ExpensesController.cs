@@ -22,7 +22,7 @@ namespace CashFlow.Api.Controllers
         //
         //     return Created(string.Empty, response);
         // }
-        
+        //
         [HttpGet]
         [ProducesResponseType(typeof(ResponseExpensesJson), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
