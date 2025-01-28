@@ -13,11 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CashFlow.Exception")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+83286b9cb20cc6624182c0de32012d5ec76b2d19")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cc58544904017bd0756c99300aed54c8fe223811")]
->>>>>>> 83286b9cb20cc6624182c0de32012d5ec76b2d19
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84beb497dac86f2db43b2072fdf655477b0d672b")]
 [assembly: System.Reflection.AssemblyProductAttribute("CashFlow.Exception")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CashFlow.Exception")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

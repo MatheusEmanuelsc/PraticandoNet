@@ -20,24 +20,15 @@ public class RegisterExpenseUseCase : IRegisterExpenseUseCase
     public async Task<ResponseRegisteredExpenseJson> Execute(RequestRegisterExpensesJson request)
     {
         Validate(request);
-<<<<<<< HEAD
+
         var entity =_mapper.Map<Expense>(request);
         
         
         
         return _mapper.Map<ResponseRegisteredExpenseJson>(entity);
-=======
-        var entity = new Expense
-        {
-            Amount = request.Amount,
-            Description = request.Description,
-            Date = request.Date,
-            Title = request.Title,
-            PaymentType =(Domain.Enums.PaymentType) request.PaymentType,
-        };
-        
-        return new ResponseRegisteredExpenseJson();
->>>>>>> 83286b9cb20cc6624182c0de32012d5ec76b2d19
+
+       
+
     }
 
     private void Validate(RequestRegisterExpensesJson request)
