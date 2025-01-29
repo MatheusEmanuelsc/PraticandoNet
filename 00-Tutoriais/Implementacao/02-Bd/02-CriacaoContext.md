@@ -1,15 +1,19 @@
-### Índice  
+# 📌 **Migrations no .NET 8 com Clean Architecture**  
+
+## 📖 **Índice**  
 
 1. [Introdução](#introducao)  
 2. [Etapa 1: Instalação dos Pacotes](#etapa-1-instalacao-dos-pacotes)  
 3. [Etapa 2: Criação da Classe de Contexto do Banco de Dados](#etapa-2-contexto-do-banco)  
 4. [Etapa 3: Configuração do `appsettings.json`](#etapa-3-configuracao-do-appsettings)  
 5. [Etapa 4: Configuração da Injeção de Dependência](#etapa-4-injecao-dependencia)  
+6. [Etapa 5: Criando e Aplicando Migrations](#etapa-5-criando-aplicando-migrations)  
+7. [Etapa 6: Removendo uma Migration](#etapa-6-removendo-migration)  
+8. [Resolvendo Erros Comuns](#resolvendo-erros-comuns)  
 
 ---
 
 ### **Introdução** <a id="introducao"></a>  
-
 Nesta seção, daremos continuidade ao desenvolvimento da aplicação, criando o banco de dados e configurando a camada de infraestrutura para utilizar o MySQL como banco de dados. Utilizaremos o **Entity Framework Core** em conjunto com o pacote **Pomelo** para conectar e gerenciar o banco MySQL.
 
 ---
@@ -20,8 +24,15 @@ Execute os seguintes comandos no terminal para instalar os pacotes necessários:
 
 #### **Pacotes do Entity Framework Core e MySQL**  
 ```bash
+# No projeto da API
+cd CashBank.Api
 
 dotnet add package Microsoft.EntityFrameworkCore.Design
+
+# No projeto de infraestrutura
+cd ../CashBank.Infrastructure
+
+dotnet add package Microsoft.EntityFrameworkCore
 dotnet add package Pomelo.EntityFrameworkCore.MySql
 ```
 
@@ -46,7 +57,7 @@ dotnet tool update -g dotnet-ef
 using Bank.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Bank.Infrastructure.DataAcess;
+namespace Bank.Infrastructure.DataAccess;
 
 /// <summary>
 /// Contexto do banco de dados para a aplicação.
@@ -81,14 +92,12 @@ No projeto da API, abra o arquivo `appsettings.json` e adicione a string de cone
 
 ### **Etapa 4: Configuração da Injeção de Dependência** <a id="etapa-4-injecao-dependencia"></a>  
 
-Para centralizar a configuração do banco de dados, criaremos uma classe para configurar a injeção de dependência.
-
 #### **Passo 1: Criação da Classe `DependencyInjectionExtension`**  
 
 Adicione a seguinte classe na biblioteca de infraestrutura:  
 
 ```csharp
-using Bank.Infrastructure.DataAcess;
+using Bank.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -112,7 +121,6 @@ public static class DependencyInjectionExtension
         if (string.IsNullOrEmpty(connectionString))
             throw new InvalidOperationException("Connection string 'DefaultConnection' is missing or empty.");
 
-        // Configura o DbContext utilizando o MySQL
         services.AddDbContext<BankDb>(options =>
             options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
     }
@@ -138,12 +146,30 @@ app.Run();
 
 ---
 
+### **Etapa 5: Criando e Aplicando Migrations** <a id="etapa-5-criando-aplicando-migrations"></a>  
+
+```bash
+dotnet ef migrations add InitialMigration --project CashBank.Infrastructure --startup-project CashBank.Api
+dotnet ef database update --project CashBank.Infrastructure --startup-project CashBank.Api
+```
+
+---
+
+### **Etapa 6: Removendo uma Migration** <a id="etapa-6-removendo-migration"></a>  
+
+```bash
+dotnet ef migrations remove --project CashBank.Infrastructure --startup-project CashBank.Api
+```
+
+---
+
+### **Resolvendo Erros Comuns** <a id="resolvendo-erros-comuns"></a>  
+
+#### **"Unable to create an object of type 'BankDb'"**  
+Certifique-se de que o `BankDb` está corretamente configurado no `Program.cs` e que a string de conexão está correta.
+
+---
+
 ### **Conclusão**  
+Com essas etapas, você configurou sua aplicação para usar o MySQL com Entity Framework Core no .NET 8! 🚀
 
-Com essas etapas, você configurou:  
-1. O **Entity Framework Core** para se comunicar com um banco de dados MySQL.  
-2. O contexto do banco de dados na pasta `DataAccess`.  
-3. A string de conexão no arquivo `appsettings.json`.  
-4. A injeção de dependência do contexto do banco de dados.  
-
-Agora, você está pronto para criar as migrações e gerar as tabelas no banco de dados!
