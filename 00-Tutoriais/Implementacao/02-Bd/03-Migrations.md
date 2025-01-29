@@ -1,62 +1,116 @@
 
 
-```markdown
-# Comandos Principais para Migrações no .NET 8
+# ğŸ“Œ **Migrations no .NET 8 com Clean Architecture**  
 
-## Criar uma Migração
+## ğŸ“– **Ãndice**  
+1. [O que sÃ£o Migrations?](#o-que-sÃ£o-migrations)  
+2. [PrÃ©-requisitos](#prÃ©-requisitos)  
+3. [Criando uma Migration](#criando-uma-migration)  
+4. [Aplicando a Migration](#aplicando-a-migration)  
+5. [Removendo uma Migration](#removendo-uma-migration)  
+6. [Atualizando o Banco de Dados](#atualizando-o-banco-de-dados)  
+7. [Resolvendo Erros Comuns](#resolvendo-erros-comuns)  
 
-### Adicionar uma Nova Migração
+---
+
+## ğŸ“Œ **1. O que sÃ£o Migrations?**  
+Migrations sÃ£o uma forma de versionar a estrutura do banco de dados no **Entity Framework Core**. Elas permitem criar, modificar e deletar tabelas de forma controlada, evitando problemas em ambientes de desenvolvimento e produÃ§Ã£o.  
+
+---
+
+## âš™ **2. PrÃ©-requisitos**  
+Antes de comeÃ§ar, certifique-se de que:  
+âœ… O **Entity Framework Core** estÃ¡ instalado no projeto.  
+âœ… O banco de dados estÃ¡ configurado no `CashBank.Infrastructure`.  
+âœ… VocÃª tem o **.NET CLI** e o **EF Core CLI** instalados:  
+
 ```bash
-dotnet ef migrations add <NomeDaMigracao>
+dotnet tool install --global dotnet-ef
 ```
 
-## Aplicar Migrações
+Se jÃ¡ estiver instalado, atualize com:
 
-### Aplicar Migrações ao Banco de Dados
 ```bash
-dotnet ef database update
+dotnet tool update --global dotnet-ef
 ```
 
-## Gerenciar Mudanças no Modelo
+---
 
-### Adicionar uma Nova Migração Após Mudanças no Modelo
+## ğŸš€ **3. Criando uma Migration**  
+Para gerar uma migration no Clean Architecture, use o seguinte comando:  
+
 ```bash
-dotnet ef migrations add <NomeDaNovaMigracao>
+dotnet ef migrations add InitialMigration --project CashBank.Infrastructure --startup-project CashBank.Api
 ```
 
-### Atualizar o Banco de Dados com a Nova Migração
+### ğŸ›  **ExplicaÃ§Ã£o do Comando**  
+- `dotnet ef migrations add InitialMigration` â†’ Cria a migration chamada `InitialMigration`.  
+- `--project CashBank.Infrastructure` â†’ Indica o projeto onde o **DbContext** estÃ¡ localizado.  
+- `--startup-project CashBank.Api` â†’ Especifica o projeto principal que executa a aplicaÃ§Ã£o.  
+
+Se o comando for bem-sucedido, uma pasta `Migrations/` serÃ¡ criada dentro de `CashBank.Infrastructure`, contendo:  
+âœ… **InitialMigration.cs** (descriÃ§Ã£o das alteraÃ§Ãµes).  
+âœ… **InitialMigration.Designer.cs** (metadados).  
+âœ… **CashBankModelSnapshot.cs** (estado atual do banco).  
+
+---
+
+## ğŸ”„ **4. Aplicando a Migration**  
+Para aplicar as alteraÃ§Ãµes ao banco de dados, use:  
+
 ```bash
-dotnet ef database update
+dotnet ef database update --project CashBank.Infrastructure --startup-project CashBank.Api
 ```
 
-## Reverter Migrações
+Isso criarÃ¡ as tabelas no banco de dados configurado.
 
-### Reverter para uma Migração Anterior
+---
+
+## âŒ **5. Removendo uma Migration**  
+Caso precise remover a Ãºltima migration antes de aplicÃ¡-la ao banco, use:  
+
 ```bash
-dotnet ef database update <NomeDaMigracaoAnterior>
+dotnet ef migrations remove --project CashBank.Infrastructure --startup-project CashBank.Api
 ```
 
-## Remover uma Migração
+Isso excluirÃ¡ a migration mais recente, permitindo que vocÃª a recrie com ajustes.
 
-### Remover a Última Migração
+---
+
+## ğŸ”„ **6. Atualizando o Banco de Dados**  
+Sempre que adicionar novas propriedades ou classes ao seu modelo, crie uma nova migration:  
+
 ```bash
-dotnet ef migrations remove
+dotnet ef migrations add NovaMigration --project CashBank.Infrastructure --startup-project CashBank.Api
 ```
 
-## Ferramentas e Opções Adicionais
+E aplique as mudanÃ§as com:
 
-### Listar Todas as Migrações
 ```bash
-dotnet ef migrations list
+dotnet ef database update --project CashBank.Infrastructure --startup-project CashBank.Api
 ```
 
-### Gerar um Script SQL das Migrações
+---
+
+## ğŸš¨ **7. Resolvendo Erros Comuns**  
+
+### âŒ **"Unable to create an object of type 'AppDbContext'"**  
+ğŸ”¹ Certifique-se de que o `CashBank.Infrastructure` contÃ©m um **DbContextFactory** ou que o `DbContext` estÃ¡ corretamente configurado no `Program.cs` do `CashBank.Api`.  
+
+### âŒ **"The migration was already applied"**  
+ğŸ”¹ Verifique se o banco de dados jÃ¡ possui a migration executando:  
+
 ```bash
-dotnet ef migrations script
+dotnet ef migrations list --project CashBank.Infrastructure
 ```
 
-## Conclusão
+ğŸ”¹ Se necessÃ¡rio, reverta para um estado anterior:
 
-Este guia cobre os comandos essenciais para criar, aplicar, gerenciar e reverter migrações no .NET 8 usando o Entity Framework Core. Use esses comandos para manter seu esquema de banco de dados sincronizado com o modelo de dados de sua aplicação.
+```bash
+dotnet ef database update LastGoodMigration --project CashBank.Infrastructure
 ```
 
+---
+
+## ğŸ¯ **ConclusÃ£o**  
+Agora vocÃª sabe como criar, aplicar e gerenciar migrations no .NET 8 usando Clean Architecture. ğŸš€ Se precisar adicionar mais tabelas ou alterar o banco, basta repetir o processo!
