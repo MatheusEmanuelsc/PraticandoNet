@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CashBank.Domain/1.0.0": {
+        "runtime": {
+          "CashBank.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CashBank.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

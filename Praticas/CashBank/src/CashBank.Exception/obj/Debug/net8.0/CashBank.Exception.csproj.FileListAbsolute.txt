@@ -1,0 +1,12 @@
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/bin/Debug/net8.0/CashBank.Exception.deps.json
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/bin/Debug/net8.0/CashBank.Exception.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/bin/Debug/net8.0/CashBank.Exception.pdb
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.GeneratedMSBuildEditorConfig.editorconfig
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.AssemblyInfoInputs.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.AssemblyInfo.cs
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.csproj.CoreCompileInputs.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.sourcelink.json
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/refint/CashBank.Exception.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.pdb
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/ref/CashBank.Exception.dll

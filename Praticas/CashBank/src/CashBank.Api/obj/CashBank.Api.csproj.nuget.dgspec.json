@@ -1,0 +1,408 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Api/CashBank.Api.csproj": {}
+  },
+  "projects": {
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Api/CashBank.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Api/CashBank.Api.csproj",
+        "projectName": "CashBank.Api",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Api/CashBank.Api.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Api/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Infrastructure/CashBank.Infrastructure.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Infrastructure/CashBank.Infrastructure.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.12, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj",
+        "projectName": "CashBank.Application",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj"
+              },
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj",
+        "projectName": "CashBank.Communication",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj",
+        "projectName": "CashBank.Domain",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj",
+        "projectName": "CashBank.Exception",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Infrastructure/CashBank.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Infrastructure/CashBank.Infrastructure.csproj",
+        "projectName": "CashBank.Infrastructure",
+        "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Infrastructure/CashBank.Infrastructure.csproj",
+        "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+        "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj": {
+                "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.12, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "CashBank.Communication/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CashBank.Communication.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CashBank.Communication.dll": {}
+        }
+      },
+      "CashBank.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CashBank.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CashBank.Domain.dll": {}
+        }
+      },
+      "CashBank.Exception/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/CashBank.Exception.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/CashBank.Exception.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CashBank.Communication/1.0.0": {
+      "type": "project",
+      "path": "../CashBank.Communication/CashBank.Communication.csproj",
+      "msbuildProject": "../CashBank.Communication/CashBank.Communication.csproj"
+    },
+    "CashBank.Domain/1.0.0": {
+      "type": "project",
+      "path": "../CashBank.Domain/CashBank.Domain.csproj",
+      "msbuildProject": "../CashBank.Domain/CashBank.Domain.csproj"
+    },
+    "CashBank.Exception/1.0.0": {
+      "type": "project",
+      "path": "../CashBank.Exception/CashBank.Exception.csproj",
+      "msbuildProject": "../CashBank.Exception/CashBank.Exception.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "CashBank.Communication >= 1.0.0",
+      "CashBank.Domain >= 1.0.0",
+      "CashBank.Exception >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/matheusemanuel/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj",
+      "projectName": "CashBank.Application",
+      "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj",
+      "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+      "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj": {
+              "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/CashBank.Communication.csproj"
+            },
+            "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj": {
+              "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Domain/CashBank.Domain.csproj"
+            },
+            "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj": {
+              "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/CashBank.Exception.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

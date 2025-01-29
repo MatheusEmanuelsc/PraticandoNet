@@ -1,0 +1,58 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CashBank.Application/1.0.0": {
+        "dependencies": {
+          "CashBank.Communication": "1.0.0",
+          "CashBank.Domain": "1.0.0",
+          "CashBank.Exception": "1.0.0"
+        },
+        "runtime": {
+          "CashBank.Application.dll": {}
+        }
+      },
+      "CashBank.Communication/1.0.0": {
+        "runtime": {
+          "CashBank.Communication.dll": {}
+        }
+      },
+      "CashBank.Domain/1.0.0": {
+        "runtime": {
+          "CashBank.Domain.dll": {}
+        }
+      },
+      "CashBank.Exception/1.0.0": {
+        "runtime": {
+          "CashBank.Exception.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CashBank.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CashBank.Communication/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CashBank.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "CashBank.Exception/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

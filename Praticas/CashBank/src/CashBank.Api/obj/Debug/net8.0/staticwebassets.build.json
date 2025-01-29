@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "KOeG2JqPs/q84bpI5Dnop4nMlHiAZpqnHw7C+3Nsyw8=",
+  "Source": "CashBank.Api",
+  "BasePath": "_content/CashBank.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

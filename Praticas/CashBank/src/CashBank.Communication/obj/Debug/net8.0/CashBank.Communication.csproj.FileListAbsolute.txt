@@ -1,0 +1,12 @@
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/bin/Debug/net8.0/CashBank.Communication.deps.json
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/bin/Debug/net8.0/CashBank.Communication.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/bin/Debug/net8.0/CashBank.Communication.pdb
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.GeneratedMSBuildEditorConfig.editorconfig
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.AssemblyInfoInputs.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.AssemblyInfo.cs
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.csproj.CoreCompileInputs.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.sourcelink.json
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/refint/CashBank.Communication.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/CashBank.Communication.pdb
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Communication/obj/Debug/net8.0/ref/CashBank.Communication.dll
