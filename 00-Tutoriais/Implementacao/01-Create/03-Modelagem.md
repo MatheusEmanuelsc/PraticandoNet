@@ -25,9 +25,10 @@ Este guia detalha como modelar um projeto baseado no padrão DDD (Domain-Driven 
 - **Tipo:** Projeto principal da Web API.  
 - **Responsabilidade:** Receber requisições e retornar respostas.  
 - **Dependências:**  
-  - `Communication`
-  - `Exception`
+  - `Communication`  
+  - `Exception`  
   - `Application`  
+  - `Infrastructure` (necessário para a injeção de dependência)  
 
 **Nota:** Apesar de, na prática, a API precisar acessar a infraestrutura, isso não é recomendado no conceito de DDD.
 
@@ -37,9 +38,9 @@ Este guia detalha como modelar um projeto baseado no padrão DDD (Domain-Driven 
 - **Tipo:** Biblioteca de classes.  
 - **Responsabilidade:** Contém as regras de negócio.  
 - **Dependências:**  
-  - `Communication`
-  - `Exception`
-  - `Domain`
+  - `Communication`  
+  - `Exception`  
+  - `Domain`  
 
 ---
 
@@ -68,7 +69,7 @@ Este guia detalha como modelar um projeto baseado no padrão DDD (Domain-Driven 
 - **Tipo:** Biblioteca de classes.  
 - **Responsabilidade:** Executa operações relacionadas ao banco de dados.  
 - **Dependências:**  
-  - `Domain`
+  - `Domain`  
 
 ---
 
@@ -78,7 +79,7 @@ Este guia detalha como modelar um projeto baseado no padrão DDD (Domain-Driven 
 1. No Visual Studio ou Rider, crie uma **solução vazia** (`Blank Solution`).  
 2. Dentro da solução, crie duas pastas principais:  
    - `src`: Para o código-fonte.  
-   - `test`: Para os testes.
+   - `test`: Para os testes.  
 
 **Observação:** Após criar as pastas na solução, é necessário recriá-las manualmente no sistema de arquivos para que fiquem visíveis.
 
@@ -86,9 +87,11 @@ Este guia detalha como modelar um projeto baseado no padrão DDD (Domain-Driven 
 
 ### **Passo 2: Organização dos Projetos**
 1. Organize os projetos dentro da pasta `src` conforme o modelo da [Etapa 1](#etapa-1-divisão-de-camadas-com-ddd).  
+   **ATENÇÃO:** Certifique-se de que os projetos sejam criados dentro da pasta `src`.  
 2. Adicione as dependências necessárias clicando com o botão direito sobre o projeto e acessando **Dependencies**.  
 3. Exclua as classes geradas automaticamente que não forem necessárias.
 
 ---
 
 Este modelo garante uma estrutura organizada e alinhada com as boas práticas de DDD, facilitando o desenvolvimento e a manutenção do sistema.
+
