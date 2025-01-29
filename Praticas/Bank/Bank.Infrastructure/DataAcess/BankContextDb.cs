@@ -5,9 +5,8 @@ namespace Bank.Infrastructure.DataAcess;
 
 public class BankContextDb : DbContext
 {
-    public BankContextDb(DbContextOptions options) : base(options)
-    {
-    }
+    
+    public BankContextDb(DbContextOptions<BankContextDb> options) : base(options) { }
 
     public DbSet<Account>Accounts { get; set; }
     public DbSet<Customer>Customers { get; set; }

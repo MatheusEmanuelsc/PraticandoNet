@@ -1,0 +1,12 @@
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/bin/Debug/net8.0/Bank.Communication.deps.json
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/bin/Debug/net8.0/Bank.Communication.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/bin/Debug/net8.0/Bank.Communication.pdb
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.GeneratedMSBuildEditorConfig.editorconfig
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.AssemblyInfoInputs.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.AssemblyInfo.cs
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.csproj.CoreCompileInputs.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.sourcelink.json
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/refint/Bank.Communication.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/Bank.Communication.pdb
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/Bank/Bank.Communication/obj/Debug/net8.0/ref/Bank.Communication.dll

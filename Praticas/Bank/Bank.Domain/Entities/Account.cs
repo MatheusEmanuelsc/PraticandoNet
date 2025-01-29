@@ -4,6 +4,7 @@ namespace Bank.Domain.Entities;
 
 public class Account
 {
+    
     public long Id { get; set; }
     
     public long CustomerId { get; set; }

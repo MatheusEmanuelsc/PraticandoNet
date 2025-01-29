@@ -13,12 +13,14 @@ public static class DependecyInjectionExtension
     }
     private static void AddDbContext( IServiceCollection services ,IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection");
-        if (string.IsNullOrEmpty(connectionString))
-            throw new InvalidOperationException("Connection string 'DefaultConnection' is missing or empty.");
+        
 
-        // Detecta automaticamente a versão do servidor MySQL
+        var mysqlConnection = configuration.GetConnectionString("DefaultConnection");
         services.AddDbContext<BankContextDb>(options =>
-            options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
+        {
+            options.UseMySql(mysqlConnection, ServerVersion.AutoDetect(mysqlConnection));
+        });
+        
+
     }
 }

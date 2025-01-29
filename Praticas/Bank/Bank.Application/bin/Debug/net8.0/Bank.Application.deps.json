@@ -1,0 +1,58 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Bank.Application/1.0.0": {
+        "dependencies": {
+          "Bank.Communication": "1.0.0",
+          "Bank.Domain": "1.0.0",
+          "Bank.Exception": "1.0.0"
+        },
+        "runtime": {
+          "Bank.Application.dll": {}
+        }
+      },
+      "Bank.Communication/1.0.0": {
+        "runtime": {
+          "Bank.Communication.dll": {}
+        }
+      },
+      "Bank.Domain/1.0.0": {
+        "runtime": {
+          "Bank.Domain.dll": {}
+        }
+      },
+      "Bank.Exception/1.0.0": {
+        "runtime": {
+          "Bank.Exception.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Bank.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Bank.Communication/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Bank.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Bank.Exception/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
