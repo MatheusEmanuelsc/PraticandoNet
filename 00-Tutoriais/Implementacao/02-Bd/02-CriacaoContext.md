@@ -1,6 +1,6 @@
 # 📌 **Migrations no .NET 8 com Clean Architecture**  
 
-## 📖 **Índice**  
+## 📚 **Índice**  
 
 1. [Introdução](#introducao)  
 2. [Etapa 1: Instalação dos Pacotes](#etapa-1-instalacao-dos-pacotes)  
@@ -121,8 +121,9 @@ public static class DependencyInjectionExtension
         if (string.IsNullOrEmpty(connectionString))
             throw new InvalidOperationException("Connection string 'DefaultConnection' is missing or empty.");
 
-        services.AddDbContext<BankDb>(options =>
-            options.UseMySql(connectionString, MySqlServerVersion.AutoDetect(connectionString)));
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+        services.AddDbContext<CashBankContextDb>(config => config.UseMySql(connectionString, serverVersion));
     }
 }
 ```
