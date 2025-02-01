@@ -1,8 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "bXwA7oWJOZ8=",
+  "dgSpecHash": "awLnUoPvha8KZeptansKs/qkjpNABaoLhdcKfgpglDxUUTIbTGanLHC1Vh/kU9qkucopM2JpSDqMJ+1RLx5rgQ==",
   "success": true,
   "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/CashBank.Application.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/matheusemanuel/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/6.0.0/microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.extensions.options/6.0.0/microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.extensions.primitives/6.0.0/microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

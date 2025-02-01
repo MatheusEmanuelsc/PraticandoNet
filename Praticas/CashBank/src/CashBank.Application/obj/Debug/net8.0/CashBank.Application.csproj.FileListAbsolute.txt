@@ -13,8 +13,8 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.AssemblyInfo.cs
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.csproj.CoreCompileInputs.cache
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.sourcelink.json
-/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.csproj.CopyComplete
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/refint/CashBank.Application.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.pdb
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/ref/CashBank.Application.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.0BA25CA5.Up2Date
