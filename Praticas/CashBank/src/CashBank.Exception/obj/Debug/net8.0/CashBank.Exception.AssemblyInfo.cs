@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CashBank.Exception")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b402de4a04ebfa33392ee5ef7fe5801dfdd07384")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6d1af686c9b034d4ae3556b9838f2846fde5c3da")]
 [assembly: System.Reflection.AssemblyProductAttribute("CashBank.Exception")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CashBank.Exception")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

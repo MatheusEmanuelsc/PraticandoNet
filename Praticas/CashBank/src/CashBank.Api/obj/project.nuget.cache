@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "DNbgKQYwshwL1gwGjP+WiHf5yFTm7jtNKmpWGtM3cOjRr/R6WdHxfw7J7Ik2pwKZ7ElFxmqKOUeF2GHZOKkRNg==",
+  "dgSpecHash": "JLMkSby4WCI=",
   "success": true,
   "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Api/CashBank.Api.csproj",
   "expectedPackageFiles": [
     "/home/matheusemanuel/.nuget/packages/automapper/13.0.1/automapper.13.0.1.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer.core.af/2.14.1/humanizer.core.af.2.14.1.nupkg.sha512",
