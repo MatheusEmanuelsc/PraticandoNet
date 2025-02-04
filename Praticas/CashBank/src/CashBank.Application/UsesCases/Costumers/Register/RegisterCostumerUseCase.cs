@@ -1,5 +1,6 @@
 using CashBank.Communication.Request;
 using CashBank.Communication.Response;
+using CashBank.Exception.ExceptionsBase;
 
 namespace CashBank.Application.UsesCases.Costumers.Register;
 
@@ -17,7 +18,7 @@ public class RegisterCostumerUseCase
         if (!result.IsValid)
         {
             var validationErrors = result.Errors.Select(x => x.ErrorMessage).ToList();
-            throw new ArgumentException();
+            throw new ErrorOnValidationException(validationErrors);
         }
         
     }

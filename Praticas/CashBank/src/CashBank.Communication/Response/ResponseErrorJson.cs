@@ -2,11 +2,16 @@ namespace CashBank.Communication.Response;
 
 public class ResponseErrorJson
 {
-    public  string ErrorMessage { get; set; } 
+    public  List<string> ErrorMessage { get; set; } 
 
     public ResponseErrorJson(string errorMessage)
     {
-        ErrorMessage = errorMessage;
+        ErrorMessage = new List<string>(){errorMessage};
+    }
+
+    public ResponseErrorJson(List<string> errorMessage)
+    {
+       ErrorMessage = errorMessage;
     }
 
 }
