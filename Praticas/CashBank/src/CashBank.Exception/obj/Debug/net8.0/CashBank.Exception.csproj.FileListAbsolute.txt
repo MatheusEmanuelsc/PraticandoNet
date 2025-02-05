@@ -10,3 +10,5 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/refint/CashBank.Exception.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.pdb
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/ref/CashBank.Exception.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.ResourceErrorMessages.resources
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.csproj.GenerateResource.cache
