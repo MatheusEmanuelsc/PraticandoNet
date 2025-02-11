@@ -18,3 +18,5 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.Application.pdb
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/ref/CashBank.Application.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/obj/Debug/net8.0/CashBank.0BA25CA5.Up2Date
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/bin/Debug/net8.0/es/CashBank.Exception.resources.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Application/bin/Debug/net8.0/pt-BR/CashBank.Exception.resources.dll

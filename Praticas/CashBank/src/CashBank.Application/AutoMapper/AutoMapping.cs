@@ -1,4 +1,6 @@
 using AutoMapper;
+using CashBank.Communication.Request;
+using CashBank.Domain.Entities;
 
 namespace CashBank.Application.AutoMapper;
 
@@ -12,12 +14,12 @@ public class AutoMapping :Profile
     
     private void RequestToEntity()
     {
-            
+        CreateMap<RequestRegisterCostumerJson, Customer>();
     }
     
     private void EntityToRequest()
     {
-    
+        CreateMap<Customer,RequestRegisterCostumerJson>();
     }
 }
 

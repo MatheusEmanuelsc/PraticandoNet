@@ -9,6 +9,14 @@
       "CashBank.Exception/1.0.0": {
         "runtime": {
           "CashBank.Exception.dll": {}
+        },
+        "resources": {
+          "es/CashBank.Exception.resources.dll": {
+            "locale": "es"
+          },
+          "pt-BR/CashBank.Exception.resources.dll": {
+            "locale": "pt-BR"
+          }
         }
       }
     }

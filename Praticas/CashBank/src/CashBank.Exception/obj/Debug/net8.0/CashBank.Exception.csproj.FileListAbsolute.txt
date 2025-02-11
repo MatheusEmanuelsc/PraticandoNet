@@ -12,3 +12,11 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/ref/CashBank.Exception.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.ResourceErrorMessages.resources
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.csproj.GenerateResource.cache
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/bin/Debug/net8.0/es/CashBank.Exception.resources.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/bin/Debug/net8.0/pt-BR/CashBank.Exception.resources.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.ResourceErrorMessages.es.resources
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/CashBank.Exception.ResourceErrorMessages.pt-BR.resources
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/es/CashBank.Exception.resources.cs
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/es/CashBank.Exception.resources.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/pt-BR/CashBank.Exception.resources.cs
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/CashBank/src/CashBank.Exception/obj/Debug/net8.0/pt-BR/CashBank.Exception.resources.dll
