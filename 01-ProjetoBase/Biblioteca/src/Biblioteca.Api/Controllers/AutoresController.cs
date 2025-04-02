@@ -23,7 +23,7 @@ namespace Biblioteca.Api.Controllers
             return Ok(autores);
         }
         
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}",Name = "GetAutor")]
         public async Task<IActionResult> GetId(int id)
         {
             var autor = await _context.Autores.FirstOrDefaultAsync(a => a.Id == id);
@@ -40,7 +40,7 @@ namespace Biblioteca.Api.Controllers
         {
             _context.Add(autor);
             await _context.SaveChangesAsync();
-            return Ok(autor);
+            return CreatedAtRoute("GetAutor", new { id = autor.Id }, autor);
         }
         
         [HttpPut("{id:int}")]
