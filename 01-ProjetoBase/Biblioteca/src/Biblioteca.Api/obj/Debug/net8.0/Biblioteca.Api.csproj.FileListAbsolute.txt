@@ -236,3 +236,4 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/Microsoft.Extensions.Options.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/MySqlConnector.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/Pomelo.EntityFrameworkCore.MySql.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/System.Formats.Asn1.dll
