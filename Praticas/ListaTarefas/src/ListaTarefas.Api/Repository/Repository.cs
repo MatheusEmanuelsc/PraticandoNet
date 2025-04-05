@@ -26,7 +26,8 @@ public class Repository: IRepository
 
     public async Task AddTarefaAsync(Tarefa tarefa)
     { 
-        await _appDbContext.Tarefas.AddAsync(tarefa);
+       await _appDbContext.Tarefas.AddAsync(tarefa);
+       
     }
 
     public void  UpdateTarefa(Tarefa tarefa)

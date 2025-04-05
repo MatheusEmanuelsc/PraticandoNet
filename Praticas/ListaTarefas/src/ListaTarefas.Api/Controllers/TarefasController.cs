@@ -26,7 +26,7 @@ namespace ListaTarefas.Api.Controllers
            return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name ="GetTarefaById")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _repository.GetTarefaByIdAsync(id);
@@ -42,7 +42,7 @@ namespace ListaTarefas.Api.Controllers
         {
              await _repository.AddTarefaAsync(tarefa);
              await _unitOfWork.CommitAsync();
-             return Ok(tarefa);
+             return CreatedAtRoute("GetTarefaById", new { id = tarefa.TarefaId }, tarefa);
         }
 
         [HttpPut("{id}")]
