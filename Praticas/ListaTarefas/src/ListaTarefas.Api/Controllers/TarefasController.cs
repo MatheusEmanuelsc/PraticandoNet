@@ -2,7 +2,8 @@ using AutoMapper;
 using ListaTarefas.Api.Dtos;
 using ListaTarefas.Api.Entities;
 using ListaTarefas.Api.Repository;
-
+using ListaTarefas.Api.Validators;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ListaTarefas.Api.Controllers
@@ -68,6 +69,43 @@ namespace ListaTarefas.Api.Controllers
             _repository.UpdateTarefa(tarefa);
             await _unitOfWork.CommitAsync();
             return Ok(tarefa);
+        }
+
+        [HttpPatch("{id}")]
+        
+        public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<TarefaPatchDto>? patchDoc)
+        {
+            if (patchDoc == null)
+                return BadRequest();
+
+            var tarefaEntity = await _repository.GetTarefaByIdAsync(id);
+            if (tarefaEntity == null)
+                return NotFound();
+
+            // Mapear entidade para DTO
+            var tarefaToPatch = _mapper.Map<TarefaPatchDto>(tarefaEntity);
+
+            // Aplicar o patch no DTO
+            patchDoc.ApplyTo(tarefaToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+                return ValidationProblem(ModelState);
+
+
+            // Validar com FluentValidation (opcional, mas recomendado)
+            var validator = new TarefaPatchDtoValidator();
+            var validationResult = validator.Validate(tarefaToPatch);
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            // Mapear DTO atualizado de volta para entidade
+            _mapper.Map(tarefaToPatch, tarefaEntity);
+
+            // Atualizar no banco
+            _repository.UpdateTarefa(tarefaEntity);
+            await _unitOfWork.CommitAsync();
+
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
