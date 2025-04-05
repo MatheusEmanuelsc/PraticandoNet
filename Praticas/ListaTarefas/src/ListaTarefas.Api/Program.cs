@@ -15,7 +15,7 @@ builder.Services.AddControllers()
     {
 
         opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-    });
+    }).AddNewtonsoftJson();
 builder.Services.AddFluentValidationAutoValidation()
     .AddFluentValidationClientsideAdapters();
 

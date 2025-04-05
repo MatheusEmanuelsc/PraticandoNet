@@ -10,5 +10,6 @@ public class MappingProfile: Profile
     {
         CreateMap<Tarefa, TarefaCreateDto>().ReverseMap();
         CreateMap<Tarefa, TarefaReadDto>().ReverseMap();
+        CreateMap<Tarefa, TarefaUpdateDto>().ReverseMap();
     }
 }
