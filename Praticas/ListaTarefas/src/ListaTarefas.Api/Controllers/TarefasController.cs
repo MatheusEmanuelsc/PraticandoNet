@@ -63,12 +63,18 @@ namespace ListaTarefas.Api.Controllers
             {
                return BadRequest();
             }
+            //
             
-            var tarefa = _mapper.Map<Tarefa>(tarefaUpdateDto);
-            tarefa.DataAlteracao = DateTime.Now;
-            _repository.UpdateTarefa(tarefa);
+            _mapper.Map(tarefaUpdateDto, tarefaEntity);
+            tarefaEntity.DataAlteracao = DateTime.Now;
+            
+            //
+            _repository.UpdateTarefa(tarefaEntity);
             await _unitOfWork.CommitAsync();
-            return Ok(tarefa);
+            
+            var tarefaRead = _mapper.Map<TarefaReadDto>(tarefaEntity);
+            return Ok(tarefaRead);
+
         }
 
         [HttpPatch("{id}")]
