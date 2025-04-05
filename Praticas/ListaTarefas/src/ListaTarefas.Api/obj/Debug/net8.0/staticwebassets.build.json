@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "0v+tdlYxOrTVcu/hpaMeK/C+RG/b794vOyFnQ3YMsXQ=",
+  "Source": "ListaTarefas.Api",
+  "BasePath": "_content/ListaTarefas.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

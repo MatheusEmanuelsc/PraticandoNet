@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="../build/ListaTarefas.Api.props" />
+</Project>
