@@ -236,4 +236,3 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ListaTarefas/src/ListaTarefas.Api/obj/Debug/net8.0/ListaTarefas.Api.pdb
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ListaTarefas/src/ListaTarefas.Api/obj/Debug/net8.0/ListaTarefas.Api.genruntimeconfig.cache
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ListaTarefas/src/ListaTarefas.Api/obj/Debug/net8.0/ref/ListaTarefas.Api.dll
-/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ListaTarefas/src/ListaTarefas.Api/bin/Debug/net8.0/System.Formats.Asn1.dll
