@@ -1,168 +1,208 @@
 
 
-# Validação Fluente no ASP.NET Core com FluentValidation
+### 📘 FluentValidation no ASP.NET Core 8 - Guia Completo
 
-## Índice
-1. [O que é Validação Fluente?](#o-que-é-validação-fluente)
-2. [FluentValidation no ASP.NET Core](#fluentvalidation-no-aspnet-core)
-   - [Por que Usar FluentValidation?](#por-que-usar-fluentvalidation)
-   - [Integração com Model Binding](#integração-com-model-binding)
-3. [Tutorial Passo a Passo](#tutorial-passo-a-passo)
-   - [Passo 1: Instalar o Pacote](#passo-1-instalar-o-pacote)
-   - [Passo 2: Criar o Modelo](#passo-2-criar-o-modelo)
-   - [Passo 3: Definir o Validador](#passo-3-definir-o-validador)
-   - [Passo 4: Configurar no Program.cs](#passo-4-configurar-no-programcs)
-   - [Passo 5: Configurar o Endpoint](#passo-5-configurar-o-endpoint)
-   - [Passo 6: Testar a Validação](#passo-6-testar-a-validação)
-4. [Boas Práticas](#boas-práticas)
-5. [Conclusão](#conclusão)
+```md
+# FluentValidation no ASP.NET Core 8 - Guia Completo
+
+## 🧭 Índice
+
+1. [Visão Geral](#visão-geral)
+2. [Instalação](#instalação)
+3. [Abordagem Recomendada (Manual e Desacoplada)](#abordagem-recomendada-manual-e-desacoplada)
+4. [Validação Automática (AutoValidation)](#validação-automática-autovalidation)
+5. [Validação de Atualizações Parciais com JsonPatchDocument](#validação-de-atualizações-parciais-com-jsonpatchdocument)
+6. [Abordagem Legada (para compatibilidade)](#abordagem-legada-para-compatibilidade)
+7. [Referências](#referências)
 
 ---
 
-## O que é Validação Fluente?
+## 📌 Visão Geral
 
-Validação fluente é uma abordagem que utiliza uma API encadeável (*fluent*) para definir regras de validação de forma clara e expressiva, geralmente separando as regras do modelo. No ASP.NET Core, a biblioteca *FluentValidation* é a mais popular para isso.
-
----
-
-## FluentValidation no ASP.NET Core
-
-### Por que Usar FluentValidation?
-- **Separação de responsabilidades**: Regras de validação ficam fora do modelo.
-- **Flexibilidade**: Suporta validações complexas (ex.: condicionais, dependências entre campos).
-- **Legibilidade**: Sintaxe fluida é mais fácil de ler e manter que *Data Annotations*.
-
-### Integração com Model Binding
-O *FluentValidation* se integra ao pipeline do ASP.NET Core, preenchendo o `ModelState` automaticamente quando configurado, permitindo validação fluida sem alterar o fluxo padrão.
+O FluentValidation é uma biblioteca popular para validação de dados que promove separação de responsabilidades, reutilização de regras e testes mais fáceis. No ASP.NET Core 8, a integração é ainda mais flexível e moderna.
 
 ---
 
-## Tutorial Passo a Passo
+## 📦 Instalação
 
-### Passo 1: Instalar o Pacote
-
-Adicione o pacote *FluentValidation.AspNetCore* via NuGet:
+```bash
+dotnet add package FluentValidation
 ```
+
+Para validação automática (opcional):
+
+```bash
 dotnet add package FluentValidation.AspNetCore
 ```
 
-### Passo 2: Criar o Modelo
+---
 
-Crie uma classe simples, sem *Data Annotations*, pois as regras serão definidas no validador.
+## ✅ Abordagem Recomendada (Manual e Desacoplada)
+
+### 1. Criando um DTO
 
 ```csharp
-public class UsuarioModel
+public class CreateUserDto
 {
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public int Idade { get; set; }
+    public string Name { get; set; }
     public string Email { get; set; }
 }
 ```
 
-### Passo 3: Definir o Validador
-
-Crie uma classe validadora herdando de `AbstractValidator<T>`.
+### 2. Criando um Validator
 
 ```csharp
-using FluentValidation;
-
-public class UsuarioValidator : AbstractValidator<UsuarioModel>
+public class CreateUserDtoValidator : AbstractValidator<CreateUserDto>
 {
-    public UsuarioValidator()
+    public CreateUserDtoValidator()
     {
-        RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("O ID é obrigatório")
-            .GreaterThan(0).WithMessage("O ID deve ser maior que 0");
-
-        RuleFor(x => x.Nome)
-            .NotEmpty().WithMessage("O nome é obrigatório")
-            .Length(2, 50).WithMessage("O nome deve ter entre 2 e 50 caracteres")
-            .Must(nome => char.IsUpper(nome[0])).WithMessage("O nome deve começar com maiúscula");
-
-        RuleFor(x => x.Idade)
-            .InclusiveBetween(18, 100).WithMessage("A idade deve estar entre 18 e 100");
+        RuleFor(x => x.Name)
+            .NotEmpty().WithMessage("O nome é obrigatório.")
+            .MaximumLength(100);
 
         RuleFor(x => x.Email)
-            .EmailAddress().WithMessage("E-mail inválido")
-            .When(x => !string.IsNullOrEmpty(x.Email)); // Só valida se não estiver vazio
+            .NotEmpty().WithMessage("O e-mail é obrigatório.")
+            .EmailAddress();
     }
 }
 ```
 
-### Passo 4: Configurar no Program.cs
-
-Registre o *FluentValidation* no contêiner de DI.
+### 3. Registrando no `Program.cs`
 
 ```csharp
-using FluentValidation.AspNetCore;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Adiciona controladores e FluentValidation
-builder.Services.AddControllers()
-    .AddFluentValidation(fv => 
-    {
-        fv.RegisterValidatorsFromAssemblyContaining<UsuarioValidator>();
-        fv.ImplicitlyValidateChildProperties = true;
-    });
-
-var app = builder.Build();
-
-app.UseRouting();
-app.MapControllers();
-app.Run();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserDtoValidator>();
 ```
 
-### Passo 5: Configurar o Endpoint
-
-Crie um controlador que usa o `ModelState` para validação.
+### 4. Usando no Controller
 
 ```csharp
-[ApiController]
-[Route("api/[controller]")]
-public class UsuariosController : ControllerBase
+[HttpPost]
+public async Task<IActionResult> Create([FromBody] CreateUserDto dto, [FromServices] IValidator<CreateUserDto> validator)
 {
-    [HttpPost]
-    public IActionResult Criar([FromBody] UsuarioModel usuario)
+    var validation = await validator.ValidateAsync(dto);
+    if (!validation.IsValid)
+        return BadRequest(validation.Errors);
+
+    // continuar com lógica de criação
+    return Ok();
+}
+```
+
+---
+
+## ⚙️ Validação Automática (AutoValidation)
+
+> Mais prática, mas menos explícita. Ideal para projetos simples ou APIs pequenas.
+
+### 1. Instalar o pacote
+
+```bash
+dotnet add package FluentValidation.AspNetCore
+```
+
+### 2. Ativar no `Program.cs`
+
+```csharp
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateUserDtoValidator>();
+```
+
+### 3. Controller fica limpo
+
+```csharp
+[HttpPost]
+public IActionResult Create([FromBody] CreateUserDto dto)
+{
+    // Validação já foi feita antes de chegar aqui
+    return Ok();
+}
+```
+
+Se houver erro de validação, ele será retornado automaticamente com status `400`.
+
+---
+
+## 🧩 Validação de Atualizações Parciais com JsonPatchDocument
+
+Para permitir PATCH parcial com DTOs, recomendamos:
+
+### 1. Criar um DTO para PATCH
+
+```csharp
+public class PatchUserDto
+{
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+```
+
+### 2. Criar um validador parcial
+
+```csharp
+public class PatchUserDtoValidator : AbstractValidator<PatchUserDto>
+{
+    public PatchUserDtoValidator()
     {
-        if (!ModelState.IsValid)
+        When(x => x.Name is not null, () =>
         {
-            return BadRequest(ModelState);
-        }
-        return Ok(new { Mensagem = "Usuário válido", Dados = usuario });
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .MaximumLength(100);
+        });
+
+        When(x => x.Email is not null, () =>
+        {
+            RuleFor(x => x.Email)
+                .EmailAddress();
+        });
     }
 }
 ```
 
-### Passo 6: Testar a Validação
+### 3. Usar com JsonPatchDocument
 
-- **Teste Válido**: `POST /api/usuarios` com `{ "id": 1, "nome": "João", "idade": 25, "email": "joao@email.com" }`
-  - Resposta: `200 OK` com `{ "mensagem": "Usuário válido", "dados": { "id": 1, "nome": "João", "idade": 25, "email": "joao@email.com" } }`
-- **Teste Inválido**: `POST /api/usuarios` com `{ "id": 0, "nome": "joão", "idade": 15, "email": "invalido" }`
-  - Resposta: `400 Bad Request` com:
-    ```json
-    {
-        "Id": ["O ID deve ser maior que 0"],
-        "Nome": ["O nome deve começar com maiúscula"],
-        "Idade": ["A idade deve estar entre 18 e 100"],
-        "Email": ["E-mail inválido"]
-    }
-    ```
+```csharp
+[HttpPatch("{id}")]
+public async Task<IActionResult> Patch(int id, [FromBody] JsonPatchDocument<PatchUserDto> patchDoc,
+    [FromServices] IValidator<PatchUserDto> validator)
+{
+    if (patchDoc == null)
+        return BadRequest();
+
+    var dto = new PatchUserDto();
+
+    patchDoc.ApplyTo(dto, ModelState);
+    if (!ModelState.IsValid)
+        return BadRequest(ModelState);
+
+    var result = await validator.ValidateAsync(dto);
+    if (!result.IsValid)
+        return BadRequest(result.Errors);
+
+    // aplicar mudanças e persistir
+
+    return NoContent();
+}
+```
 
 ---
 
-## Boas Práticas
+## 📜 Abordagem Legada (para compatibilidade)
 
-1. **Separe validadores**: Crie uma classe validadora por modelo para organização.
-2. **Use condições**: Aproveite `When` e `Unless` para validações condicionais.
-3. **Mensagens claras**: Personalize mensagens para orientar o usuário.
-4. **Teste cenários**: Valide casos extremos (nulos, valores inválidos, etc.).
-5. **Combine com serviços**: Injete dependências nos validadores (ex.: verificar unicidade no banco) usando o construtor.
+### Startup.cs (.NET 6 ou anterior)
+
+```csharp
+services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserDtoValidator>());
+```
+
+Essa abordagem foi substituída por `AddValidatorsFromAssemblyContaining<T>()` e `AddFluentValidationAutoValidation()` no ASP.NET Core 8.
 
 ---
 
-## Conclusão
+## 📚 Referências
 
-A validação fluente com *FluentValidation* no ASP.NET Core oferece uma alternativa poderosa às *Data Annotations*, com maior flexibilidade e separação de lógica. Este tutorial mostra como instalar, configurar e usar a biblioteca para validar modelos de forma expressiva, integrando-se ao fluxo padrão do framework. É ideal para regras complexas ou projetos que exigem manutenção simplificada.
+- [FluentValidation Docs](https://docs.fluentvalidation.net)
+- [GitHub - FluentValidation](https://github.com/FluentValidation/FluentValidation)
+- [JsonPatch em ASP.NET Core](https://learn.microsoft.com/aspnet/core/web-api/jsonpatch)
 

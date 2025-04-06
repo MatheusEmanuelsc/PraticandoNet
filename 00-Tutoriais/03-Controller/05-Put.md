@@ -1,4 +1,4 @@
-S
+
 
 # Actions PUT no ASP.NET Core
 
@@ -161,7 +161,5 @@ app.Run();
 
 As *Actions* PUT no ASP.NET Core são ideais para atualizar recursos existentes, seja completamente ou em partes específicas (ex.: relacionamentos). Este tutorial cobre a atualização de um recurso inteiro e de seus relacionamentos, usando `async/await` para simular operações de I/O e garantindo conformidade RESTful com validação e retornos apropriados. O padrão é substituir o recurso, então todos os dados enviados devem ser refletidos na atualização.
 
-Se precisar de ajustes ou exemplos com banco de dados (ex.: EF Core), é só avisar!
 
---- 
 
