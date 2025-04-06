@@ -12,13 +12,13 @@ namespace ListaTarefas.Api.Controllers
     [ApiController]
     public class TarefasController : ControllerBase
     {
-        private readonly IRepository _repository;
+        
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
 
-        public TarefasController( IRepository repository, IUnitOfWork unitOfWork, IMapper mapper )
+        public TarefasController(  IUnitOfWork unitOfWork, IMapper mapper )
         {
-            _repository = repository;
+            
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
@@ -27,7 +27,7 @@ namespace ListaTarefas.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-           var result =await _repository.GetALlTarefasAsync();
+           var result =await _unitOfWork.Tarefa.GetALlTarefasAsync();
            return Ok(_mapper.Map<IEnumerable<TarefaReadDto>>(result));
           
         }
@@ -35,7 +35,7 @@ namespace ListaTarefas.Api.Controllers
         [HttpGet("{id}",Name ="GetTarefaById")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _repository.GetTarefaByIdAsync(id);
+            var result = await _unitOfWork.Tarefa.GetTarefaByIdAsync(id);
             if (result == null)
             {
                 return NotFound();
@@ -49,7 +49,7 @@ namespace ListaTarefas.Api.Controllers
         {
              var tarefa = _mapper.Map<Tarefa>(tarefaCreateDto);
              tarefa.DataAlteracao = DateTime.Now;
-             await _repository.AddTarefaAsync(tarefa);
+             await _unitOfWork.Tarefa.AddTarefaAsync(tarefa);
              await _unitOfWork.CommitAsync();var tarefaRead = _mapper.Map<TarefaReadDto>(tarefa);
              return CreatedAtRoute("GetTarefaById", new { id = tarefa.TarefaId }, tarefaRead);
         }
@@ -58,7 +58,7 @@ namespace ListaTarefas.Api.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] TarefaUpdateDto tarefaUpdateDto)
         {
            
-            var tarefaEntity = await _repository.GetTarefaByIdAsync(id);
+            var tarefaEntity = await _unitOfWork.Tarefa.GetTarefaByIdAsync(id);
             if (tarefaEntity == null)
             {
                return BadRequest();
@@ -69,7 +69,7 @@ namespace ListaTarefas.Api.Controllers
             tarefaEntity.DataAlteracao = DateTime.Now;
             
             //
-            _repository.UpdateTarefa(tarefaEntity);
+            _unitOfWork.Tarefa.UpdateTarefa(tarefaEntity);
             await _unitOfWork.CommitAsync();
             
             var tarefaRead = _mapper.Map<TarefaReadDto>(tarefaEntity);
@@ -84,7 +84,7 @@ namespace ListaTarefas.Api.Controllers
             if (patchDoc == null)
                 return BadRequest();
 
-            var tarefaEntity = await _repository.GetTarefaByIdAsync(id);
+            var tarefaEntity = await _unitOfWork.Tarefa.GetTarefaByIdAsync(id);
             if (tarefaEntity == null)
                 return NotFound();
 
@@ -108,7 +108,7 @@ namespace ListaTarefas.Api.Controllers
             _mapper.Map(tarefaToPatch, tarefaEntity);
 
             // Atualizar no banco
-            _repository.UpdateTarefa(tarefaEntity);
+            _unitOfWork.Tarefa.UpdateTarefa(tarefaEntity);
             await _unitOfWork.CommitAsync();
 
             return NoContent();
@@ -117,13 +117,13 @@ namespace ListaTarefas.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var tarefaEntity = await _repository.GetTarefaByIdAsync(id);
+            var tarefaEntity = await _unitOfWork.Tarefa.GetTarefaByIdAsync(id);
             if (tarefaEntity == null)
             {
                 return BadRequest();
             }
                 
-            _repository.DeleteTarefa(tarefaEntity);
+            _unitOfWork.Tarefa.DeleteTarefa(tarefaEntity);
             await _unitOfWork.CommitAsync();
             return Ok();
         }

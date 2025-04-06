@@ -2,7 +2,7 @@ using ListaTarefas.Api.Entities;
 
 namespace ListaTarefas.Api.Repository;
 
-public interface IRepository
+public interface ITarefaRepository
 {
     Task<IEnumerable<Tarefa>> GetALlTarefasAsync();
     Task<Tarefa?> GetTarefaByIdAsync(int id);

@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ListaTarefas.Api.Repository;
 
-public class Repository: IRepository
+public class TarefaRepository: ITarefaRepository
 {
     private readonly AppDbContext _appDbContext;
 
-    public Repository( AppDbContext appDbContext )
+    public TarefaRepository( AppDbContext appDbContext )
     {
         _appDbContext = appDbContext;
     }

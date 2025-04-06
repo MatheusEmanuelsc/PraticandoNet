@@ -1,58 +1,55 @@
 
 
-# Actions GET no ASP.NET Core
+```md
+# Actions GET com Unit of Work e Repository no ASP.NET Core
 
 ## Índice
-1. [O que são Actions GET?](#o-que-são-actions-get)
-2. [Cenários de Uso para GET](#cenários-de-uso-para-get)
-   - [Listar Todos os Itens](#listar-todos-os-itens)
+1. [Introdução](#introdução)
+2. [Cenários de Uso](#cenários-de-uso)
+   - [Listar Todos](#listar-todos)
    - [Buscar por ID](#buscar-por-id)
    - [Incluir Relacionamentos](#incluir-relacionamentos)
-   - [Outros Casos (Filtros, Paginação)](#outros-casos-filtros-paginação)
-3. [Tutorial Passo a Passo](#tutorial-passo-a-passo)
-   - [Passo 1: Criar o Controller com Actions GET](#passo-1-criar-o-controller-com-actions-get)
-   - [Passo 2: Configurar no Program.cs](#passo-2-configurar-no-programcs)
-   - [Passo 3: Testar os Endpoints](#passo-3-testar-os-endpoints)
-4. [Boas Práticas](#boas-práticas)
-5. [Conclusão](#conclusão)
+   - [Com Filtros e Paginação](#com-filtros-e-paginação)
+3. [Exemplo de Controller com UnitOfWork](#exemplo-de-controller-com-unitofwork)
+4. [Program.cs e Injeção de Dependência](#programcs-e-injeção-de-dependência)
+5. [Boas Práticas](#boas-práticas)
+6. [Conclusão](#conclusão)
 
 ---
 
-## O que são Actions GET?
+## Introdução
 
-*Actions* GET são métodos em *Controllers* que lidam com requisições HTTP GET, usadas para recuperar dados sem alterar o estado do servidor. Elas geralmente retornam `IActionResult` ou `ActionResult<T>` e podem ser síncronas ou assíncronas.
+Actions GET no ASP.NET Core são usadas para recuperar dados de forma segura e idempotente. Quando integradas com os padrões **Repository** e **Unit of Work**, a aplicação ganha melhor separação de responsabilidades, testabilidade e coesão.
 
 ---
 
-## Cenários de Uso para GET
+## Cenários de Uso
 
-### Listar Todos os Itens
-- **Descrição**: Retorna uma coleção de itens, como uma lista de usuários.
-- **Recomendações**: Use `async` se houver acesso a banco ou I/O. `[FromQuery]` pode ser usado para filtros opcionais.
+### Listar Todos
+- Retorna todos os registros da entidade (ex: usuários).
+- Idealmente, retorna um DTO com os campos relevantes, não o modelo completo.
 
 ### Buscar por ID
-- **Descrição**: Retorna um único item baseado em um identificador único.
-- **Recomendações**: Use `[FromRoute]` para o ID e `async` para consultas ao banco. Retorne `404` se não encontrado.
+- Recupera um registro específico via rota (`[FromRoute]`).
+- Deve retornar `404 NotFound` se não encontrado.
 
 ### Incluir Relacionamentos
-- **Descrição**: Retorna um item ou lista com dados relacionados (ex.: usuário e seus pedidos).
-- **Recomendações**: Use `async` devido à complexidade das consultas. Considere parâmetros opcionais com `[FromQuery]` para incluir ou não relacionamentos.
+- Pode retornar dados relacionados (ex: pedidos de um usuário).
+- Recomendado deixar como opcional via query string.
 
-### Outros Casos (Filtros, Paginação)
-- **Descrição**: Permite busca filtrada ou paginada (ex.: por nome, página/tamanho).
-- **Recomendações**: Use `[FromQuery]` para parâmetros de filtro/paginação e `async` para consultas dinâmicas.
+### Com Filtros e Paginação
+- Aceita parâmetros via `[FromQuery]` para filtro, ordenação e paginação.
+- Permite buscas dinâmicas com performance e flexibilidade.
 
 ---
 
-## Tutorial Passo a Passo
-
-### Passo 1: Criar o Controller com Actions GET
+## Exemplo de Controller com UnitOfWork
 
 ```csharp
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
+using MeuProjeto.Dtos;
+using MeuProjeto.Interfaces;
 
 namespace MeuProjeto.Controllers;
 
@@ -61,91 +58,79 @@ namespace MeuProjeto.Controllers;
 [Produces("application/json")]
 public class UsuariosController : ControllerBase
 {
-    private readonly List<UsuarioModel> _usuarios = new()
-    {
-        new() { Id = 1, Nome = "João", Pedidos = new() { new() { Id = 101, Produto = "Livro" } } },
-        new() { Id = 2, Nome = "Maria", Pedidos = new() { new() { Id = 102, Produto = "Caneta" } } }
-    };
+    private readonly IUnitOfWork _uow;
+    private readonly IMapper _mapper;
 
-    // GET: api/usuarios - Listar todos
+    public UsuariosController(IUnitOfWork uow, IMapper mapper)
+    {
+        _uow = uow;
+        _mapper = mapper;
+    }
+
+    // GET: api/usuarios
     [HttpGet]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UsuarioModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetAllAsync()
     {
-        // Simula busca assíncrona
-        await Task.Delay(50);
-        return Ok(_usuarios);
+        var usuarios = await _uow.Usuarios.GetAllAsync();
+        var usuariosDto = _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+        return Ok(usuariosDto);
     }
 
-    // GET: api/usuarios/1 - Buscar por ID
+    // GET: api/usuarios/5
     [HttpGet("{id}")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsuarioModel))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
+    public async Task<IActionResult> GetByIdAsync(int id)
     {
-        await Task.Delay(50); // Simula I/O
-        var usuario = _usuarios.FirstOrDefault(u => u.Id == id);
-        if (usuario == null) return NotFound();
-        return Ok(usuario);
+        var usuario = await _uow.Usuarios.GetByIdAsync(id);
+        if (usuario is null) return NotFound();
+        var usuarioDto = _mapper.Map<UsuarioDto>(usuario);
+        return Ok(usuarioDto);
     }
 
-    // GET: api/usuarios/1/detalhes?includePedidos=true - Incluir relacionamentos
+    // GET: api/usuarios/5/detalhes?includePedidos=true
     [HttpGet("{id}/detalhes")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsuarioModel))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetWithRelationshipsAsync([FromRoute] int id, [FromQuery] bool includePedidos = false)
+    public async Task<IActionResult> GetWithDetailsAsync(int id, [FromQuery] bool includePedidos = false)
     {
-        await Task.Delay(50); // Simula I/O
-        var usuario = _usuarios.FirstOrDefault(u => u.Id == id);
-        if (usuario == null) return NotFound();
-
-        if (!includePedidos)
-            usuario.Pedidos = null; // Exclui pedidos se não solicitado
-
-        return Ok(usuario);
+        var usuario = await _uow.Usuarios.GetUsuarioComPedidosAsync(id, includePedidos);
+        if (usuario is null) return NotFound();
+        var dto = _mapper.Map<UsuarioDto>(usuario);
+        return Ok(dto);
     }
 
-    // GET: api/usuarios/filtrados?nome=Jo&page=1&pageSize=10 - Filtros e paginação
+    // GET: api/usuarios/filtrados?nome=Jo&page=1&pageSize=10
     [HttpGet("filtrados")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UsuarioModel>))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetFilteredAsync(
         [FromQuery] string? nome,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 10)
     {
-        await Task.Delay(50); // Simula I/O
-        var query = _usuarios.AsQueryable();
-
-        if (!string.IsNullOrEmpty(nome))
-            query = query.Where(u => u.Nome.Contains(nome));
-
-        var resultados = query
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-
-        return Ok(resultados);
+        var usuarios = await _uow.Usuarios.GetUsuariosFiltradosAsync(nome, page, pageSize);
+        var dto = _mapper.Map<IEnumerable<UsuarioDto>>(usuarios);
+        return Ok(dto);
     }
-}
-
-public class UsuarioModel
-{
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public List<PedidoModel>? Pedidos { get; set; }
-}
-
-public class PedidoModel
-{
-    public int Id { get; set; }
-    public string Produto { get; set; }
 }
 ```
 
-### Passo 2: Configurar no Program.cs
+---
+
+## Program.cs e Injeção de Dependência
+
+> Supondo que `IUnitOfWork`, `IUsuarioRepository`, `UsuarioRepository`, etc. já estejam implementados.
 
 ```csharp
 var builder = WebApplication.CreateBuilder(args);
+
+// AutoMapper
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+// Unit of Work e Repositórios
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddControllers();
 var app = builder.Build();
 
@@ -154,35 +139,20 @@ app.MapControllers();
 app.Run();
 ```
 
-### Passo 3: Testar os Endpoints
-
-- **GET /api/usuarios** (Listar todos):
-  - Resposta: `200 OK` com `[{"id": 1, "nome": "João", "pedidos": [{"id": 101, "produto": "Livro"}]}, {"id": 2, "nome": "Maria", "pedidos": [{"id": 102, "produto": "Caneta"}]}]`
-  
-- **GET /api/usuarios/1** (Por ID):
-  - Resposta: `200 OK` com `{"id": 1, "nome": "João", "pedidos": [{"id": 101, "produto": "Livro"}]}`
-  - **GET /api/usuarios/999**: `404 NotFound`
-
-- **GET /api/usuarios/1/detalhes** (Sem pedidos):
-  - Resposta: `200 OK` com `{"id": 1, "nome": "João", "pedidos": null}`
-- **GET /api/usuarios/1/detalhes?includePedidos=true** (Com pedidos):
-  - Resposta: `200 OK` com `{"id": 1, "nome": "João", "pedidos": [{"id": 101, "produto": "Livro"}]}`
-
-- **GET /api/usuarios/filtrados?nome=Jo&page=1&pageSize=1** (Filtrado e paginado):
-  - Resposta: `200 OK` com `[{"id": 1, "nome": "João", "pedidos": [{"id": 101, "produto": "Livro"}]}]`
-
 ---
 
 ## Boas Práticas
 
-1. **Use async para I/O**: Sempre aplique `async Task` em consultas a bancos ou APIs externas.
-2. **Parâmetros explícitos**: Use `[FromRoute]` para IDs e `[FromQuery]` para filtros/paginação.
-3. **Relacionamentos opcionais**: Inclua dados relacionados apenas se solicitado (ex.: via query string).
-4. **Documente retornos**: Use `[ProducesResponseType]` para clareza em Swagger.
-5. **Consistência REST**: Mantenha GET idempotente e sem efeitos colaterais.
+1. **Async/Await sempre**: Evite métodos síncronos em acesso a dados.
+2. **DTOs na resposta**: Nunca exponha diretamente suas entidades.
+3. **Repository isolado por agregado**: Um repositório por agregado raiz (ex: `Usuario`).
+4. **Métodos especializados**: Use métodos como `GetUsuarioComPedidosAsync()` no repositório para carregar relacionamentos sob demanda.
+5. **Query Params com `[FromQuery]`**: Use para filtros opcionais e paginação.
+6. **Evite lógica no controller**: A lógica fica nos repositórios, serviços ou no AutoMapper, se aplicável.
 
 ---
 
 ## Conclusão
 
-As *Actions* GET no ASP.NET Core cobrem desde listagens simples até cenários complexos com relacionamentos e filtros. Este tutorial abrange os casos principais — listar todos, buscar por ID, incluir relacionamentos e filtrar/paginar —, usando `async/await` para simular operações de I/O e atributos como `[FromQuery]` e `[ProducesResponseType]` para precisão. Todos os cenários são viáveis com ou sem tracking (ex.: Entity Framework), dependendo da necessidade de desempenho ou atualização.
+Combinando o ASP.NET Core com AutoMapper, DTOs, Repository e Unit of Work, suas Actions GET ficam mais limpas, testáveis e coesas. Este padrão melhora a manutenibilidade e segue as boas práticas de arquitetura em APIs RESTful modernas.
+```
