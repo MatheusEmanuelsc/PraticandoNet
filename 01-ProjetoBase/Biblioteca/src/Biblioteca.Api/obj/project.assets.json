@@ -6747,7 +6747,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.407/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/8.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

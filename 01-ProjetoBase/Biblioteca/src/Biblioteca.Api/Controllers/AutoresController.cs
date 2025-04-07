@@ -36,7 +36,7 @@ namespace Biblioteca.Api.Controllers
             {
                 return NotFound();
             }
-            var autoresDto = _mapper.Map<AutorReadDto>(autor);
+            var autoresDto = _mapper.Map<AutorComLivrosDto>(autor);
             return Ok(autoresDto);
         }
 
@@ -46,7 +46,7 @@ namespace Biblioteca.Api.Controllers
             var autor =_mapper.Map<Autor>(autorCreateDto);
             _context.Add(autor);
             await _context.SaveChangesAsync();
-            var autorDto = _mapper.Map<AutorReadDto>(autor);
+            var autorDto = _mapper.Map<AutorComLivrosDto>(autor);
             return CreatedAtRoute("GetAutor", new { id = autorDto.Id }, autorDto);
         }
         
