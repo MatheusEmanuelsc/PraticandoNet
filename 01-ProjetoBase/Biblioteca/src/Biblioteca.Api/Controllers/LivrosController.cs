@@ -22,7 +22,7 @@ namespace Biblioteca.Api.Controllers
             return await _context.Livros.ToListAsync();
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}",Name = "GetLivro")]
         public async Task<ActionResult<Livro>> Get(int id)
         {
             var libro = await _context.Livros
@@ -49,7 +49,8 @@ namespace Biblioteca.Api.Controllers
 
             _context.Add(livro);
             await _context.SaveChangesAsync();
-            return Ok();
+            return CreatedAtRoute("GetLivro", new { id = livro.Id }, livro);
+            
         }
 
         [HttpPut("{id:int}")]

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "xlmXOe+aL18=",
+  "dgSpecHash": "sKWPG7rKX1Y=",
   "success": true,
   "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/Biblioteca.Api.csproj",
   "expectedPackageFiles": [
+    "/home/matheusemanuel/.nuget/packages/automapper/14.0.0/automapper.14.0.0.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer/2.14.1/humanizer.2.14.1.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/humanizer.core.af/2.14.1/humanizer.core.af.2.14.1.nupkg.sha512",

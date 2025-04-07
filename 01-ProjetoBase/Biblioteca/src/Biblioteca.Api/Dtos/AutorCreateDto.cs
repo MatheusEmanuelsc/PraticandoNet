@@ -1,11 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Biblioteca.Api.Entidades;
+namespace Biblioteca.Api.Dtos;
 
-public class Autor
+public class AutorCreateDto
 {
-    public int Id { get; set; }
-    
     [Required(ErrorMessage = "O campo {0} é obrigatório")]
     [StringLength(150, ErrorMessage = "O campo {0} deve ter {1} caracteres ou menos")]
     public required string Nome { get; set; }
@@ -17,8 +15,5 @@ public class Autor
     [StringLength(20, ErrorMessage = "O campo {0} deve ter {1} caracteres ou menos")]
     public string? Identificacao { get; set; }
 
-    public List<Livro> Livros { get; set; } = [];
-    
-   
 
 }

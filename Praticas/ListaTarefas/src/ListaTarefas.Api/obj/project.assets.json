@@ -6954,7 +6954,6 @@
     "net8.0": [
       "AutoMapper >= 14.0.0",
       "FluentValidation.AspNetCore >= 11.3.0",
-      "Microsoft.AspNetCore.JsonPatch >= 8.0.14",
       "Microsoft.AspNetCore.Mvc.NewtonsoftJson >= 8.0.14",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.14",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 8.0.7",
@@ -7011,10 +7010,6 @@
           "FluentValidation.AspNetCore": {
             "target": "Package",
             "version": "[11.3.0, )"
-          },
-          "Microsoft.AspNetCore.JsonPatch": {
-            "target": "Package",
-            "version": "[8.0.14, )"
           },
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
             "target": "Package",

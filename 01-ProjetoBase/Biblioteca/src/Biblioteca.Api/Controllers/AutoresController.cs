@@ -1,4 +1,6 @@
+using AutoMapper;
 using Biblioteca.Api.Context;
+using Biblioteca.Api.Dtos;
 using Biblioteca.Api.Entidades;
 
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +13,19 @@ namespace Biblioteca.Api.Controllers
     public class AutoresController : ControllerBase
     {
         private readonly AppDbContext _context;
-        public AutoresController( AppDbContext context)
+        private readonly IMapper _mapper;
+        public AutoresController( AppDbContext context,IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
             var autores = await _context.Autores.ToListAsync();
-            return Ok(autores);
+            var autoresDto = _mapper.Map<AutorReadDto>(autores);
+            return Ok(autoresDto);
         }
         
         [HttpGet("{id:int}",Name = "GetAutor")]
@@ -31,30 +36,28 @@ namespace Biblioteca.Api.Controllers
             {
                 return NotFound();
             }
-                
-            return Ok(autor);
+            var autoresDto = _mapper.Map<AutorReadDto>(autor);
+            return Ok(autoresDto);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Autor autor)
+        public async Task<IActionResult> Post(AutorCreateDto autorCreateDto)
         {
+            var autor =_mapper.Map<Autor>(autorCreateDto);
             _context.Add(autor);
             await _context.SaveChangesAsync();
-            return CreatedAtRoute("GetAutor", new { id = autor.Id }, autor);
+            var autorDto = _mapper.Map<AutorReadDto>(autor);
+            return CreatedAtRoute("GetAutor", new { id = autorDto.Id }, autorDto);
         }
         
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Put(Autor novoAutor, int id)
+        public async Task<IActionResult> Put(AutorCreateDto autorCreateDto, int id)
         {
-            var autor = await _context.Autores.FirstOrDefaultAsync(a => a.Id == id);
-            if (autor == null || autor.Id != id)
-            {
-                return NotFound();
-            }
-            
-            _context.Update(novoAutor);
+            var autor = _mapper.Map<Autor>(autorCreateDto);
+            autor.Id = id;
+            _context.Update(autor);
             await _context.SaveChangesAsync();
-            return Ok(novoAutor);
+            return NoContent();
         }
         
         [HttpDelete("{id:int}")]
