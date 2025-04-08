@@ -2,7 +2,7 @@ using AutoMapper;
 using Biblioteca.Api.Context;
 using Biblioteca.Api.Dtos;
 using Biblioteca.Api.Entidades;
-
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -57,6 +57,38 @@ namespace Biblioteca.Api.Controllers
             autor.Id = id;
             _context.Update(autor);
             await _context.SaveChangesAsync();
+            return NoContent();
+        }
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult> Patch(int id, JsonPatchDocument<AutorPatchDto> patchDoc)
+        {
+            if (patchDoc is null)
+            {
+                return BadRequest();
+            }
+
+            var autorDB = await _context.Autores.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (autorDB is null)
+            {
+                return NotFound();
+            }
+
+            var autorPatchDTO = _mapper.Map<AutorPatchDto>(autorDB);
+
+            patchDoc.ApplyTo(autorPatchDTO, ModelState);
+
+            var esValido = TryValidateModel(autorPatchDTO);
+
+            if (!esValido)
+            {
+                return ValidationProblem();
+            }
+
+            _mapper.Map(autorPatchDTO, autorDB);
+
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
         

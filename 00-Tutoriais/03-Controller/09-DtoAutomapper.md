@@ -45,8 +45,10 @@
 
 ## Instalação do AutoMapper
 
+A partir da versão **13**, o AutoMapper já inclui suporte à injeção de dependência, e **não é mais necessário instalar o pacote `AutoMapper.Extensions.Microsoft.DependencyInjection`**.
+
 ```bash
-dotnet add package AutoMapper.Extensions.Microsoft.DependencyInjection
+dotnet add package AutoMapper
 ```
 
 ---
@@ -203,8 +205,7 @@ public class UsuariosController : ControllerBase
 ## Conclusão
 
 - DTOs e AutoMapper são ferramentas essenciais para separar lógica de domínio da apresentação.
-- ASP.NET Core 8 suporta diferentes formas de registro dos perfis — escolha a que melhor se adapta ao seu projeto:
-  - `typeof` para autoescaneamento.
-  - `AddProfile` para controle granular.
-- As boas práticas aqui listadas ajudam a manter o código limpo, seguro e escalável.
-
+- Com o AutoMapper 13+, o registro ficou mais simples: você só precisa do pacote principal.
+- A escolha entre `typeof`, `AddProfile` ou instâncias depende do controle que você deseja ter.
+- As boas práticas ajudam a manter o código limpo, seguro e escalável.
+```
