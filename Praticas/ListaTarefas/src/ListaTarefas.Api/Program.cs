@@ -16,10 +16,10 @@ builder.Services.AddControllers()
 
         opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     }).AddNewtonsoftJson();
-builder.Services.AddFluentValidationAutoValidation()
-    .AddFluentValidationClientsideAdapters();
 
-builder.Services.AddValidatorsFromAssemblyContaining<TarefaValidator>();
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddValidatorsFromAssemblyContaining<TarefaCreateDtoValidator>();
+
     
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
