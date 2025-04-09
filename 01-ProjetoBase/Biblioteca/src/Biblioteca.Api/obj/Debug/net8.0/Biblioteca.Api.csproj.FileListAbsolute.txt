@@ -237,3 +237,7 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/MySqlConnector.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/Pomelo.EntityFrameworkCore.MySql.dll
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/AutoMapper.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/Microsoft.AspNetCore.JsonPatch.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Biblioteca/src/Biblioteca.Api/bin/Debug/net8.0/System.Formats.Asn1.dll

@@ -11,4 +11,5 @@ public class AppDbContext : DbContext
     
     public DbSet<Autor> Autores { get; set; }
     public DbSet<Livro> Livros { get; set; }
+    public DbSet<Comentario> Comentarios { get; set; }
 }
