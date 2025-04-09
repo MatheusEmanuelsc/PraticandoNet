@@ -22,6 +22,9 @@ public class AutoMapperProfiles: Profile
         CreateMap<Livro, LivroComAutorDto>()
             .ForMember(dto => dto.AutorNome,
                 config=> config.MapFrom(autor => MapearNombreYApellidoAutor(autor.Autor!)));
+        CreateMap<Comentario, ComentarioReadDto>();
+        CreateMap<ComentarioCreateDto, Comentario>();
+        CreateMap<ComentarioPatchDto, Comentario>();
     }
     private string MapearNombreYApellidoAutor(Autor autor) => $"{autor.Nome} {autor.Apelido}";
 }

@@ -10,7 +10,8 @@
 6. [Controllers](#controllers)
    - [Controlador Principal (resumo)](#controlador-principal-resumo)
    - [Controlador Dependente (detalhado)](#controlador-dependente-detalhado)
-7. [Conclusão](#conclus%C3%A3o)
+7. [Atualização Parcial (PATCH)](#atualiza%C3%A7%C3%A3o-parcial-patch)
+8. [Conclusão](#conclus%C3%A3o)
 
 ---
 
@@ -216,11 +217,38 @@ public class AuthorBooksController : ControllerBase
 
 ---
 
+## 🔄 Atualização Parcial (PATCH)
+
+Para aplicar PATCH em um recurso dependente:
+
+- A rota continua sendo `/api/authors/{authorId}/books/{bookId}`
+- A verificação deve garantir que o recurso realmente pertence ao pai
+- A validação deve aplicar regras apenas aos campos alterados
+
+```csharp
+[HttpPatch("{bookId:int}")]
+public async Task<IActionResult> Patch(int authorId, int bookId, [FromBody] JsonPatchDocument<Book> patchDoc)
+{
+    var book = await _repo.GetByIdAsync(authorId, bookId);
+    if (book is null) return NotFound();
+
+    patchDoc.ApplyTo(book);
+    await _uow.CommitAsync();
+
+    return NoContent();
+}
+```
+
+> ⚠️ Em produção, use DTOs para aplicar o patch com validação (usando `FluentValidation`).
+
+---
+
 ## ✅ Conclusão
 
 - A relação 1:N é simples com o EF Core, mas é essencial entender como o recurso dependente deve ser tratado.
 - Sempre use rotas aninhadas no controlador dependente.
 - O uso de `DTO`, `AutoMapper`, `Repository` e `UnitOfWork` torna o código limpo, testável e organizado.
 - No caso de `Books`, todas as operações são feitas dentro do contexto do `Author` (o recurso pai).
+
 
 
