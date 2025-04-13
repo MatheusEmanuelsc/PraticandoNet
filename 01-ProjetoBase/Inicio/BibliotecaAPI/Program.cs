@@ -16,9 +16,9 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 
-builder.Services.AddDbContext<ApplicationDbContext>(opciones =>
-    opciones.UseSqlServer("name=DefaultConnection"));
-
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), 
+        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))));
 var app = builder.Build();
 
 // �rea de middlewares
