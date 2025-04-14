@@ -2,6 +2,7 @@
 using BibliotecaAPI.Datos;
 using BibliotecaAPI.DTOs;
 using BibliotecaAPI.Entidades;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ namespace BibliotecaAPI.Controllers
 {
     [ApiController]
     [Route("api/libros/{libroId:int}/comentarios")]
+    [Authorize]
     public class ComentariosController: ControllerBase
     {
         private readonly ApplicationDbContext context;
@@ -22,6 +24,7 @@ namespace BibliotecaAPI.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<List<ComentarioDTO>>> Get(int libroId)
         {
             var existeLibro = await context.Libros.AnyAsync(x => x.Id == libroId);
@@ -40,6 +43,7 @@ namespace BibliotecaAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "ObtenerComentario")]
+        [AllowAnonymous]
         public async Task<ActionResult<ComentarioDTO>> Get(Guid id)
         {
             var comentario = await context.Comentarios.FirstOrDefaultAsync(x => x.Id == id);

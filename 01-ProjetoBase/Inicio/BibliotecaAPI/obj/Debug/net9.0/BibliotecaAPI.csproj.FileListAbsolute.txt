@@ -131,3 +131,16 @@
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/obj/Debug/net9.0/BibliotecaAPI.pdb
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/obj/Debug/net9.0/BibliotecaAPI.genruntimeconfig.cache
 /home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/obj/Debug/net9.0/ref/BibliotecaAPI.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.Internal.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.Extensions.Identity.Core.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.Extensions.Identity.Stores.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/01-ProjetoBase/Inicio/BibliotecaAPI/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
