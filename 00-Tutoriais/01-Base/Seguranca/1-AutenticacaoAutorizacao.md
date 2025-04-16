@@ -1,27 +1,39 @@
-🔐 Autenticação e Autorização com ASP.NET Core 8 (Identity + JWT)
-Este guia completo implementa um sistema robusto de autenticação e autorização em ASP.NET Core 8 usando Identity, JWT, Refresh Tokens, Confirmação de E-mail, Recuperação de Senha e Autorização com Roles e Claims. O código é comentado detalhadamente para explicar o propósito de cada função e configuração, seguindo boas práticas de segurança e modularidade.
-📘 Índice
 
-Pacotes Necessários
-Configuração do Identity
-Configuração do JWT
-Models e DTOs
-AuthController
-Autorização com Roles e Claims
-Protegendo Endpoints
-Boas Práticas e Segurança
-Tabela de Endpoints
+# 🔐 Autenticação e Autorização com ASP.NET Core 8 (Identity + JWT)
 
+Este guia completo implementa um sistema robusto de autenticação e autorização em **ASP.NET Core 8** usando **Identity**, **JWT**, **Refresh Tokens**, **Confirmação de E-mail**, **Recuperação de Senha** e **Autorização com Roles e Claims**. O código é comentado detalhadamente para explicar o propósito de cada função e configuração, seguindo boas práticas de segurança e modularidade.
 
-1. 📦 Pacotes Necessários
+## 📘 Índice
+
+1. Pacotes Necessários
+2. Configuração do Identity
+3. Configuração do JWT
+4. Models e DTOs
+5. AuthController
+6. Autorização com Roles e Claims
+7. Protegendo Endpoints
+8. Boas Práticas e Segurança
+9. Tabela de Endpoints
+
+---
+
+## 1. 📦 Pacotes Necessários
+
 Adicione os pacotes necessários via NuGet para suportar Identity, autenticação JWT e Entity Framework:
+
+```bash
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
 dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+```
 
+---
 
-2. ⚙️ Configuração do Identity
-No Program.cs, configuramos o Identity para gerenciar usuários e roles, com opções de segurança e tokens.
+## 2. ⚙️ Configuração do Identity
+
+No `Program.cs`, configuramos o **Identity** para gerenciar usuários e roles, com opções de segurança e tokens.
+
+```csharp
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedEmail = true; // Exige que o e-mail seja confirmado antes do login
@@ -30,12 +42,20 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<ApplicationDbContext>() // Configura o Identity para usar o Entity Framework com o ApplicationDbContext
 .AddDefaultTokenProviders(); // Habilita provedores padrão para geração de tokens (ex.: para confirmação de e-mail e redefinição de senha)
+```
 
-Explicação de AddDefaultTokenProviders:Este método registra provedores padrão do ASP.NET Identity para gerar tokens seguros usados em fluxos como confirmação de e-mail, redefinição de senha e autenticação de dois fatores. Ele permite que métodos como GenerateEmailConfirmationTokenAsync e GeneratePasswordResetTokenAsync funcionem, criando tokens temporários e criptograficamente seguros.
+**Explicação de `AddDefaultTokenProviders`**:  
+Este método registra provedores padrão do ASP.NET Identity para gerar tokens seguros usados em fluxos como confirmação de e-mail, redefinição de senha e autenticação de dois fatores. Ele permite que métodos como `GenerateEmailConfirmationTokenAsync` e `GeneratePasswordResetTokenAsync` funcionem, criando tokens temporários e criptograficamente seguros.
 
-3. 🔑 Configuração do JWT
-appsettings.json:
+---
+
+## 3. 🔑 Configuração do JWT
+
+### `appsettings.json`:
+
 Defina as configurações do JWT, incluindo chave secreta, emissor e audiência.
+
+```json
 {
   "Jwt": {
     "Key": "sua-chave-secreta-de-32-caracteres-ou-mais", // Chave secreta para assinar tokens JWT
@@ -43,9 +63,13 @@ Defina as configurações do JWT, incluindo chave secreta, emissor e audiência.
     "Audience": "ClientesDaMinhaApi" // Identifica os destinatários autorizados do token
   }
 }
+```
 
-Program.cs:
+### `Program.cs`:
+
 Configure a autenticação JWT com validação rigorosa.
+
+```csharp
 var configuration = builder.Configuration;
 
 builder.Services.AddAuthentication(options =>
@@ -69,19 +93,32 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization(); // Habilita serviços de autorização para políticas e roles
+```
 
-Explicação:A configuração acima define o JWT como o mecanismo de autenticação, validando emissor, audiência, assinatura e expiração do token. ClockSkew = TimeSpan.Zero garante que tokens expirados sejam rejeitados imediatamente, sem margem de tolerância.
+**Explicação**:  
+A configuração acima define o JWT como o mecanismo de autenticação, validando emissor, audiência, assinatura e expiração do token. `ClockSkew = TimeSpan.Zero` garante que tokens expirados sejam rejeitados imediatamente, sem margem de tolerância.
 
-4. 👤 Models e DTOs
-Models
-ApplicationUser:
+---
+
+## 4. 👤 Models e DTOs
+
+### Models
+
+#### `ApplicationUser`:
+
+```csharp
 public class ApplicationUser : IdentityUser
 {
     public string NomeCompleto { get; set; } = string.Empty; // Campo personalizado para armazenar o nome completo do usuário
 }
+```
 
-Explicação:Herda de IdentityUser para incluir propriedades padrão como Id, UserName e Email, adicionando NomeCompleto como campo extra.
-RefreshToken:
+**Explicação**:  
+Herda de `IdentityUser` para incluir propriedades padrão como `Id`, `UserName` e `Email`, adicionando `NomeCompleto` como campo extra.
+
+#### `RefreshToken`:
+
+```csharp
 public class RefreshToken
 {
     public int Id { get; set; } // Identificador único no banco
@@ -93,10 +130,16 @@ public class RefreshToken
     public bool IsUsed { get; set; } // Indica se o token já foi usado
     public bool IsRevoked { get; set; } // Indica se o token foi revogado
 }
+```
 
-Explicação:Armazena refresh tokens no banco de dados, permitindo validação e revogação. JwtId vincula o refresh token a um JWT específico.
-DTOs
-RegisterDTO:
+**Explicação**:  
+Armazena refresh tokens no banco de dados, permitindo validação e revogação. `JwtId` vincula o refresh token a um JWT específico.
+
+### DTOs
+
+#### `RegisterDTO`:
+
+```csharp
 public class RegisterDTO
 {
     [Required]
@@ -108,9 +151,14 @@ public class RegisterDTO
     [Required]
     public string NomeCompleto { get; set; } = null!; // Nome completo obrigatório
 }
+```
 
-Explicação:Usado para receber dados de registro, com validações para garantir entradas corretas.
-LoginDTO:
+**Explicação**:  
+Usado para receber dados de registro, com validações para garantir entradas corretas.
+
+#### `LoginDTO`:
+
+```csharp
 public class LoginDTO
 {
     [Required]
@@ -118,17 +166,27 @@ public class LoginDTO
     [Required]
     public string Password { get; set; } = null!; // Senha para autenticação
 }
+```
 
-Explicação:Recebe credenciais de login, com validações para campos obrigatórios.
-RefreshTokenDTO:
+**Explicação**:  
+Recebe credenciais de login, com validações para campos obrigatórios.
+
+#### `RefreshTokenDTO`:
+
+```csharp
 public class RefreshTokenDTO
 {
     [Required]
     public string RefreshToken { get; set; } = null!; // Refresh token para renovação do JWT
 }
+```
 
-Explicação:Usado para enviar o refresh token ao solicitar um novo JWT.
-ResetPasswordDTO:
+**Explicação**:  
+Usado para enviar o refresh token ao solicitar um novo JWT.
+
+#### `ResetPasswordDTO`:
+
+```csharp
 public class ResetPasswordDTO
 {
     [Required, EmailAddress]
@@ -138,20 +196,32 @@ public class ResetPasswordDTO
     [Required, MinLength(8)]
     public string NovaSenha { get; set; } = null!; // Nova senha com mínimo de 8 caracteres
 }
+```
 
-Explicação:Recebe dados para redefinir a senha, com validações para e-mail e senha.
-RespuestaAutenticacionDTO:
+**Explicação**:  
+Recebe dados para redefinir a senha, com validações para e-mail e senha.
+
+#### `RespuestaAutenticacionDTO`:
+
+```csharp
 public class RespuestaAutenticacionDTO
 {
     public string Token { get; set; } = null!; // JWT gerado
     public string RefreshToken { get; set; } = null!; // Refresh token associado
     public DateTime Expiracion { get; set; } // Data de expiração do JWT
 }
+```
 
-Explicação:Retorna o JWT, o refresh token e a data de expiração após login ou renovação.
+**Explicação**:  
+Retorna o JWT, o refresh token e a data de expiração após login ou renovação.
 
-5. 🎮 AuthController
-O AuthController implementa endpoints para autenticação e gerenciamento de usuários, com comentários explicando cada método.
+---
+
+## 5. 🎮 AuthController
+
+O `AuthController` implementa endpoints para autenticação e gerenciamento de usuários, com comentários explicando cada método.
+
+```csharp
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -419,31 +489,50 @@ public class AuthController : ControllerBase
         };
     }
 }
+```
 
+---
 
-6. ⚖️ Autorização com Roles e Claims
-Configuração de Policies
-Adicione políticas de autorização no Program.cs para restringir acesso baseado em roles e claims.
+## 6. ⚖️ Autorização com Roles e Claims
+
+### Configuração de Policies
+
+Adicione políticas de autorização no `Program.cs` para restringir acesso baseado em roles e claims.
+
+```csharp
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin")); // Requer a role "Admin"
     options.AddPolicy("CanViewProducts", policy => policy.RequireClaim("permission", "view:products")); // Requer a claim "view:products"
 });
+```
 
-Explicação:Políticas permitem regras complexas de autorização. RequireAdminRole exige que o usuário tenha a role "Admin", enquanto CanViewProducts exige uma claim específica.
-Atribuição Dinâmica de Claims
+**Explicação**:  
+Políticas permitem regras complexas de autorização. `RequireAdminRole` exige que o usuário tenha a role "Admin", enquanto `CanViewProducts` exige uma claim específica.
+
+### Atribuição Dinâmica de Claims
+
 Exemplo de adição de uma claim a um usuário:
+
+```csharp
 var user = await _userManager.FindByEmailAsync("user@example.com");
 if (user != null)
 {
     // Adiciona uma claim personalizada ao usuário
     await _userManager.AddClaimAsync(user, new Claim("permission", "view:products"));
 }
+```
 
-Explicação:Claims são atribuídas dinamicamente para conceder permissões específicas, armazenadas no banco e incluídas no JWT.
+**Explicação**:  
+Claims são atribuídas dinamicamente para conceder permissões específicas, armazenadas no banco e incluídas no JWT.
 
-7. 🔒 Protegendo Endpoints
+---
+
+## 7. 🔒 Protegendo Endpoints
+
 Use atributos para controlar o acesso aos endpoints:
+
+```csharp
 [Authorize] // Requer autenticação
 [HttpGet("protected-data")]
 public IActionResult GetProtectedData()
@@ -471,24 +560,24 @@ public IActionResult GetPublicInfo()
 {
     return Ok("Informação pública.");
 }
+```
 
-Explicação:[Authorize] protege endpoints, exigindo um JWT válido. Roles e Policy adicionam restrições baseadas em roles ou claims, enquanto [AllowAnonymous] permite acesso público.
+**Explicação**:  
+`[Authorize]` protege endpoints, exigindo um JWT válido. `Roles` e `Policy` adicionam restrições baseadas em roles ou claims, enquanto `[AllowAnonymous]` permite acesso público.
 
-8. 📌 Boas Práticas e Segurança
+---
 
-Validação Rigorosa: Use Data Annotations ([Required], [EmailAddress]) e valide ModelState nos controllers para entradas seguras.
+## 8. 📌 Boas Práticas e Segurança
 
-Segurança de Chaves JWT: Armazene a chave JWT em variáveis de ambiente ou serviços de gerenciamento de segredos.
+- **Validação Rigorosa**: Use Data Annotations (`[Required]`, `[EmailAddress]`) e valide `ModelState` nos controllers para entradas seguras.
+- **Segurança de Chaves JWT**: Armazene a chave JWT em variáveis de ambiente ou serviços de gerenciamento de segredos.
+- **Expiração de Tokens**: Use tempos curtos para JWTs (ex.: 30 minutos) e mais longos para refresh tokens (ex.: 7 dias), com revogação.
+- **Revogação de Tokens**: Implemente revogação de refresh tokens ao logout ou em caso de comprometimento.
+- **Proteção contra Ataques**: Mitigue força bruta, XSS e injeção de SQL com validações e proteções do ASP.NET Core.
+- **HTTPS**: Force HTTPS para proteger dados em trânsito.
+- **E-mail**: Integre serviços como SendGrid para envio de e-mails. Exemplo:
 
-Expiração de Tokens: Use tempos curtos para JWTs (ex.: 30 minutos) e mais longos para refresh tokens (ex.: 7 dias), com revogação.
-
-Revogação de Tokens: Implemente revogação de refresh tokens ao logout ou em caso de comprometimento.
-
-Proteção contra Ataques: Mitigue força bruta, XSS e injeção de SQL com validações e proteções do ASP.NET Core.
-
-HTTPS: Force HTTPS para proteger dados em trânsito.
-
-E-mail: Integre serviços como SendGrid para envio de e-mails. Exemplo:
+```csharp
 var client = new SendGridClient("sua-chave-api"); // Cliente SendGrid com chave API
 var msg = new SendGridMessage
 {
@@ -498,72 +587,24 @@ var msg = new SendGridMessage
 };
 msg.AddTo(new EmailAddress(user.Email)); // Destinatário
 await client.SendEmailAsync(msg); // Envia o e-mail
+```
 
+- **Logging e Auditoria**: Registre eventos de autenticação para monitoramento.
+- **Testes**: Escreva testes unitários e de integração para endpoints.
+- **Documentação**: Use Swagger/OpenAPI para documentar a API.
 
-Logging e Auditoria: Registre eventos de autenticação para monitoramento.
+---
 
-Testes: Escreva testes unitários e de integração para endpoints.
+## 9. 📋 Tabela de Endpoints
 
-Documentação: Use Swagger/OpenAPI para documentar a API.
-
-
-
-9. 📋 Tabela de Endpoints
-
-
-
-Método
-Endpoint
-Descrição
-Autenticação
-
-
-
-POST
-/api/auth/register
-Registra um novo usuário
-Anônimo
-
-
-GET
-/api/auth/confirm-email
-Confirma o e-mail do usuário
-Anônimo
-
-
-POST
-/api/auth/login
-Autentica o usuário e gera JWT
-Anônimo
-
-
-POST
-/api/auth/refresh-token
-Renova o JWT usando refresh token
-Anônimo
-
-
-POST
-/api/auth/forgot-password
-Solicita recuperação de senha
-Anônimo
-
-
-POST
-/api/auth/reset-password
-Redefine a senha do usuário
-Anônimo
-
-
-POST
-/api/auth/assign-role
-Atribui uma role a um usuário
-Requer RequireAdminRole
-
-
-POST
-/api/auth/remove-role
-Remove uma role de um usuário
-Requer RequireAdminRole
-
+| Método | Endpoint                        | Descrição                              | Autenticação            |
+|--------|---------------------------------|----------------------------------------|-------------------------|
+| POST   | `/api/auth/register`            | Registra um novo usuário               | Anônimo                 |
+| GET    | `/api/auth/confirm-email`       | Confirma o e-mail do usuário           | Anônimo                 |
+| POST   | `/api/auth/login`               | Autentica o usuário e gera JWT         | Anônimo                 |
+| POST   | `/api/auth/refresh-token`       | Renova o JWT usando refresh token      | Anônimo                 |
+| POST   | `/api/auth/forgot-password`     | Solicita recuperação de senha          | Anônimo                 |
+| POST   | `/api/auth/reset-password`      | Redefine a senha do usuário            | Anônimo                 |
+| POST   | `/api/auth/assign-role`         | Atribui uma role a um usuário          | Requer `RequireAdminRole` |
+| POST   | `/api/auth/remove-role`         | Remove uma role de um usuário          | Requer `RequireAdminRole` |
 
