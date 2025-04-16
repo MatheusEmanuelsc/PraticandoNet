@@ -1,47 +1,64 @@
-📝 Implementação de Logging no ASP.NET Core 8
-Este guia detalha como configurar logging em uma Web API ASP.NET Core 8 usando o provedor de log nativo e o Serilog para logs estruturados. Os logs serão salvos no console, em arquivo e em banco de dados (SQL Server), integrando com projetos anteriores (ex.: autenticação JWT). O código é comentado e formatado para renderização no GitHub.
-📘 Índice
-
-O que é Logging?
-Pacotes Necessários
-Configuração do Logging Nativo
-Configuração do Serilog
-Salvando Logs no Banco de Dados
-Usando Logs no AuthController
-Boas Práticas e Segurança
-Exemplo de Saída de Logs
 
 
-1. ❓ O que é Logging?
-Logging registra eventos, erros e informações da aplicação para monitoramento, depuração e auditoria. No ASP.NET Core, o logging é usado para:
 
-Rastrear requisições (ex.: logins na API).
-Diagnosticar erros (ex.: falhas no 2FA).
-Auditar ações (ex.: tentativas de acesso não autorizado).
+# 📝 Implementação de Logging no ASP.NET Core 8
+
+Este guia detalha como configurar **logging** em uma **Web API ASP.NET Core 8** usando o **provedor de log nativo** e o **Serilog** para logs estruturados. Os logs serão salvos no console, em arquivo e em banco de dados (SQL Server), integrando com projetos anteriores (ex.: autenticação JWT). O código é comentado e formatado para renderização no GitHub.
+
+## 📘 Índice
+
+1. O que é Logging?
+2. Pacotes Necessários
+3. Configuração do Logging Nativo
+4. Configuração do Serilog
+5. Salvando Logs no Banco de Dados
+6. Usando Logs no AuthController
+7. Boas Práticas e Segurança
+8. Exemplo de Saída de Logs
+
+---
+
+## 1. ❓ O que é Logging?
+
+**Logging** registra eventos, erros e informações da aplicação para monitoramento, depuração e auditoria. No ASP.NET Core, o logging é usado para:
+- Rastrear requisições (ex.: logins na API).
+- Diagnosticar erros (ex.: falhas no 2FA).
+- Auditar ações (ex.: tentativas de acesso não autorizado).
 
 Este guia configura logs para console, arquivo e banco de dados, com exemplos práticos.
 
-2. 📦 Pacotes Necessários
+---
+
+## 2. 📦 Pacotes Necessários
+
 Adicione os pacotes via NuGet para logging nativo, Serilog e integração com SQL Server:
+
+```bash
 dotnet add package Microsoft.Extensions.Logging
 dotnet add package Serilog.AspNetCore
 dotnet add package Serilog.Sinks.File
 dotnet add package Serilog.Sinks.MSSqlServer
 dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+```
 
-Explicação:
+**Explicação**:  
+- `Microsoft.Extensions.Logging`: Provedor de log nativo do ASP.NET Core.  
+- `Serilog.AspNetCore`: Integra o Serilog com ASP.NET Core.  
+- `Serilog.Sinks.File`: Salva logs em arquivos.  
+- `Serilog.Sinks.MSSqlServer`: Salva logs no SQL Server.  
+- `Microsoft.EntityFrameworkCore.SqlServer`: Persiste dados (usado nos resumos anteriores).
 
-Microsoft.Extensions.Logging: Provedor de log nativo do ASP.NET Core.
-Serilog.AspNetCore: Integra o Serilog com ASP.NET Core.
-Serilog.Sinks.File: Salva logs em arquivos.
-Serilog.Sinks.MSSqlServer: Salva logs no SQL Server.
-Microsoft.EntityFrameworkCore.SqlServer: Persiste dados (usado nos resumos anteriores).
+---
 
+## 3. ⚙️ Configuração do Logging Nativo
 
-3. ⚙️ Configuração do Logging Nativo
 O ASP.NET Core inclui um sistema de logging básico que registra no console por padrão.
-Program.cs
+
+### `Program.cs`
+
 Configure o logging nativo com níveis de log:
+
+```csharp
 var builder = WebApplication.CreateBuilder(args);
 
 // Configura logging nativo
@@ -60,15 +77,17 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+```
 
-Explicação:
+**Explicação**:  
+- `ClearProviders()`: Remove provedores padrão para personalização.  
+- `AddConsole()`: Exibe logs no console.  
+- `AddDebug()`: Exibe logs no debugger (útil em desenvolvimento).  
+- `SetMinimumLevel`: Filtra logs abaixo de `Information` (ex.: `Debug` é ignorado).
 
-ClearProviders(): Remove provedores padrão para personalização.
-AddConsole(): Exibe logs no console.
-AddDebug(): Exibe logs no debugger (útil em desenvolvimento).
-SetMinimumLevel: Filtra logs abaixo de Information (ex.: Debug é ignorado).
+### Exemplo de Uso
 
-Exemplo de Uso
+```csharp
 [ApiController]
 [Route("api/test")]
 public class TestController : ControllerBase
@@ -95,20 +114,28 @@ public class TestController : ControllerBase
         }
     }
 }
+```
 
-Explicação:
+**Explicação**:  
+- `ILogger<T>`: Injetado via construtor para logs específicos do controller.  
+- `LogInformation`: Registra eventos normais.  
+- `LogError`: Registra erros com detalhes da exceção.
 
-ILogger<T>: Injetado via construtor para logs específicos do controller.
-LogInformation: Registra eventos normais.
-LogError: Registra erros com detalhes da exceção.
+---
 
+## 4. 🚀 Configuração do Serilog
 
-4. 🚀 Configuração do Serilog
-O Serilog oferece logs estruturados, mais poderosos que o provedor nativo, com suporte a múltiplos destinos (sinks).
-Pacotes
-Já incluídos na seção 2 (Serilog.AspNetCore, Serilog.Sinks.File).
-appsettings.json
+O **Serilog** oferece logs estruturados, mais poderosos que o provedor nativo, com suporte a múltiplos destinos (*sinks*).
+
+### Pacotes
+
+Já incluídos na seção 2 (`Serilog.AspNetCore`, `Serilog.Sinks.File`).
+
+### `appsettings.json`
+
 Configure o Serilog para console e arquivo:
+
+```json
 {
   "Serilog": {
     "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
@@ -132,16 +159,19 @@ Configure o Serilog para console e arquivo:
     ]
   }
 }
+```
 
-Explicação:
+**Explicação**:  
+- `Using`: Lista os *sinks* usados.  
+- `MinimumLevel`: Define `Information` como padrão, reduzindo logs verbosos do `Microsoft` e `System`.  
+- `WriteTo`: Configura destinos (console e arquivo).  
+- `File Args`: Cria arquivos diários em `Logs/` com até 7 dias de retenção.
 
-Using: Lista os sinks usados.
-MinimumLevel: Define Information como padrão, reduzindo logs verbosos do Microsoft e System.
-WriteTo: Configura destinos (console e arquivo).
-File Args: Cria arquivos diários em Logs/ com até 7 dias de retenção.
+### `Program.cs`
 
-Program.cs
 Integre o Serilog ao pipeline:
+
+```csharp
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -165,21 +195,29 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+```
 
-Explicação:
+**Explicação**:  
+- `UseSerilog`: Substitui o provedor nativo pelo Serilog.  
+- `ReadFrom.Configuration`: Carrega configurações do `appsettings.json`.  
+- `Enrich.FromLogContext`: Adiciona metadados aos logs.  
+- `UseSerilogRequestLogging`: Registra detalhes de cada requisição (ex.: método, URL, status).
 
-UseSerilog: Substitui o provedor nativo pelo Serilog.
-ReadFrom.Configuration: Carrega configurações do appsettings.json.
-Enrich.FromLogContext: Adiciona metadados aos logs.
-UseSerilogRequestLogging: Registra detalhes de cada requisição (ex.: método, URL, status).
+---
 
+## 5. 💾 Salvando Logs no Banco de Dados
 
-5. 💾 Salvando Logs no Banco de Dados
 Configure o Serilog para salvar logs no SQL Server, útil para auditoria.
-Pacote
-Já incluído (Serilog.Sinks.MSSqlServer).
-appsettings.json
-Adicione o sink para SQL Server:
+
+### Pacote
+
+Já incluído (`Serilog.Sinks.MSSqlServer`).
+
+### `appsettings.json`
+
+Adicione o *sink* para SQL Server:
+
+```json
 {
   "Serilog": {
     "Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File", "Serilog.Sinks.MSSqlServer" ],
@@ -212,26 +250,30 @@ Adicione o sink para SQL Server:
     ]
   }
 }
+```
 
-Explicação:
+**Explicação**:  
+- `MSSqlServer`: Configura o *sink* para SQL Server.  
+- `connectionString`: Conecta ao banco `LogsDb`.  
+- `tableName`: Define a tabela `Logs`.  
+- `autoCreateSqlTable`: Cria a tabela se não existir.
 
-MSSqlServer: Configura o sink para SQL Server.
-connectionString: Conecta ao banco LogsDb.
-tableName: Define a tabela Logs.
-autoCreateSqlTable: Cria a tabela se não existir.
+### Estrutura da Tabela
 
-Estrutura da Tabela
-A tabela Logs será criada com colunas como:
+A tabela `Logs` será criada com colunas como:
+- `Id`: Chave primária.
+- `Message`: Mensagem do log.
+- `Level`: Nível (ex.: Information, Error).
+- `TimeStamp`: Data e hora.
+- `Exception`: Detalhes da exceção (se aplicável).
 
-Id: Chave primária.
-Message: Mensagem do log.
-Level: Nível (ex.: Information, Error).
-TimeStamp: Data e hora.
-Exception: Detalhes da exceção (se aplicável).
+---
 
+## 6. 🎮 Usando Logs no AuthController
 
-6. 🎮 Usando Logs no AuthController
-Adapte o AuthController (dos resumos anteriores, ex.: 14/04/2025 e 16/04/2025) para usar Serilog.
+Adapte o `AuthController` (dos resumos anteriores, ex.: 14/04/2025 e 16/04/2025) para usar Serilog.
+
+```csharp
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -349,111 +391,109 @@ public class AuthController : ControllerBase
         };
     }
 }
+```
 
-Explicação:
+**Explicação**:  
+- `ILogger<AuthController>`: Injetado para logs específicos do controller.  
+- `LogInformation`: Registra eventos normais (ex.: início e sucesso do login).  
+- `LogWarning`: Registra falhas recuperáveis (ex.: usuário ou código inválido).  
+- `LogError`: Registra erros graves com detalhes da exceção.  
+- `{UserName}`: Adiciona contexto estruturado, visível no console, arquivo e banco.
 
-ILogger<AuthController>: Injetado para logs específicos do controller.
-LogInformation: Registra eventos normais (ex.: início e sucesso do login).
-LogWarning: Registra falhas recuperáveis (ex.: usuário ou código inválido).
-LogError: Registra erros graves com detalhes da exceção.
-{UserName}: Adiciona contexto estruturado, visível no console, arquivo e banco.
+---
 
+## 7. 📌 Boas Práticas e Segurança
 
-7. 📌 Boas Práticas e Segurança
-
-Níveis de Log: Use níveis apropriados:
-
-Debug: Detalhes para desenvolvimento.
-Information: Eventos normais (ex.: login bem-sucedido).
-Warning: Problemas recuperáveis (ex.: senha incorreta).
-Error: Falhas graves (ex.: erro ao gerar JWT).
-Critical: Falhas catastróficas (ex.: banco indisponível).
-
-
-Filtragem: Reduza logs verbosos em produção com MinimumLevel:
-"MinimumLevel": {
-  "Default": "Warning",
-  "Override": {
-    "Microsoft": "Error",
-    "System": "Error"
+- **Níveis de Log**: Use níveis apropriados:
+  - `Debug`: Detalhes para desenvolvimento.
+  - `Information`: Eventos normais (ex.: login bem-sucedido).
+  - `Warning`: Problemas recuperáveis (ex.: senha incorreta).
+  - `Error`: Falhas graves (ex.: erro ao gerar JWT).
+  - `Critical`: Falhas catastróficas (ex.: banco indisponível).  
+- **Filtragem**: Reduza logs verbosos em produção com `MinimumLevel`:
+  ```json
+  "MinimumLevel": {
+    "Default": "Warning",
+    "Override": {
+      "Microsoft": "Error",
+      "System": "Error"
+    }
   }
-}
+  ```
+- **Estruturação**: Use propriedades estruturadas (ex.: `{UserName}`) para facilitar consultas:
+  ```csharp
+  _logger.LogInformation("Ação por {UserId} em {Endpoint}", user.Id, "/api/auth");
+  ```
+- **Segurança**: Não registre dados sensíveis (ex.: senhas, tokens JWT):
+  ```csharp
+  // Errado
+  _logger.LogInformation("Senha fornecida: {Password}", dto.Password);
+  // Correto
+  _logger.LogInformation("Tentativa de login para {UserName}", dto.UserName);
+  ```
+- **Rotação de Arquivos**: Limite o tamanho e retenção de arquivos com `retainedFileCountLimit`.  
+- **Banco de Dados**: Indexe a coluna `TimeStamp` na tabela `Logs` para consultas rápidas:
+  ```sql
+  CREATE INDEX IX_Logs_TimeStamp ON Logs(TimeStamp);
+  ```
+- **Monitoramento**: Considere *sinks* como ElasticSearch ou Application Insights para análise avançada em produção.  
+- **Testes**: Verifique logs em testes de integração:
+  ```csharp
+  [Fact]
+  public async Task Login2FA_LogsSuccess()
+  {
+      var loggerMock = new Mock<ILogger<AuthController>>();
+      // Configurar teste
+  }
+  ```
+- **Desempenho**: Evite logs excessivos em loops ou endpoints de alta frequência.
 
+---
 
-Estruturação: Use propriedades estruturadas (ex.: {UserName}) para facilitar consultas:
-_logger.LogInformation("Ação por {UserId} em {Endpoint}", user.Id, "/api/auth");
+## 8. 📈 Exemplo de Saída de Logs
 
+### Console
 
-Segurança: Não registre dados sensíveis (ex.: senhas, tokens JWT):
-// Errado
-_logger.LogInformation("Senha fornecida: {Password}", dto.Password);
-// Correto
-_logger.LogInformation("Tentativa de login para {UserName}", dto.UserName);
-
-
-Rotação de Arquivos: Limite o tamanho e retenção de arquivos com retainedFileCountLimit.
-
-Banco de Dados: Indexe a coluna TimeStamp na tabela Logs para consultas rápidas:
-CREATE INDEX IX_Logs_TimeStamp ON Logs(TimeStamp);
-
-
-Monitoramento: Considere sinks como ElasticSearch ou Application Insights para análise avançada em produção.
-
-Testes: Verifique logs em testes de integração:
-[Fact]
-public async Task Login2FA_LogsSuccess()
-{
-    var loggerMock = new Mock<ILogger<AuthController>>();
-    // Configurar teste
-}
-
-
-Desempenho: Evite logs excessivos em loops ou endpoints de alta frequência.
-
-
-
-8. 📈 Exemplo de Saída de Logs
-Console
+```plaintext
 2025-04-16 10:09:32.123 [INF] Iniciando login 2FA para usuário "joao.silva"
 2025-04-16 10:09:32.456 [INF] Login 2FA bem-sucedido para usuário "joao.silva"
 2025-04-16 10:09:33.789 [WRN] Código 2FA inválido para usuário "maria.souza"
+```
 
-Arquivo (Logs/app-20250416.log)
+### Arquivo (`Logs/app-20250416.log`)
+
+```plaintext
 {"TimeStamp":"2025-04-16T10:09:32.123","Level":"Information","MessageTemplate":"Iniciando login 2FA para usuário {UserName}","Properties":{"UserName":"joao.silva"}}
 {"TimeStamp":"2025-04-16T10:09:32.456","Level":"Information","MessageTemplate":"Login 2FA bem-sucedido para usuário {UserName}","Properties":{"UserName":"joao.silva"}}
 {"TimeStamp":"2025-04-16T10:09:33.789","Level":"Warning","MessageTemplate":"Código 2FA inválido para usuário {UserName}","Properties":{"UserName":"maria.souza"}}
+```
 
-Banco de Dados (LogsDb.dbo.Logs)
+### Banco de Dados (`LogsDb.dbo.Logs`)
 
+| Id | TimeStamp                | Level       | MessageTemplate                              | Properties                     |
+|----|--------------------------|-------------|----------------------------------------------|--------------------------------|
+| 1  | 2025-04-16 10:09:32.123 | Information | Iniciando login 2FA para usuário {UserName}   | {"UserName":"joao.silva"}      |
+| 2  | 2025-04-16 10:09:32.456 | Information | Login 2FA bem-sucedido para usuário {UserName} | {"UserName":"joao.silva"}      |
+| 3  | 2025-04-16 10:09:33.789 | Warning     | Código 2FA inválido para usuário {UserName}   | {"UserName":"maria.souza"}     |
 
-
-Id
-TimeStamp
-Level
-MessageTemplate
-Properties
-
-
-
-1
-2025-04-16 10:09:32.123
-Information
-Iniciando login 2FA para usuário {UserName}
-{"UserName":"joao.silva"}
+---
 
 
-2
-2025-04-16 10:09:32.456
-Information
-Login 2FA bem-sucedido para usuário {UserName}
-{"UserName":"joao.silva"}
 
+---
 
-3
-2025-04-16 10:09:33.789
-Warning
-Código 2FA inválido para usuário {UserName}
-{"UserName":"maria.souza"}
+### Integração com Resumos Anteriores
 
+Este resumo é compatível com seus projetos anteriores:
+- **Autenticação (14/04/2025)**: Adicione logs ao `AuthController` para registrar tentativas de login, refresh tokens, etc.
+- **Envio de E-mails (16/04/2025)**: Logue envios de e-mails (ex.: sucesso ou falha no `EmailService`).
+- **Login com Google (16/04/2025)**: Registre tentativas de login externo e erros no callback.
+- **2FA (16/04/2025)**: O exemplo acima já integra logs no `login-2fa`.
+- **CORS (16/04/2025)**: Logue erros de CORS (ex.: origens não permitidas) com o middleware de exceções.
 
+Para integrar:
+1. Adicione os pacotes Serilog ao projeto (`Serilog.AspNetCore`, etc.).
+2. Configure o Serilog no `Program.cs` como mostrado.
+3. Atualize o `appsettings.json` com as configurações de console, arquivo e banco.
+4. Injete `ILogger<T>` nos controllers existentes (ex.: `AuthController`, `TwoFactorController`) e adicione logs como no exemplo.
 
