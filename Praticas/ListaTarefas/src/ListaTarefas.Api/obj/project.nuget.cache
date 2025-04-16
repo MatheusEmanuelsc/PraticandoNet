@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "JLYlZiBujss=",
+  "dgSpecHash": "MuYFcYqYc4w=",
   "success": true,
   "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/Praticas/ListaTarefas/src/ListaTarefas.Api/ListaTarefas.Api.csproj",
   "expectedPackageFiles": [
@@ -147,7 +147,10 @@
     "/home/matheusemanuel/.nuget/packages/system.text.json/7.0.3/system.text.json.7.0.3.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/system.threading.channels/7.0.0/system.threading.channels.7.0.0.nupkg.sha512",
     "/home/matheusemanuel/.nuget/packages/system.threading.tasks.dataflow/7.0.0/system.threading.tasks.dataflow.7.0.0.nupkg.sha512",
-    "/home/matheusemanuel/.nuget/packages/system.windows.extensions/7.0.0/system.windows.extensions.7.0.0.nupkg.sha512"
+    "/home/matheusemanuel/.nuget/packages/system.windows.extensions/7.0.0/system.windows.extensions.7.0.0.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.netcore.app.ref/8.0.15/microsoft.netcore.app.ref.8.0.15.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.15/microsoft.aspnetcore.app.ref.8.0.15.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.15/microsoft.netcore.app.host.linux-x64.8.0.15.nupkg.sha512"
   ],
   "logs": []
 }
