@@ -1,412 +1,399 @@
 
 
-# 📧 Envio de E-mails para Autenticação com ASP.NET Core 8
+```markdown
+# 📧 Envio de E-mails para Confirmação e Recuperação de Senha no ASP.NET Core 8
 
-Este tutorial complementa o sistema de autenticação e autorização com **ASP.NET Core 8**, focando na implementação do envio de e-mails para **confirmação de conta** e **recuperação de senha**. Usaremos o protocolo **SMTP** (com um exemplo baseado no Gmail) para demonstração, mas também mencionaremos alternativas como **SendGrid** para cenários de produção.
-
----
+Este guia detalha como implementar o **envio de e-mails** para **confirmação de conta** e **recuperação de senha** em uma aplicação **ASP.NET Core 8** usando o **SendGrid**. Inclui configurações, integração com o Identity, e um controller ajustado para enviar e-mails com links clicáveis. O código é comentado para clareza e formatado para renderização correta no GitHub.
 
 ## 📘 Índice
 
-1. [Por que Enviar E-mails?](#1-por-que-enviar-e-mails)
-2. [Pacotes Necessários](#2-pacotes-necessários)
-3. [Configuração do Serviço de E-mail](#3-configuração-do-serviço-de-e-mail)
-4. [Modelo de E-mail e Interface de Serviço](#4-modelo-de-e-mail-e-interface-de-serviço)
-5. [Implementação do Serviço de E-mail](#5-implementação-do-serviço-de-e-mail)
-6. [Integração com o Controller de Usuários](#6-integração-com-o-controller-de-usuários)
-7. [Alternativas ao SMTP](#7-alternativas-ao-smtp)
-8. [Boas Práticas e Considerações](#8-boas-práticas-e-considerações)
+1. Pacotes Necessários
+2. Configuração do SendGrid
+3. Ajustes no Identity
+4. Modelos e DTOs
+5. EmailService
+6. AuthController (Apenas E-mail)
+7. Boas Práticas e Segurança
+8. Tabela de Endpoints
 
 ---
 
-## 1. ❓ Por que Enviar E-mails?
+## 1. 📦 Pacotes Necessários
 
-O envio de e-mails é essencial em sistemas de autenticação para:
-
-- **Confirmação de Conta**: Garante que o e-mail fornecido pelo usuário é válido antes de ativar a conta.
-- **Recuperação de Senha**: Permite que os usuários redefinam suas senhas de forma segura enviando um token de redefinição.
-- **Notificações**: Informa os usuários sobre atividades importantes, como tentativas de login ou alterações de conta.
-
----
-
-## 2. 📦 Pacotes Necessários
-
-Para enviar e-mails usando SMTP, usaremos a biblioteca padrão **System.Net.Mail** do .NET. Para cenários mais avançados, podemos adicionar pacotes como:
+Adicione os pacotes para Identity, Entity Framework e SendGrid via NuGet:
 
 ```bash
-dotnet add package MailKit
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package SendGrid
 ```
 
-**MailKit** é uma biblioteca robusta para envio de e-mails que suporta SMTP, IMAP e POP3. Neste tutorial, usaremos **MailKit** por ser mais flexível e amplamente adotado.
+**Explicação**:  
+- `Microsoft.AspNetCore.Identity.EntityFrameworkCore`: Gerencia usuários e tokens do Identity.  
+- `Microsoft.EntityFrameworkCore.SqlServer`: Persiste dados do Identity no SQL Server.  
+- `SendGrid`: Biblioteca para envio de e-mails via API do SendGrid.
 
 ---
 
-## 3. ⚙️ Configuração do Serviço de E-mail
+## 2. 📬 Configuração do SendGrid
 
-### Configurar no `appsettings.json`
+### Obter Chave API
+1. Crie uma conta no [SendGrid](https://sendgrid.com/).
+2. Gere uma **API Key** no painel (Settings > API Keys > Create API Key).
+3. Copie a chave para uso na aplicação.
 
-Adicione as configurações do serviço de e-mail ao arquivo `appsettings.json`. Para o exemplo com Gmail:
+### `appsettings.json`
+
+Adicione as configurações do SendGrid e do remetente do e-mail:
 
 ```json
 {
-  "EmailSettings": {
-    "SmtpServer": "smtp.gmail.com",
-    "SmtpPort": 587,
-    "SenderName": "Sua Aplicação",
-    "SenderEmail": "seu-email@gmail.com",
-    "Username": "seu-email@gmail.com",
-    "Password": "sua-senha-de-app"
+  "SendGrid": {
+    "ApiKey": "SUA-CHAVE-API-SENDGRID", // Chave API do SendGrid
+    "FromEmail": "no-reply@suaapi.com", // E-mail remetente
+    "FromName": "Sua API" // Nome do remetente
   }
 }
 ```
 
-> **Nota sobre Gmail**: Para usar o Gmail, você precisa gerar uma **senha de aplicativo** nas configurações de segurança da sua conta Google, pois a autenticação de dois fatores exige isso. **Nunca** armazene senhas diretamente no `appsettings.json` em produção; use **Azure Key Vault**, **AWS Secrets Manager** ou variáveis de ambiente.
-
-### Registrar o Serviço no `Program.cs`
-
-Configure o serviço de e-mail como um singleton no `Program.cs`:
-
-```csharp
-builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddSingleton<IEmailService, EmailService>();
-```
+**Explicação**:  
+- `ApiKey`: Autentica requisições ao SendGrid.  
+- `FromEmail` e `FromName`: Definem o remetente dos e-mails enviados.  
+Armazene a chave em variáveis de ambiente em produção para maior segurança.
 
 ---
 
-## 4. 📝 Modelo de E-mail e Interface de Serviço
+## 3. ⚙️ Ajustes no Identity
 
-### Modelo `EmailSettings`
-
-Crie uma classe para mapear as configurações do `appsettings.json`:
+Configure o Identity no `Program.cs` para suportar confirmação de e-mail:
 
 ```csharp
-public class EmailSettings
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
-    public string SmtpServer { get; set; } = null!;
-    public int SmtpPort { get; set; }
-    public string SenderName { get; set; } = null!;
-    public string SenderEmail { get; set; } = null!;
-    public string Username { get; set; } = null!;
-    public string Password { get; set; } = null!;
+    options.SignIn.RequireConfirmedEmail = true; // Exige confirmação de e-mail antes do login
+    options.Password.RequireDigit = true; // Senha deve conter dígito
+    options.Password.RequiredLength = 8; // Mínimo de 8 caracteres
+})
+.AddEntityFrameworkStores<ApplicationDbContext>() // Usa EF com o contexto
+.AddDefaultTokenProviders(); // Provedores para tokens de e-mail e senha
+```
+
+**Explicação**:  
+- `RequireConfirmedEmail = true`: Garante que usuários só façam login após confirmar o e-mail.  
+- `AddDefaultTokenProviders()`: Habilita geração de tokens para confirmação de e-mail e redefinição de senha.
+
+---
+
+## 4. 👤 Modelos e DTOs
+
+### Modelo: `ApplicationUser`
+
+```csharp
+public class ApplicationUser : IdentityUser
+{
+    public string NomeCompleto { get; set; } = string.Empty; // Nome completo do usuário
 }
 ```
 
-### Interface `IEmailService`
+**Explicação**:  
+Herda de `IdentityUser` para incluir propriedades padrão (ex.: `Email`, `UserName`) e adiciona `NomeCompleto`.
 
-Defina uma interface para o serviço de e-mail:
+### DTOs
+
+#### `RegisterDTO`:
 
 ```csharp
+public class RegisterDTO
+{
+    [Required]
+    public string UserName { get; set; } = null!; // Nome de usuário
+    [Required, EmailAddress]
+    public string Email { get; set; } = null!; // E-mail válido
+    [Required, MinLength(8)]
+    public string Password { get; set; } = null!; // Senha
+    [Required]
+    public string NomeCompleto { get; set; } = null!; // Nome completo
+}
+```
+
+**Explicação**:  
+Recebe dados de registro com validações.
+
+#### `ResetPasswordDTO`:
+
+```csharp
+public class ResetPasswordDTO
+{
+    [Required, EmailAddress]
+    public string Email { get; set; } = null!; // E-mail do usuário
+    [Required]
+    public string Token { get; set; } = null!; // Token de redefinição
+    [Required, MinLength(8)]
+    public string NovaSenha { get; set; } = null!; // Nova senha
+}
+```
+
+**Explicação**:  
+Recebe dados para redefinir a senha.
+
+---
+
+## 5. 📧 EmailService
+
+Crie um serviço para gerenciar o envio de e-mails com SendGrid.
+
+```csharp
+using Microsoft.Extensions.Configuration;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Threading.Tasks;
+
 public interface IEmailService
 {
-    Task SendEmailAsync(string toEmail, string subject, string body, bool isHtml = false);
+    Task SendEmailAsync(string toEmail, string subject, string htmlContent); // Envia e-mail HTML
 }
-```
-
----
-
-## 5. ✉️ Implementação do Serviço de E-mail
-
-Crie a implementação do serviço de e-mail usando **MailKit**:
-
-```csharp
-using MailKit.Net.Smtp;
-using MimeKit;
-using Microsoft.Extensions.Options;
 
 public class EmailService : IEmailService
 {
-    private readonly EmailSettings _settings;
+    private readonly IConfiguration _configuration; // Acessa configurações
 
-    public EmailService(IOptions<EmailSettings> settings)
+    public EmailService(IConfiguration configuration)
     {
-        _settings = settings.Value;
+        _configuration = configuration;
     }
 
-    public async Task SendEmailAsync(string toEmail, string subject, string body, bool isHtml = false)
+    // Envia e-mail usando SendGrid
+    public async Task SendEmailAsync(string toEmail, string subject, string htmlContent)
     {
-        var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(_settings.SenderName, _settings.SenderEmail));
-        message.To.Add(new MailboxAddress("", toEmail));
-        message.Subject = subject;
+        var apiKey = _configuration["SendGrid:ApiKey"]; // Obtém chave API
+        var client = new SendGridClient(apiKey); // Inicializa cliente SendGrid
+        var from = new EmailAddress(
+            _configuration["SendGrid:FromEmail"], // E-mail remetente
+            _configuration["SendGrid:FromName"] // Nome remetente
+        );
+        var to = new EmailAddress(toEmail); // Destinatário
+        var msg = MailHelper.CreateSingleEmail(
+            from,
+            to,
+            subject,
+            null, // Sem conteúdo de texto puro
+            htmlContent // Conteúdo HTML
+        );
+        var response = await client.SendEmailAsync(msg); // Envia e-mail
 
-        var bodyBuilder = new BodyBuilder();
-        if (isHtml)
-            bodyBuilder.HtmlBody = body;
-        else
-            bodyBuilder.TextBody = body;
-
-        message.Body = bodyBuilder.ToMessageBody();
-
-        using var client = new SmtpClient();
-        await client.ConnectAsync(_settings.SmtpServer, _settings.SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
-        await client.AuthenticateAsync(_settings.Username, _settings.Password);
-        await client.SendAsync(message);
-        await client.DisconnectAsync(true);
+        // Verifica se o envio falhou
+        if (response.StatusCode != System.Net.HttpStatusCode.OK &&
+            response.StatusCode != System.Net.HttpStatusCode.Accepted)
+        {
+            throw new Exception($"Falha ao enviar e-mail: {response.StatusCode}");
+        }
     }
 }
 ```
 
+**Explicação**:  
+- `IEmailService`: Interface para envio de e-mails, permitindo injeção de dependência.  
+- `EmailService`: Implementa o envio via SendGrid, usando configurações do `appsettings.json`.  
+- O conteúdo é enviado como HTML para suportar links clicáveis.
+
+Registre o serviço no `Program.cs`:
+
+```csharp
+builder.Services.AddSingleton<IEmailService, EmailService>(); // Registra EmailService como singleton
+```
+
 ---
 
-## 6. 🔗 Integração com o Controller de Usuários
+## 6. 🎮 AuthController (Apenas E-mail)
 
-Atualize o controller de usuários (baseado no resumo anterior) para incluir o envio de e-mails nos endpoints de **registro**, **confirmação de e-mail** e **recuperação de senha**.
-
-### Controller Atualizado
+Adicione métodos para confirmação de e-mail e recuperação de senha ao `AuthController`.
 
 ```csharp
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 using System.Web;
 
-namespace SuaApi.Controllers
+// Controlador para funcionalidades de e-mail
+[ApiController]
+[Route("api/auth")]
+public class AuthController : ControllerBase
 {
-    [ApiController]
-    [Route("api/usuarios")]
-    public class UsuariosController : ControllerBase
+    private readonly UserManager<ApplicationUser> _userManager; // Gerencia usuários
+    private readonly IEmailService _emailService; // Serviço de e-mail
+
+    public AuthController(
+        UserManager<ApplicationUser> userManager,
+        IEmailService emailService)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IConfiguration _configuration;
-        private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly IEmailService _emailService;
+        _userManager = userManager;
+        _emailService = emailService;
+    }
 
-        public UsuariosController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
-            IConfiguration configuration,
-            RoleManager<IdentityRole> roleManager,
-            IEmailService emailService)
+    // Registra usuário e envia e-mail de confirmação
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<IActionResult> Register(RegisterDTO dto)
+    {
+        // Cria usuário
+        var user = new ApplicationUser
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration = configuration;
-            _roleManager = roleManager;
-            _emailService = emailService;
-        }
+            UserName = dto.UserName,
+            Email = dto.Email,
+            NomeCompleto = dto.NomeCompleto
+        };
 
-        [HttpPost("registro")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Registrar(RegisterDTO dto)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = dto.UserName,
-                Email = dto.Email,
-                NomeCompleto = dto.NomeCompleto
-            };
+        // Salva usuário
+        var result = await _userManager.CreateAsync(user, dto.Password);
+        if (!result.Succeeded)
+            return BadRequest(new { Errors = result.Errors });
 
-            var result = await _userManager.CreateAsync(user, dto.Password);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+        // Gera token de confirmação
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        // Cria link de confirmação
+        var confirmLink = Url.Action(
+            "ConfirmEmail",
+            "Auth",
+            new { userId = user.Id, token = HttpUtility.UrlEncode(token) },
+            Request.Scheme
+        );
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            var confirmationLink = Url.Action("ConfirmarEmail", "Usuarios", 
-                new { userId = user.Id, token = HttpUtility.UrlEncode(token) }, 
-                Request.Scheme);
+        // Monta e-mail HTML
+        var htmlContent = $@"<h2>Bem-vindo, {user.NomeCompleto}!</h2>
+            <p>Por favor, confirme seu e-mail clicando no link abaixo:</p>
+            <a href=""{confirmLink}"">Confirmar E-mail</a>";
 
-            var emailBody = $@"<h2>Bem-vindo, {dto.NomeCompleto}!</h2>
-                             <p>Por favor, confirme seu e-mail clicando no link abaixo:</p>
-                             <a href='{confirmationLink}'>Confirmar E-mail</a>";
+        // Envia e-mail
+        await _emailService.SendEmailAsync(
+            user.Email,
+            "Confirme sua Conta",
+            htmlContent
+        );
 
-            await _emailService.SendEmailAsync(dto.Email, "Confirme seu E-mail", emailBody, true);
+        return Ok(new { Message = "Registro bem-sucedido. Verifique seu e-mail." });
+    }
 
-            return Ok(new { Message = "Registro bem-sucedido. Verifique seu e-mail." });
-        }
+    // Confirma o e-mail do usuário
+    [HttpGet("confirm-email")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ConfirmEmail(string userId, string token)
+    {
+        // Valida parâmetros
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+            return BadRequest(new { Message = "Link de confirmação inválido." });
 
-        [HttpGet("confirmar-email")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ConfirmarEmail(string userId, string token)
-        {
-            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
-                return BadRequest(new { Message = "Parâmetros inválidos" });
+        // Busca usuário
+        var user = await _userManager.FindByIdAsync(userId);
+        if (user == null)
+            return NotFound(new { Message = "Usuário não encontrado." });
 
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-                return NotFound(new { Message = "Usuário não encontrado" });
-
-            var result = await _userManager.ConfirmEmailAsync(user, token);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
-
+        // Confirma e-mail
+        var result = await _userManager.ConfirmEmailAsync(user, token);
+        if (result.Succeeded)
             return Ok(new { Message = "E-mail confirmado com sucesso!" });
-        }
-
-        [HttpPost("esqueci-senha")]
-        [AllowAnonymous]
-        public async Task<IActionResult> EsqueciSenha([FromBody] string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user == null)
-                return BadRequest(new { Message = "Usuário não encontrado" });
-
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-            var resetLink = Url.Action("ResetarSenha", "Usuarios", 
-                new { email = user.Email, token = HttpUtility.UrlEncode(token) }, 
-                Request.Scheme);
-
-            var emailBody = $@"<h2>Redefinição de Senha</h2>
-                             <p>Para redefinir sua senha, clique no link abaixo:</p>
-                             <a href='{resetLink}'>Redefinir Senha</a>";
-
-            await _emailService.SendEmailAsync(email, "Redefinir Senha", emailBody, true);
-
-            return Ok(new { Message = "E-mail de recuperação enviado" });
-        }
-
-        [HttpPost("resetar-senha")]
-        [AllowAnonymous]
-        public async Task<IActionResult> ResetarSenha(ResetPasswordDTO dto)
-        {
-            var user = await _userManager.FindByEmailAsync(dto.Email);
-            if (user == null)
-                return BadRequest(new { Message = "Usuário não encontrado" });
-
-            var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NovaSenha);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
-
-            return Ok(new { Message = "Senha redefinida com sucesso" });
-        }
-
-        // Outros métodos (login, refresh-token, etc.) permanecem como no resumo anterior
-        private async Task<RespuestaAutenticacionDTO> GenerateJwtToken(ApplicationUser user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("NomeCompleto", user.NomeCompleto)
-            };
-
-            var userClaims = await _userManager.GetClaimsAsync(user);
-            claims.AddRange(userClaims);
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
-                signingCredentials: creds);
-
-            var refreshToken = Guid.NewGuid().ToString();
-            // TODO: Salvar refreshToken no banco de dados
-
-            return new RespuestaAutenticacionDTO
-            {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                RefreshToken = refreshToken,
-                Expiracion = token.ValidTo
-            };
-        }
+        return BadRequest(new { Errors = result.Errors });
     }
-}
-```
 
-### DTOs Necessários
-
-Os DTOs já foram definidos no resumo anterior, mas para referência:
-
-```csharp
-public class RegisterDTO
-{
-    public string UserName { get; set; } = null!;
-    public string Email { get; set; } = null!;
-    public string Password { get; set; } = null!;
-    public string NomeCompleto { get; set; } = null!;
-}
-
-public class ResetPasswordDTO
-{
-    public string Email { get; set; } = null!;
-    public string Token { get; set; } = null!;
-    public string NovaSenha { get; set; } = null!;
-}
-
-public class RespuestaAutenticacionDTO
-{
-    public string Token { get; set; } = null!;
-    public string RefreshToken { get; set; } = null!;
-    public DateTime Expiracion { get; set; }
-}
-```
-
----
-
-## 7. 🌐 Alternativas ao SMTP
-
-Embora o SMTP seja simples para testes, em produção é recomendável usar serviços especializados para maior confiabilidade e escalabilidade:
-
-- **SendGrid**:
-  - Pacote: `dotnet add package SendGrid`
-  - Configuração: Substitua o `EmailService` para usar a API do SendGrid.
-  - Vantagem: Alta taxa de entrega e relatórios detalhados.
-
-- **Amazon SES (Simple Email Service)**:
-  - Pacote: `dotnet add package AWSSDK.SimpleEmail`
-  - Vantagem: Integração nativa com AWS e baixo custo.
-
-- **Mailgun**:
-  - Pacote: `dotnet add package RestSharp` (para chamadas HTTP à API do Mailgun).
-  - Vantagem: Fácil configuração e suporte a templates.
-
-Para usar o **SendGrid**, por exemplo, você pode implementar assim:
-
-```csharp
-using SendGrid;
-using SendGrid.Helpers.Mail;
-
-public class EmailService : IEmailService
-{
-    private readonly string _apiKey;
-
-    public EmailService(IConfiguration configuration)
+    // Inicia recuperação de senha
+    [HttpPost("forgot-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ForgotPassword([FromBody] string email)
     {
-        _apiKey = configuration["SendGrid:ApiKey"];
+        // Busca usuário
+        var user = await _userManager.FindByEmailAsync(email);
+        // Resposta genérica para segurança
+        if (user == null || !await _userManager.IsEmailConfirmedAsync(user))
+            return Ok(new { Message = "Se o e-mail estiver cadastrado, um link será enviado." });
+
+        // Gera token de redefinição
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        // Cria link
+        var resetLink = Url.Action(
+            "ResetPassword",
+            "Auth",
+            new { userId = user.Id, token = HttpUtility.UrlEncode(token) },
+            Request.Scheme
+        );
+
+        // Monta e-mail HTML
+        var htmlContent = $@"<h2>Redefinição de Senha</h2>
+            <p>Para redefinir sua senha, clique no link abaixo:</p>
+            <a href=""{resetLink}"">Redefinir Senha</a>";
+
+        // Envia e-mail
+        await _emailService.SendEmailAsync(
+            user.Email,
+            "Redefinir sua Senha",
+            htmlContent
+        );
+
+        return Ok(new { Message = "Link de recuperação enviado." });
     }
 
-    public async Task SendEmailAsync(string toEmail, string subject, string body, bool isHtml = false)
+    // Redefine a senha
+    [HttpPost("reset-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> ResetPassword(ResetPasswordDTO dto)
     {
-        var client = new SendGridClient(_apiKey);
-        var from = new EmailAddress("seu-email@exemplo.com", "Sua Aplicação");
-        var to = new EmailAddress(toEmail);
-        var msg = MailHelper.CreateSingleEmail(from, to, subject, isHtml ? null : body, isHtml ? body : null);
-        await client.SendEmailAsync(msg);
+        // Busca usuário
+        var user = await _userManager.FindByEmailAsync(dto.Email);
+        if (user == null)
+            return BadRequest(new { Message = "Usuário não encontrado." });
+
+        // Redefine senha
+        var result = await _userManager.ResetPasswordAsync(user, dto.Token, dto.NovaSenha);
+        if (result.Succeeded)
+            return Ok(new { Message = "Senha redefinida com sucesso!" });
+        return BadRequest(new { Errors = result.Errors });
     }
 }
 ```
 
-Adicione a chave API no `appsettings.json`:
+**Explicação**:  
+- `Register`: Cria usuário, gera token de confirmação, e envia e-mail com link.  
+- `ConfirmEmail`: Valida o token e confirma o e-mail.  
+- `ForgotPassword`: Gera token de redefinição e envia e-mail com link.  
+- `ResetPassword`: Redefine a senha com o token fornecido.  
+- Usa `HttpUtility.UrlEncode` para garantir que tokens sejam seguros em URLs.
 
-```json
-{
-  "SendGrid": {
-    "ApiKey": "sua-chave-api-sendgrid"
-  }
-}
+---
+
+## 7. 📌 Boas Práticas e Segurança
+
+- **Validação**: Use Data Annotations (`[Required]`, `[EmailAddress]`) nos DTOs.  
+- **Segurança de Chaves**: Armazene a chave API do SendGrid em variáveis de ambiente.  
+- **HTML Seguro**: Use HTML simples nos e-mails para evitar XSS; sanitize entradas se necessário.  
+- **Limite de Envio**: Implemente rate limiting para evitar abuso (ex.: limitar requisições de `forgot-password`).  
+- **Fallbacks**: Trate erros de envio (ex.: falhas na API do SendGrid) com logs.  
+- **Testes**: Crie testes para verificar o envio de e-mails (ex.: mock do `IEmailService`).  
+- **Alternativas**: Considere SMTP (ex.: Gmail, Outlook) para cenários sem SendGrid:
+  ```csharp
+  var smtpClient = new SmtpClient("smtp.gmail.com")
+  {
+      Port = 587,
+      Credentials = new NetworkCredential("seu-email@gmail.com", "sua-senha"),
+      EnableSsl = true
+  };
+  await smtpClient.SendMailAsync(new MailMessage(
+      "seu-email@gmail.com",
+      toEmail,
+      subject,
+      htmlContent
+  ) { IsBodyHtml = true });
+  ```
+- **Logging**: Registre tentativas de envio para auditoria.
+
+---
+
+## 8. 📋 Tabela de Endpoints
+
+| Método | Endpoint                    | Descrição                              | Autenticação |
+|--------|-----------------------------|----------------------------------------|--------------|
+| POST   | `/api/auth/register`        | Registra usuário e envia e-mail        | Anônimo      |
+| GET    | `/api/auth/confirm-email`   | Confirma e-mail com token              | Anônimo      |
+| POST   | `/api/auth/forgot-password` | Envia e-mail de recuperação            | Anônimo      |
+| POST   | `/api/auth/reset-password`  | Redefine senha com token               | Anônimo      |
+
 ```
-
----
-
-## 8. 📌 Boas Práticas e Considerações
-
-- **Segurança das Credenciais**: Armazene senhas e chaves API em gerenciadores de segredos (como Azure Key Vault ou variáveis de ambiente).
-- **Templates de E-mail**: Use templates HTML para e-mails profissionais. Ferramentas como **MJML** podem ajudar a criar layouts responsivos.
-- **Limite de Envio**: Implemente filas (como **Hangfire** ou **Azure Queue Storage**) para evitar sobrecarga no envio de e-mails em massa.
-- **Logs**: Registre falhas de envio para monitoramento (use **Serilog** ou **Application Insights**).
-- **Testes Locais**: Use ferramentas como **MailHog** ou **Ethereal** para testar e-mails sem enviá-los realmente.
-- **Validação**: Sempre valide o e-mail antes de enviar (por exemplo, verifique se o usuário existe).
-- **Rate Limiting**: Proteja endpoints como `esqueci-senha` contra abusos com limites de requisições.
-
----
-
-Este tutorial cobre a implementação completa do envio de e-mails para autenticação, integrado ao sistema de **ASP.NET Core 8** descrito anteriormente. Com isso, você tem um sistema robusto que inclui **confirmação de e-mail**, **recuperação de senha** e **boas práticas de segurança**.
 
