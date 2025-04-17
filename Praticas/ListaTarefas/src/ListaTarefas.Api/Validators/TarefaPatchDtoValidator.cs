@@ -1,5 +1,6 @@
 using FluentValidation;
-using ListaTarefas.Api.Dtos;
+
+using ListaTarefas.Api.Dtos.Tarefas;
 
 namespace ListaTarefas.Api.Validators;
 

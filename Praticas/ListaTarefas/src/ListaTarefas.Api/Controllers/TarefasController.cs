@@ -1,5 +1,6 @@
 using AutoMapper;
 using ListaTarefas.Api.Dtos;
+using ListaTarefas.Api.Dtos.Tarefas;
 using ListaTarefas.Api.Entities;
 using ListaTarefas.Api.Repository;
 using ListaTarefas.Api.Validators;

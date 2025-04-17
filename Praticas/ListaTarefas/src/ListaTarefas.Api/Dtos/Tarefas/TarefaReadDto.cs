@@ -1,6 +1,6 @@
 using ListaTarefas.Api.Entities.Enums;
 
-namespace ListaTarefas.Api.Dtos;
+namespace ListaTarefas.Api.Dtos.Tarefas;
 
 public class TarefaReadDto
 {
