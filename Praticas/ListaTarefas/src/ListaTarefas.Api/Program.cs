@@ -1,10 +1,15 @@
+using System.Text;
 using System.Text.Json.Serialization;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using ListaTarefas.Api.Context;
+using ListaTarefas.Api.Entities;
 using ListaTarefas.Api.Repository;
 using ListaTarefas.Api.Validators;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,12 +41,60 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
-        options.Password.RequireDigit = true; // Senha deve conter pelo menos um dígito
-        options.Password.RequiredLength = 8; // Senha deve ter no mínimo 8 caracteres
-    })
-    .AddEntityFrameworkStores<ApplicationDbContext>() // Configura o Identity para usar o Entity Framework
-    .AddDefaultTokenProviders(); // Habilita provedores para geração de tokens (ex.: redefinição de senha)
+        // Configurações de senha
+        options.Password.RequireDigit = true; // Exige pelo menos um dígito
+        options.Password.RequiredLength = 8; // Mínimo de 8 caracteres
+        options.Password.RequireNonAlphanumeric = true; // Exige caracteres especiais (ex.: @, #)
+        options.Password.RequireUppercase = true; // Exige letras maiúsculas
+        options.Password.RequireLowercase = true; // Exige letras minúsculas
+        // options.Password.RequiredUniqueChars = 4; // Exige pelo menos 4 caracteres únicos
 
+        // Configurações de bloqueio de conta
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // Bloqueio por 5 minutos
+        options.Lockout.MaxFailedAccessAttempts = 5; // Máximo de 5 tentativas falhas
+        options.Lockout.AllowedForNewUsers = true; // Bloqueio habilitado para novos usuários
+
+        // Configurações de usuário
+        options.User.RequireUniqueEmail = true; // Exige e-mails únicos
+        options.User.AllowedUserNameCharacters =
+            "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+"; // Caracteres permitidos no nome de usuário
+        options.SignIn.RequireConfirmedAccount =
+            false; // Desativa confirmação de conta (pode ser ativado se necessário)
+
+        // Configurações de token para redefinição de senha
+        options.Tokens.PasswordResetTokenProvider =
+            TokenOptions.DefaultProvider; // Provedor padrão para tokens de redefinição
+        options.Tokens.ChangeEmailTokenProvider =
+            TokenOptions.DefaultEmailProvider; // Provedor para tokens de alteração de e-mail
+    })
+    .AddEntityFrameworkStores<AppDbContext>() // Integra com Entity Framework
+    .AddDefaultTokenProviders(); // Provedores padrão para tokens
+    // .AddErrorDescriber<CustomIdentityErrorDescriber>(); // Personaliza mensagens de erro
+
+
+    var configuration = builder.Configuration;
+
+    builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme; // Define JWT como esquema padrão
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; // Define JWT para desafios
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true, // Valida o emissor
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidateAudience = true, // Valida a audiência
+                ValidAudience = configuration["Jwt:Audience"],
+                ValidateIssuerSigningKey = true, // Valida a chave de assinatura
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"])),
+                ValidateLifetime = true, // Verifica expiração
+                ClockSkew = TimeSpan.Zero // Sem tolerância para expiração
+            };
+        });
+
+    builder.Services.AddAuthorization(); // Habilita serviços de autorização
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
