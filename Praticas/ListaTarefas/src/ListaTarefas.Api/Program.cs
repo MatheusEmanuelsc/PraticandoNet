@@ -34,6 +34,14 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = true; // Senha deve conter pelo menos um dígito
+        options.Password.RequiredLength = 8; // Senha deve ter no mínimo 8 caracteres
+    })
+    .AddEntityFrameworkStores<ApplicationDbContext>() // Configura o Identity para usar o Entity Framework
+    .AddDefaultTokenProviders(); // Habilita provedores para geração de tokens (ex.: redefinição de senha)
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
