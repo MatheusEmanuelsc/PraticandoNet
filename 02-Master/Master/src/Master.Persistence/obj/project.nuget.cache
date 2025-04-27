@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "v8yONGYC78U=",
+  "success": true,
+  "projectFilePath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/02-Master/Master/src/Master.Persistence/Master.Persistence.csproj",
+  "expectedPackageFiles": [
+    "/home/matheusemanuel/.nuget/packages/microsoft.netcore.app.ref/8.0.15/microsoft.netcore.app.ref.8.0.15.nupkg.sha512",
+    "/home/matheusemanuel/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.15/microsoft.aspnetcore.app.ref.8.0.15.nupkg.sha512"
+  ],
+  "logs": []
+}

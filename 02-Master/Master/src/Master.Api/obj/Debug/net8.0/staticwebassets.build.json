@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "cWRbl4zr9mS1OTFMumiT/BNCcthiI0PsTJ/vlKd+eyI=",
+  "Source": "Master.Api",
+  "BasePath": "_content/Master.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

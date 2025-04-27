@@ -1,0 +1,105 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Master.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Master.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Master.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Master.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Master.Domain/Master.Domain.csproj",
+      "msbuildProject": "../Master.Domain/Master.Domain.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Master.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/matheusemanuel/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/02-Master/Master/src/Master.Persistence/Master.Persistence.csproj",
+      "projectName": "Master.Persistence",
+      "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/02-Master/Master/src/Master.Persistence/Master.Persistence.csproj",
+      "packagesPath": "/home/matheusemanuel/.nuget/packages/",
+      "outputPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/02-Master/Master/src/Master.Persistence/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/matheusemanuel/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/02-Master/Master/src/Master.Domain/Master.Domain.csproj": {
+              "projectPath": "/home/matheusemanuel/Documentos/Biblioteca/Net/PraticandoNet/02-Master/Master/src/Master.Domain/Master.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.200"
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[8.0.15, 8.0.15]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[8.0.15, 8.0.15]"
+          }
+        ],
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/home/matheusemanuel/.dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}
