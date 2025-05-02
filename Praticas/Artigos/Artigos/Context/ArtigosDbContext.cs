@@ -1,14 +1,12 @@
 using Artigos.Entidades;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Artigos.Context;
 
-public class ArtigosDbContext  : IdentityDbContext<ApplicationUser>
+public class ArtigosDbContext :  DbContext
 {
-    public ArtigosDbContext(DbContextOptions options) : base(options)
-    {
-    }
+    public ArtigosDbContext(DbContextOptions<ArtigosDbContext> options) : base(options) { }
+
     
     public DbSet<Article> Artigos { get; set; } 
 }
