@@ -1,9 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Master.Domain.Models;
+using Master.Persistence.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Master.Persistence.Data;
 
-public class MasterDbContext : DbContext
+public class MasterDbContext : IdentityDbContext<AppUser>
 {
     public MasterDbContext(DbContextOptions<MasterDbContext> options) : base(options)
     {
