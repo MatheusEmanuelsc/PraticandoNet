@@ -12,12 +12,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // �rea de servicios
-builder.Services.AddIdentity<ApplicationDbContext, IdentityRole>(options =>
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedEmail = true;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+
+
+builder.Services.AddHttpContextAccessor();
 
 var configuration = builder.Configuration;
 
@@ -59,7 +62,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 var app = builder.Build();
 
 // �rea de middlewares
-
+app.UseAuthentication();    // OBRIGATÓRIO para JWT
+app.UseAuthorization();     // OBRIGATÓRIO para proteger rotas com [Authorize]
 app.MapControllers();
 
 app.Run();
